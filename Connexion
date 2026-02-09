@@ -22,12 +22,21 @@
     </header>
 
     <form action="#" id="formulaire_connexion">
-        <label for="identifiant">Identifiant :</label>
-        <input type="text" name="identifiant" id="identifiant">
-        <label for="mot_de_passe">Mot de passe :</label>
-        <input type="text" name="mot_de_passe" id="mot_de_passe">
-
-        <input type="submit" name="envoyer" id="envoyer">
+        <table>
+            <tbody>
+                <tr>
+                    <th><label for="identifiant">Identifiant :</label></th>
+                    <td><input type="text" name="identifiant" id="identifiant"></td>
+                </tr>
+                <tr>
+                    <th><label for="mot_de_passe">Mot de passe :</label></th>
+                    <td><input type="text" name="mot_de_passe" id="mot_de_passe"></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" name="envoyer" id="envoyer"></td>
+                </tr>
+            </tbody>
+        </table>
     </form>
 </body>
 </html>
