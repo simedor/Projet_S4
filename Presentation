@@ -1,1 +1,24 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentation</title>
+</head>
+<body>
+    <header>
+        <nav id="menu_principale">
+        <ul>
+            <li><a href="accueil.html">Accueil</a></li>
+            <li><a href="commande.html">Commande</a></li>
+            <li><a href="connexion.html">Connexion</a></li>
+            <li><a href="inscription.html">Inscription</a></li>
+            <li><a href="livraison.html">Livraison</a></li>
+            <li><a href="notation.html">Notation</a></li>
+            <li><a href="#">Presentation</a></li>
+            <li><a href="profil.html">Profil</a></li>
+        </ul>
+        </nav>
+    </header>
+</body>
+</html>
