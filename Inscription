@@ -25,26 +25,26 @@
         <table>
             <tbody>
                 <tr>
-                    <td><label for="nom">Nom</label></td>
+                    <th><label for="nom">Nom</label></th>
                     <td><input type="text" name="nom" id="nom"></td>
                 </tr>
                 <tr>
-                    <td><label for="prenom">Prenom</label></td>
+                    <th><label for="prenom">Prenom</label></th>
                     <td><input type="text" name="prenom" id="prenom"></td>
                 </tr>
                 <tr>
-                    <td><label for="sexe">Sexe</label></td>
+                    <th><label for="sexe">Sexe</label></th>
                     <td>
                         <input type="radio" name="sexe"><span>Homme</span>
                         <input type="radio" name="sexe"><span>Femme</span>
                     </td>
                 </tr>
                 <tr>
-                    <td><label for="adresse">Adresse</label></td>
+                    <th><label for="adresse">Adresse</label></th>
                     <td><input type="text" name="adresse" id="adresse"></td>
                 </tr>
                 <tr>
-                    <td><label for="telephone">Numéro de téléphone</label></td>
+                    <th><label for="telephone">Numéro de téléphone</label></th>
                     <td><input type="number" name="telephone" id="telephone"></td>
                 </tr>
                 <tr>
