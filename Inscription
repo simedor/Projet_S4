@@ -20,5 +20,38 @@
         </ul>
         </nav>
     </header>
+
+    <form action="#" id="formulaire_inscription">
+        <table>
+            <tbody>
+                <tr>
+                    <td><label for="nom">Nom</label></td>
+                    <td><input type="text" name="nom" id="nom"></td>
+                </tr>
+                <tr>
+                    <td><label for="prenom">Prenom</label></td>
+                    <td><input type="text" name="prenom" id="prenom"></td>
+                </tr>
+                <tr>
+                    <td><label for="sexe">Sexe</label></td>
+                    <td>
+                        <input type="radio" name="sexe"><span>Homme</span>
+                        <input type="radio" name="sexe"><span>Femme</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="adresse">Adresse</label></td>
+                    <td><input type="text" name="adresse" id="adresse"></td>
+                </tr>
+                <tr>
+                    <td><label for="telephone">Numéro de téléphone</label></td>
+                    <td><input type="number" name="telephone" id="telephone"></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" name="envoyer" id="envoyer"></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
 </body>
 </html>
