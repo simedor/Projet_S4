@@ -18,7 +18,45 @@
             <li><a href="presentation.html">Presentation</a></li>
             <li><a href="#">Profil</a></li>
         </ul>
-    </nav>
+        </nav>
     </header>
+
+    <section id="informations_utilisateur">
+        <table id="profil">
+            <tbody>
+                <tr>
+                    <th><span>Nom</span></th>
+                    <td><span>vide</span></td>
+                    <td><button class="boutton_modif" type="button">C</button></td>
+                </tr>
+                <tr>
+                    <th><span>Prenom</span></th>
+                    <td><span>vide</span></td>
+                    <td><button class="boutton_modif" type="button">C</button></td>
+                </tr>
+                <tr>
+                    <th><span>Adresse</span></th>
+                    <td><span>vide</span></td>
+                    <td><button class="boutton_modif" type="button">C</button></td>
+                </tr>
+                <tr>
+                    <th><span>Civilité</span></th>
+                    <td><span>vide</span></td>
+                    <td><button class="boutton_modif" type="button">C</button></td>
+                </tr>
+                <tr>
+                    <th><span>Numéro de téléphone</span></th>
+                    <td><span>vide</span></td>
+                    <td><button class="boutton_modif" type="button">C</button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div id="anciennes_commandes">
+            <ul>
+
+            </ul>
+        </div>
+    </section>
 </body>
 </html>
