@@ -22,3 +22,39 @@
     </header>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Notation</title>
+</head>
+
+    <h1>CY Pizza</h1>
+    <h2>Page de notation</h2>
+
+    <p>Merci d'avoir commander chez nous! </p>
+
+    <form>
+
+        <h3>Note de la livraison</h3>
+
+        <input type="radio" name="livraison" value="1"> ★
+        <input type="radio" name="livraison" value="2"> ★★
+        <input type="radio" name="livraison" value="3"> ★★★
+        <input type="radio" name="livraison" value="4"> ★★★★
+        <input type="radio" name="livraison" value="5"> ★★★★★
+
+        <br><br>
+
+        <h3>Commentaire :</h3>
+        <textarea id="commentaire" rows="4" cols="40"></textarea>
+
+        <br><br>
+
+        <button type="submit">Envoyer</button>
+
+    </form>
+
+</body>
+</html>
+
