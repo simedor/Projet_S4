@@ -56,3 +56,27 @@ h1 {
     flex-direction: column;
     width: 50%;
 }
+.etoiles {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+}
+
+.etoiles input {
+    display: none;
+}
+
+.etoiles label {
+    font-size: 30px;
+    color: gray;
+    cursor: pointer;
+}
+
+.etoiles input:checked ~ label {
+    color: gold;
+}
+
+.etoiles label:hover,
+.etoiles label:hover ~ label {
+    color: gold;
+}
