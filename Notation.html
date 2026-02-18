@@ -1,60 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notation</title>
-</head>
-<body>
-    <header>
-        <nav id="menu_principale">
-        <ul>
-            <li><a href="accueil.html">Accueil</a></li>
-            <li><a href="commande.html">Commande</a></li>
-            <li><a href="connexion.html">Connexion</a></li>
-            <li><a href="inscription.html">Inscription</a></li>
-            <li><a href="livraison.html">Livraison</a></li>
-            <li><a href="#">Notation</a></li>
-            <li><a href="presentation.html">Presentation</a></li>
-            <li><a href="profil.html">Profil</a></li>
-        </ul>
-        </nav>
-    </header>
-</body>
-</html>
-<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>Notation</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+<body>
 
+<header>
     <h1>CY Pizza</h1>
-    <h2>Page de notation</h2>
+</header>
 
-    <p>Merci d'avoir commander chez nous! </p>
+<h2>Donnez votre avis</h2>
 
-    <form>
+<form>
 
-        <h3>Note de la livraison</h3>
+    <h3>Note de la livraison</h3>
+    <div class="etoiles">
+        <input type="radio" id="liv5" name="livraison" value="5">
+        <label for="liv5">★</label>
 
-        <input type="radio" name="livraison" value="1"> ★
-        <input type="radio" name="livraison" value="2"> ★★
-        <input type="radio" name="livraison" value="3"> ★★★
-        <input type="radio" name="livraison" value="4"> ★★★★
-        <input type="radio" name="livraison" value="5"> ★★★★★
+        <input type="radio" id="liv4" name="livraison" value="4">
+        <label for="liv4">★</label>
 
-        <br><br>
+        <input type="radio" id="liv3" name="livraison" value="3">
+        <label for="liv3">★</label>
 
-        <h3>Commentaire :</h3>
-        <textarea id="commentaire" rows="4" cols="40"></textarea>
+        <input type="radio" id="liv2" name="livraison" value="2">
+        <label for="liv2">★</label>
 
-        <br><br>
+        <input type="radio" id="liv1" name="livraison" value="1">
+        <label for="liv1">★</label>
+    </div>
 
-        <button type="submit">Envoyer</button>
+    <br>
 
-    </form>
+    <h3>Niveau de satisfaction</h3>
+    <div class="etoiles">
+        <input type="radio" id="sat5" name="satisfaction" value="5">
+        <label for="sat5">★</label>
+
+        <input type="radio" id="sat4" name="satisfaction" value="4">
+        <label for="sat4">★</label>
+
+        <input type="radio" id="sat3" name="satisfaction" value="3">
+        <label for="sat3">★</label>
+
+        <input type="radio" id="sat2" name="satisfaction" value="2">
+        <label for="sat2">★</label>
+
+        <input type="radio" id="sat1" name="satisfaction" value="1">
+        <label for="sat1">★</label>
+    </div>
+
+    <br><br>
+
+    <h3>Commentaire :</h3>
+    <textarea rows="4" cols="40"></textarea>
+
+    <br><br>
+
+    <button type="submit">Envoyer</button>
+
+</form>
 
 </body>
 </html>
-
