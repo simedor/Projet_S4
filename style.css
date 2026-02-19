@@ -73,10 +73,10 @@ h1 {
 }
 
 .etoiles input:checked ~ label {
-    color: gold;
+    color: #11922f;
 }
 
 .etoiles label:hover,
 .etoiles label:hover ~ label {
-    color: gold;
+    color: #11922f;
 }
