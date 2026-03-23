@@ -21,8 +21,16 @@
     </header>
 
     <h2>Créer un compte</h2>
+
+    <?php
+    if (isset($_GET['erreur'])) {
+        if ($_GET['erreur'] == 'email_existant') {
+            echo '<div class="alerte">Cet email est déjà utilisé. Veuillez en choisir un autre ou vous connecter.</div>';
+        }
+    }
+    ?>
     
-    <form action="#" id="formulaire_inscription">
+    <form action="traitements/process_inscription.php" method="POST" id="formulaire_inscription">
         <table>
             <tbody>
                 <tr>
@@ -34,10 +42,14 @@
                     <td><input type="text" name="prenom" id="prenom" required></td>
                 </tr>
                 <tr>
+                    <th><label for="email">Email</label></th>
+                    <td><input type="email" name="email" id="email" required></td>
+                </tr>
+                <tr>
                     <th><label for="civilite">Civilité</label></th>
                     <td>
-                        <input type="radio" name="civilite"><span>Mr</span>
-                        <input type="radio" name="civilite"><span>Mme</span>
+                        <input type="radio" name="civilite" id="mr" value="Mr"><label for="mr">Mr</label>
+                        <input type="radio" name="civilite" id="mme" value="Mme"><label for="mme">Mme</label>
                     </td>
                 </tr>
                 <tr>
@@ -49,12 +61,11 @@
                     <td><input type="tel" name="telephone" id="telephone" required></td>
                 </tr>
                 <tr>
-                    <td><input type="submit" name="envoyer" id="envoyer"></td>
+                    <td><input type="submit" name="envoyer" id="envoyer" value="S'inscrire"></td>
                 </tr>
             </tbody>
         </table>
     </form>
 </body>
 </html>
-</body>
 </html>
