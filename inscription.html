@@ -4,52 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
+        <h1>CY Pizza</h1>
         <nav id="menu_principale">
         <ul>
             <li><a href="accueil.html">Accueil</a></li>
-            <li><a href="commande.html">Commande</a></li>
+            <li><a href="presentation.html">Presentation</a></li>
             <li><a href="connexion.html">Connexion</a></li>
             <li><a href="#">Inscription</a></li>
-            <li><a href="livraison.html">Livraison</a></li>
-            <li><a href="livraison.html">Notation</a></li>
-            <li><a href="presentation.html">Presentation</a></li>
             <li><a href="profil.html">Profil</a></li>
         </ul>
         </nav>
     </header>
 
+    <h2>Créer un compte</h2>
+    
     <form action="#" id="formulaire_inscription">
         <table>
             <tbody>
                 <tr>
                     <th><label for="nom">Nom</label></th>
-                    <td><input type="text" name="nom" id="nom"></td>
+                    <td><input type="text" name="nom" id="nom" required></td>
                 </tr>
                 <tr>
                     <th><label for="prenom">Prenom</label></th>
-                    <td><input type="text" name="prenom" id="prenom"></td>
+                    <td><input type="text" name="prenom" id="prenom" required></td>
                 </tr>
                 <tr>
-                    <th><label for="sexe">Sexe</label></th>
+                    <th><label for="civilite">Civilité</label></th>
                     <td>
-                        <input type="radio" name="sexe"><span>Homme</span>
-                        <input type="radio" name="sexe"><span>Femme</span>
+                        <input type="radio" name="civilite"><span>Mr</span>
+                        <input type="radio" name="civilite"><span>Mme</span>
                     </td>
                 </tr>
                 <tr>
                     <th><label for="adresse">Adresse</label></th>
-                    <td><input type="text" name="adresse" id="adresse"></td>
-                </tr>
-                <tr>
-                    <th><label for="adresse_complementaire">Informations complémentaires </label></th>
-                    <td><input type="text" name="adresse_complementaire" id="adresse_complementaire"></td>
+                    <td><input type="text" name="adresse" id="adresse" required></td>
                 </tr>
                 <tr>
                     <th><label for="telephone">Numéro de téléphone</label></th>
-                    <td><input type="number" name="telephone" id="telephone"></td>
+                    <td><input type="tel" name="telephone" id="telephone" required></td>
                 </tr>
                 <tr>
                     <td><input type="submit" name="envoyer" id="envoyer"></td>
@@ -57,5 +54,7 @@
             </tbody>
         </table>
     </form>
+</body>
+</html>
 </body>
 </html>
