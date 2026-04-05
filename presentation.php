@@ -49,6 +49,7 @@ $recherche = isset($_GET['recherche_plat']) ? $_GET['recherche_plat'] : null;
                 <div class="description">
                     <h3><?php echo $item['nom']; ?></h3>
                     <p><?php echo $item['description']; ?></p>
+                    <p><strong>Prix : <?php echo $item['prix']; ?> €</strong></p>
                     <small>Catégorie : <?php echo $item['categorie']; ?></small>
                 </div>
             </li>
