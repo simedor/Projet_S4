@@ -1,0 +1,30 @@
+[
+    {
+        "nom": "Reine",
+        "description": "Tomate, mozza, jambon, champignons frais",
+        "image": "Images/Reine.png",
+        "categorie": "classique",
+        "type": "pizza",
+        "plat_du_jour": true,
+        "best_seller": false
+    },
+    {
+        "nom": "Vegan",
+        "description": "Base tomate, légumes de saison croquants",
+        "image": "Images/Vegan.jpg",
+        "categorie": "vegetarien",
+        "type": "pizza",
+        "plat_du_jour": false,
+        "best_seller": true
+    },
+    {
+        "nom": "Menu Solo",
+        "description": "1 Pizza au choix + 1 Boisson 33cl",
+        "image": "Images/menu1.png",
+        "categorie": "menu",
+        "type": "menu",
+        "plat_du_jour": false,
+        "best_seller": false
+    }
+]
+

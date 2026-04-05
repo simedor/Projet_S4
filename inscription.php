@@ -11,8 +11,8 @@
         <h1>CY Pizza</h1>
         <nav id="menu_principale">
         <ul>
-            <li><a href="accueil.html">Accueil</a></li>
-            <li><a href="presentation.html">Presentation</a></li>
+            <li><a href="accueil.php">Accueil</a></li>
+            <li><a href="presentation.php">Presentation</a></li>
             <li><a href="connexion.html">Connexion</a></li>
             <li><a href="#">Inscription</a></li>
             <li><a href="profil.html">Profil</a></li>
@@ -23,7 +23,7 @@
     <h2>Créer un compte</h2>
 
     <?php
-    if (isset($_GET['erreur'])) {
+    if (isset($_GET['erreur'])) { 
         if ($_GET['erreur'] == 'email_existant') {
             echo '<div class="alerte">Cet email est déjà utilisé. Veuillez en choisir un autre ou vous connecter.</div>';
         }
