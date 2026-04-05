@@ -18,6 +18,123 @@
         "best_seller": true
     },
     {
+        "nom": "Cannibale",
+        "description": "Sauce barbecue, mozza, poulet rôti, viande hachée, merguez",
+        "image": "Images/Cannibale.png",
+        "categorie": "viande",
+        "type": "pizza",
+        "plat_du_jour": false,
+        "best_seller": true
+    },
+    {
+        "nom": "Margharita",
+        "description": "Sauce tomate à l'origan et double mozzarella fondante",
+        "image": "Images/Margharita.jpg",
+        "categorie": "classique",
+        "type": "pizza",
+        "plat_du_jour": false,
+        "best_seller": true
+    },
+    {
+        "nom": "Pepperoni",
+        "description": "Tomate, mozza, et tranches de pepperoni légèrement épicées",
+        "image": "Images/Pepperoni.jpg",
+        "categorie": "viande",
+        "type": "pizza",
+        "plat_du_jour": false,
+        "best_seller": true
+    },
+    {
+        "nom": "4 Fromages",
+        "description": "Tomate, chèvre, emmental, bleu, mozzarella",
+        "image": "Images/pizza1.png",
+        "categorie": "classique",
+        "type": "pizza",
+        "plat_du_jour": false,
+        "best_seller": false
+    },
+    {
+        "nom": "Orientale",
+        "description": "Tomate, mozza, merguez, poivrons, oignons rouges",
+        "image": "Images/pizza2.png",
+        "categorie": "viande",
+        "type": "pizza",
+        "plat_du_jour": false,
+        "best_seller": false
+    },
+    {
+        "nom": "Hawaïenne",
+        "description": "Tomate, mozza, jambon, ananas rôti",
+        "image": "Images/pizza3.png",
+        "categorie": "classique",
+        "type": "pizza",
+        "plat_du_jour": false,
+        "best_seller": false
+    },
+    {
+        "nom": "Chèvre Miel",
+        "description": "Crème fraîche, mozza, chèvre, filet de miel, noix",
+        "image": "Images/pizza4.png",
+        "categorie": "vegetarien",
+        "type": "pizza",
+        "plat_du_jour": false,
+        "best_seller": false
+    },
+    {
+        "nom": "Nordique",
+        "description": "Crème fraîche, mozza, saumon fumé, aneth, citron",
+        "image": "Images/pizza5.png",
+        "categorie": "poisson",
+        "type": "pizza",
+        "plat_du_jour": false,
+        "best_seller": false
+    },
+    {
+        "nom": "Savoyarde",
+        "description": "Crème fraîche, mozza, lardons, reblochon, pommes de terre",
+        "image": "Images/pizza6.png",
+        "categorie": "viande",
+        "type": "pizza",
+        "plat_du_jour": false,
+        "best_seller": false
+    },
+    {
+        "nom": "Calzone",
+        "description": "Chausson garni de tomate, mozza, jambon et oeuf",
+        "image": "Images/pizza7.png",
+        "categorie": "classique",
+        "type": "pizza",
+        "plat_du_jour": false,
+        "best_seller": false
+    },
+    {
+        "nom": "Campagnarde",
+        "description": "Tomate, mozza, poulet, champignons, oignons",
+        "image": "Images/pizza8.png",
+        "categorie": "viande",
+        "type": "pizza",
+        "plat_du_jour": false,
+        "best_seller": false
+    },
+    {
+        "nom": "Mexicaine",
+        "description": "Tomate, mozza, viande hachée, poivrons, piment",
+        "image": "Images/pizza9.png",
+        "categorie": "viande",
+        "type": "pizza",
+        "plat_du_jour": false,
+        "best_seller": false
+    },
+    {
+        "nom": "Tartiflette",
+        "description": "Crème, mozza, oignons, lardons, pommes de terre",
+        "image": "Images/pizza10.png",
+        "categorie": "viande",
+        "type": "pizza",
+        "plat_du_jour": false,
+        "best_seller": false
+    },
+    {
         "nom": "Menu Solo",
         "description": "1 Pizza au choix + 1 Boisson 33cl",
         "image": "Images/menu1.png",
@@ -25,6 +142,23 @@
         "type": "menu",
         "plat_du_jour": false,
         "best_seller": false
+    },
+    {
+        "nom": "Menu Duo",
+        "description": "2 Pizzas au choix + 2 Boissons 33cl",
+        "image": "Images/menu2.png",
+        "categorie": "menu",
+        "type": "menu",
+        "plat_du_jour": false,
+        "best_seller": false
+    },
+    {
+        "nom": "Menu Famille",
+        "description": "3 Pizzas au choix + 1 Boisson 1.5L",
+        "image": "Images/menu3.png",
+        "categorie": "menu",
+        "type": "menu",
+        "plat_du_jour": false,
+        "best_seller": false
     }
 ]
-
