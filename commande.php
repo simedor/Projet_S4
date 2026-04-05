@@ -1,77 +1,64 @@
+<?php
+$data = file_get_contents("data/commandes.json");
+$commandes = json_decode($data, true);
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Commande</title>
+    <title>Commandes</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header>
     <h1>CY Pizza</h1>
-    <nav id="menu_principal">
-        <ul>
-            <li><a href="accueil.php">Accueil</a></li>
-            <li><a href="#">Commande</a></li>
-            <li><a href="connexion.php">Connexion</a></li>
-            <li><a href="inscription.php">Inscription</a></li>
-            <li><a href="livraison.php">Livraison</a></li>
-            <li><a href="notation.php">Notation</a></li>
-            <li><a href="presentation.php">Presentation</a></li>
-            <li><a href="profil.php">Profil</a></li>
-        </ul>
-    </nav>
 </header>
+
+<main>
 
 <h2>Gestion des commandes</h2>
 
-<form>
-    <label for="tri">Afficher :</label>
-    <select id="tri" name="tri">
-        <option value="toutes">Toutes les commandes</option>
-        <option value="preparation">En préparation</option>
-        <option value="livraison">En livraison</option>
-    </select>
-    <button type="submit">Valider</button>
-</form>
-
-<br>
-
 <table border="1">
-    <tr>
-        <th>Numéro</th>
-        <th>Client</th>
-        <th>Produits</th>
-        <th>Adresse</th>
-        <th>Statut</th>
-        <th>Action</th>
-    </tr>
-    <tr>
-        <td>#101</td>
-        <td>Siméon</td>
-        <td>Pizza Reine</td>
-        <td>12 rue des chenes</td>
-        <td>En préparation</td>
-        <td><button>Passer en livraison</button></td>
-    </tr>
-    <tr>
-        <td>#102</td>
-        <td>Alexandre</td>
-        <td>Pizza Margherita</td>
-        <td>2 Boulevard de l'Oise</td>
-        <td>En préparation</td>
-        <td><button>Passer en livraison</button></td>
-    </tr>
-    <tr>
-        <td>#099</td>
-        <td>Charbel</td>
-        <td>Pizza Pepperoni</td>
-        <td>5 rue du Port</td>
-        <td>En livraison</td>
-        <td>-</td>
-    </tr>
+<tr>
+    <th>Numéro</th>
+    <th>Client</th>
+    <th>Produit</th>
+    <th>Adresse</th>
+    <th>Téléphone</th>
+    <th>Statut</th>
+    <th>Livreur</th>
+    <th>Date</th>
+    <th>Action</th>
+</tr>
+
+<?php foreach ($commandes as $commande): ?>
+<tr>
+    <td>#<?= $commande["id"] ?></td>
+    <td><?= $commande["client"] ?></td>
+    <td><?= $commande["produit"] ?></td>
+    <td><?= $commande["adresse"] ?></td>
+    <td><?= $commande["telephone"] ?></td>
+    <td><?= $commande["statut"] ?></td>
+    <td>
+        <?= $commande["livreur"] ? $commande["livreur"] : "Non attribué" ?>
+    </td>
+    <td><?= $commande["date"] ?></td>
+    <td>
+        <?php if ($commande["statut"] == "preparation"): ?>
+            <button>Passer en livraison</button>
+        <?php elseif ($commande["statut"] == "livraison"): ?>
+            <button>En cours de livraison</button>
+        <?php else: ?>
+            -
+        <?php endif; ?>
+    </td>
+</tr>
+<?php endforeach; ?>
+
 </table>
 
+</main>
 </body>
 </html>
