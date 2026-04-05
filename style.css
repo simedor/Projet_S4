@@ -29,11 +29,11 @@ h1 {
     line-height: 80px; /* Aligne le texte verticalement */
 }
 
-#menu_principale {
+#menu_principal {
     width: 80%;
 }
 
-#menu_principale > ul {
+#menu_principal > ul {
     margin: 0px;
     padding: 0;
     display: flex;
@@ -43,7 +43,7 @@ h1 {
     height: 100%;
 }
 
-#menu_principale > ul > li > a {
+#menu_principal > ul > li > a {
     text-decoration: none;
     color: white;
     font-family: 'Font Awesome 6 Free', Helvetica, sans-serif;
@@ -52,7 +52,7 @@ h1 {
     transition: color 0.3s;
 }
 
-#menu_principale > ul > li > a:hover {
+#menu_principal > ul > li > a:hover {
     color: #ffc107; /* Petite touche de couleur au survol */
 }
 
