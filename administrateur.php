@@ -10,16 +10,16 @@
 
 <header>
     <h1>CY Pizza</h1>
-    <nav id="menu_principale">
+    <nav id="menu_principal">
         <ul>
-            <li><a href="accueil.html">Accueil</a></li>
-            <li><a href="commande.html">Commande</a></li>
-            <li><a href="connexion.html">Connexion</a></li>
-            <li><a href="inscription.html">Inscription</a></li>
-            <li><a href="livraison.html">Livraison</a></li>
-            <li><a href="notation.html">Notation</a></li>
-            <li><a href="presentation.html">Presentation</a></li>
-            <li><a href="profil.html">Profil</a></li>
+            <li><a href="accueil.php">Accueil</a></li>
+            <li><a href="commande.php">Commande</a></li>
+            <li><a href="connexion.php">Connexion</a></li>
+            <li><a href="inscription.php">Inscription</a></li>
+            <li><a href="livraison.php">Livraison</a></li>
+            <li><a href="notation.php">Notation</a></li>
+            <li><a href="presentation.php">Presentation</a></li>
+            <li><a href="profil.php">Profil</a></li>
             <li><a href="#">Administrateur</a></li>
         </ul>
     </nav>

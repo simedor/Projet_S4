@@ -9,13 +9,13 @@
 <body>
     <header>
         <h1>CY Pizza</h1>
-        <nav id="menu_principale">
+        <nav id="menu_principal">
         <ul>
             <li><a href="accueil.php">Accueil</a></li>
             <li><a href="presentation.php">Presentation</a></li>
-            <li><a href="connexion.html">Connexion</a></li>
-            <li><a href="#">Inscription</a></li>
-            <li><a href="profil.html">Profil</a></li>
+            <li><a href="connexion.php">Connexion</a></li>
+            <li><a href="inscription.php">Inscription</a></li>
+            <li><a href="profil.php">Profil</a></li>
         </ul>
         </nav>
     </header>
