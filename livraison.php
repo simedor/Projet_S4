@@ -1,24 +1,60 @@
+<?php
+echo "PHP OK<br>";
+
+$data = file_get_contents(__DIR__ . "/data/commandes.json");
+
+if ($data === false) {
+    die("Erreur lecture fichier");
+}
+
+$commandes = json_decode($data, true);
+
+if ($commandes === null) {
+    die("JSON invalide");
+}
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Livraison</title>
 </head>
 <body>
-    <header>
-        <nav id="menu_principal">
-        <ul>
-            <li><a href="accueil.php">Accueil</a></li>
-            <li><a href="commande.php">Commande</a></li>
-            <li><a href="connexion.php">Connexion</a></li>
-            <li><a href="inscription.php">Inscription</a></li>
-            <li><a href="livraison.php">Livraison</a></li>
-            <li><a href="notation.php">Notation</a></li>
-            <li><a href="presentation.php">Presentation</a></li>
-            <li><a href="profil.php">Profil</a></li>
-        </ul>
-        </nav>
-    </header>
+
+<h1>CY Pizza - Livraison</h1>
+
+<h2>Livraisons en cours</h2>
+
+<?php
+$trouve = false;
+
+foreach ($commandes as $commande) {
+    if ($commande["statut"] == "livraison") {
+        $trouve = true;
+?>
+
+        <div style="border:1px solid black; margin:10px; padding:10px;">
+            <p>Commande #<?= $commande["id"] ?></p>
+            <p>Client : <?= $commande["client"] ?></p>
+            <p>Produit : <?= $commande["produit"] ?></p>
+            <p>Adresse : <?= $commande["adresse"] ?></p>
+            <p>Téléphone : <?= $commande["telephone"] ?></p>
+            <p>Livreur : <?= $commande["livreur"] ?></p>
+            <p>Date : <?= $commande["date"] ?></p>
+
+            <button onclick="alert('Maps')">Ouvrir Maps</button>
+            <button>Livré</button>
+        </div>
+
+<?php
+    }
+}
+
+if (!$trouve) {
+    echo "<p>Aucune livraison en cours</p>";
+}
+?>
+
 </body>
 </html>

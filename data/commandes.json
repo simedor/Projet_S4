@@ -1,0 +1,32 @@
+[
+    {
+        "id": 101,
+        "client": "Siméon",
+        "produit": "Reine",
+        "adresse": "12 rue des chenes",
+        "telephone": "0600000001",
+        "statut": "preparation",
+        "livreur": null,
+        "date": "2026-04-05"
+    },
+    {
+        "id": 102,
+        "client": "Alexandre",
+        "produit": "Margherita",
+        "adresse": "2 Boulevard de l'Oise",
+        "telephone": "0600000002",
+        "statut": "preparation",
+        "livreur": null,
+        "date": "2026-04-05"
+    },
+    {
+        "id": 103,
+        "client": "Charbel",
+        "produit": "Pepperoni",
+        "adresse": "5 rue du Port",
+        "telephone": "0600000003",
+        "statut": "livraison",
+        "livreur": "Livreur1",
+        "date": "2026-04-05"
+    }
+]
