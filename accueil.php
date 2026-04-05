@@ -31,6 +31,7 @@ $carte = json_decode($contenu_fichier, true);
             <div class="description">
                 <h3><?php echo $item['nom']; ?></h3>
                 <p><?php echo $item['description']; ?></p>
+                <p><strong>Prix : <?php echo $item['prix']; ?> €</strong></p>
             </div>
         </div>
     <?php 
@@ -51,6 +52,7 @@ $carte = json_decode($contenu_fichier, true);
                 <div class="description">
                     <h3><?php echo $item['nom']; ?></h3>
                     <p><?php echo $item['description']; ?></p>
+                    <p><strong>Prix : <?php echo $item['prix']; ?> €</strong></p>
                 </div>
             </li>
         <?php 

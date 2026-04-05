@@ -2,6 +2,7 @@
     {
         "nom": "Reine",
         "description": "Tomate, mozza, jambon, champignons frais",
+        "prix": 12.50,
         "image": "Images/Reine.png",
         "categorie": "classique",
         "type": "pizza",
@@ -11,6 +12,7 @@
     {
         "nom": "Vegan",
         "description": "Base tomate, légumes de saison croquants",
+        "prix": 13.00,
         "image": "Images/Vegan.jpg",
         "categorie": "vegetarien",
         "type": "pizza",
@@ -19,7 +21,8 @@
     },
     {
         "nom": "Cannibale",
-        "description": "Sauce barbecue, mozza, poulet rôti, viande hachée, merguez",
+        "description": "Sauce barbecue, poulet, viande hachée, oignons",
+        "prix": 15.50,
         "image": "Images/Cannibale.png",
         "categorie": "viande",
         "type": "pizza",
@@ -28,7 +31,8 @@
     },
     {
         "nom": "Margharita",
-        "description": "Sauce tomate à l'origan et double mozzarella fondante",
+        "description": "Base tomate, double mozzarella, origan",
+        "prix": 10.00,
         "image": "Images/Margharita.jpg",
         "categorie": "classique",
         "type": "pizza",
@@ -37,7 +41,8 @@
     },
     {
         "nom": "Pepperoni",
-        "description": "Tomate, mozza, et tranches de pepperoni légèrement épicées",
+        "description": "Base tomate, mozzarella, rondelles de pepperoni",
+        "prix": 13.50,
         "image": "Images/Pepperoni.jpg",
         "categorie": "viande",
         "type": "pizza",
@@ -46,70 +51,28 @@
     },
     {
         "nom": "4 Fromages",
-        "description": "Tomate, chèvre, emmental, bleu, mozzarella",
-        "image": "Images/pizza1.png",
-        "categorie": "classique",
+        "description": "Mozzarella, chèvre, emmental, gorgonzola",
+        "prix": 14.00,
+        "image": "Images/pizza10.png",
+        "categorie": "fromage",
         "type": "pizza",
         "plat_du_jour": false,
         "best_seller": false
     },
     {
-        "nom": "Orientale",
-        "description": "Tomate, mozza, merguez, poivrons, oignons rouges",
-        "image": "Images/pizza2.png",
-        "categorie": "viande",
-        "type": "pizza",
-        "plat_du_jour": false,
-        "best_seller": false
-    },
-    {
-        "nom": "Hawaïenne",
-        "description": "Tomate, mozza, jambon, ananas rôti",
-        "image": "Images/pizza3.png",
-        "categorie": "classique",
-        "type": "pizza",
-        "plat_du_jour": false,
-        "best_seller": false
-    },
-    {
-        "nom": "Chèvre Miel",
-        "description": "Crème fraîche, mozza, chèvre, filet de miel, noix",
-        "image": "Images/pizza4.png",
+        "nom": "Végétarienne",
+        "description": "Poivrons, oignons, olives, maïs, champignons",
+        "prix": 12.00,
+        "image": "Images/pizza7.png",
         "categorie": "vegetarien",
         "type": "pizza",
         "plat_du_jour": false,
         "best_seller": false
     },
     {
-        "nom": "Nordique",
-        "description": "Crème fraîche, mozza, saumon fumé, aneth, citron",
-        "image": "Images/pizza5.png",
-        "categorie": "poisson",
-        "type": "pizza",
-        "plat_du_jour": false,
-        "best_seller": false
-    },
-    {
-        "nom": "Savoyarde",
-        "description": "Crème fraîche, mozza, lardons, reblochon, pommes de terre",
-        "image": "Images/pizza6.png",
-        "categorie": "viande",
-        "type": "pizza",
-        "plat_du_jour": false,
-        "best_seller": false
-    },
-    {
-        "nom": "Calzone",
-        "description": "Chausson garni de tomate, mozza, jambon et oeuf",
-        "image": "Images/pizza7.png",
-        "categorie": "classique",
-        "type": "pizza",
-        "plat_du_jour": false,
-        "best_seller": false
-    },
-    {
-        "nom": "Campagnarde",
-        "description": "Tomate, mozza, poulet, champignons, oignons",
+        "nom": "Orientale",
+        "description": "Merguez, poivrons, œufs, épices douces",
+        "prix": 14.50,
         "image": "Images/pizza8.png",
         "categorie": "viande",
         "type": "pizza",
@@ -117,18 +80,70 @@
         "best_seller": false
     },
     {
-        "nom": "Mexicaine",
-        "description": "Tomate, mozza, viande hachée, poivrons, piment",
+        "nom": "Napolitaine",
+        "description": "Anchois, câpres, olives noires, origan",
+        "prix": 11.50,
+        "image": "Images/pizza6.png",
+        "categorie": "classique",
+        "type": "pizza",
+        "plat_du_jour": false,
+        "best_seller": false
+    },
+    {
+        "nom": "Calzone",
+        "description": "Chaussons garni jambon, œuf, fromage",
+        "prix": 13.00,
         "image": "Images/pizza9.png",
+        "categorie": "classique",
+        "type": "pizza",
+        "plat_du_jour": false,
+        "best_seller": false
+    },
+    {
+        "nom": "Hawaïenne",
+        "description": "Jambon, ananas, mozzarella",
+        "prix": 13.00,
+        "image": "Images/pizza11.png",
+        "categorie": "classique",
+        "type": "pizza",
+        "plat_du_jour": false,
+        "best_seller": false
+    },
+    {
+        "nom": "Bbq Chicken",
+        "description": "Poulet grillé, sauce bbq, oignons rouges",
+        "prix": 15.00,
+        "image": "Images/pizza12.png",
         "categorie": "viande",
         "type": "pizza",
         "plat_du_jour": false,
         "best_seller": false
     },
     {
+        "nom": "Chèvre Miel",
+        "description": "Crème fraîche, chèvre, miel, noix",
+        "prix": 14.00,
+        "image": "Images/pizza13.png",
+        "categorie": "fromage",
+        "type": "pizza",
+        "plat_du_jour": false,
+        "best_seller": false
+    },
+    {
+        "nom": "Nordique",
+        "description": "Saumon fumé, crème fraîche, aneth",
+        "prix": 16.50,
+        "image": "Images/pizza14.png",
+        "categorie": "poisson",
+        "type": "pizza",
+        "plat_du_jour": false,
+        "best_seller": false
+    },
+    {
         "nom": "Tartiflette",
-        "description": "Crème, mozza, oignons, lardons, pommes de terre",
-        "image": "Images/pizza10.png",
+        "description": "Pommes de terre, lardons, reblochon",
+        "prix": 15.00,
+        "image": "Images/pizza15.png",
         "categorie": "viande",
         "type": "pizza",
         "plat_du_jour": false,
@@ -137,6 +152,7 @@
     {
         "nom": "Menu Solo",
         "description": "1 Pizza au choix + 1 Boisson 33cl",
+        "prix": 16.00,
         "image": "Images/menu1.png",
         "categorie": "menu",
         "type": "menu",
@@ -146,6 +162,7 @@
     {
         "nom": "Menu Duo",
         "description": "2 Pizzas au choix + 2 Boissons 33cl",
+        "prix": 28.00,
         "image": "Images/menu2.png",
         "categorie": "menu",
         "type": "menu",
@@ -155,6 +172,7 @@
     {
         "nom": "Menu Famille",
         "description": "3 Pizzas au choix + 1 Boisson 1.5L",
+        "prix": 42.00,
         "image": "Images/menu3.png",
         "categorie": "menu",
         "type": "menu",
