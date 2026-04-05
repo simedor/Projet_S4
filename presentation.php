@@ -9,7 +9,7 @@
     <header>
         <nav id="menu_principale">
         <ul>
-            <li><a href="accueil.html">Accueil</a></li>
+            <li><a href="accueil.php">Accueil</a></li>
             <li><a href="commande.html">Commande</a></li>
             <li><a href="connexion.html">Connexion</a></li>
             <li><a href="inscription.html">Inscription</a></li>

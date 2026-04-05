@@ -12,10 +12,10 @@
         <nav id="menu_principal">
             <ul>
                 <li><a href="#">Accueil</a></li>
-                <li><a href="presentation.html">Presentation</a></li>
+                <li><a href="presentation.php">Presentation</a></li>
                 <li><a href="administrateur.html">Administrateur</a></li>
                 <li><a href="connexion.html">Connexion</a></li>
-                <li><a href="inscription.html">Inscription</a></li>
+                <li><a href="inscription.php">Inscription</a></li>
                 <li><a href="profil.html">Profil</a></li>
             </ul>
         </nav>
