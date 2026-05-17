@@ -62,5 +62,6 @@ $carte = json_decode($contenu_fichier, true);
     </ul>
 
 </div>
+<script src="script.js"></script>
 </body>
 </html>
