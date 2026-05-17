@@ -59,5 +59,6 @@ $recherche = isset($_GET['recherche_plat']) ? $_GET['recherche_plat'] : null;
         ?>
     </ul>
 </div>
+<script src="script.js"></script>
 </body>
 </html>

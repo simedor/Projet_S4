@@ -38,6 +38,6 @@
         </table>
     </form>
 </body>
-</html>
+<script src="script.js"></script>
 </body>
 </html>

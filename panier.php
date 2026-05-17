@@ -114,5 +114,6 @@ document.querySelectorAll('input[name="type_livraison"]').forEach(function(radio
 });
 </script>
 
+<script src="script.js"></script>
 </body>
 </html>

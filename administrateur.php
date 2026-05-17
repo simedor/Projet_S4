@@ -64,6 +64,6 @@
         <td>0</td>
     </tr>
 </table>
-
+<script src="script.js"></script>
 </body>
 </html>

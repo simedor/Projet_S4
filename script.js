@@ -1,5 +1,5 @@
 // =========================================================================
-// 1. LE GESTIONNAIRE DE THÈME (Mode Clair / Sombre + Cookies)
+// LE GESTIONNAIRE DE THÈME (Mode Clair / Sombre + Cookies)
 // =========================================================================
 
 // L'ARCHIVISTE : Fonction pour lire un cookie

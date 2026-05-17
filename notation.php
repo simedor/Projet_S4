@@ -60,5 +60,6 @@ $commandes = json_decode($data, true);
 </table>
 
 </main>
+<script src="script.js"></script>
 </body>
 </html>
