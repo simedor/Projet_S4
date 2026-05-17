@@ -1,10 +1,27 @@
+/* --- Les Variables (Notre palette de couleurs dynamique) --- */
+:root {
+    --couleur-fond: #f8f9fa;
+    --couleur-texte: #333;
+    --couleur-principale: #11922f;
+    --couleur-fond-carte: white;
+}
+
+/* La classe qui sera ajoutée par le JS pour le mode sombre */
+.dark-mode {
+    --couleur-fond: #1e1e1e;
+    --couleur-texte: #f0f0f0;
+    --couleur-principale: #1a5c27; /* Un vert un peu plus sombre pour que ça ne flashe pas */
+    --couleur-fond-carte: #2d2d2d;
+}
+
 /* --- Réinitialisation de base --- */
 body {
     margin: 0;
     padding: 0;
     font-family: 'DM Sans', Helvetica, sans-serif;
-    background-color: #f8f9fa;
-    color: #333;
+    background-color: var(--couleur-fond); /* On utilise la variable */
+    color: var(--couleur-texte); /* On utilise la variable */
+    transition: background-color 0.3s, color 0.3s; /* Animation fluide */
 }
 
 /* --- En-tête et Navigation --- */
@@ -13,7 +30,7 @@ header {
     margin: 0px;
     width: 100%;
     height: 100px;
-    background-color: #11922f;
+    background-color: var(--couleur-principale);
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -29,11 +46,11 @@ h1 {
     line-height: 80px; /* Aligne le texte verticalement */
 }
 
-#menu_principal {
+#menu_principale {
     width: 80%;
 }
 
-#menu_principal > ul {
+#menu_principale > ul {
     margin: 0px;
     padding: 0;
     display: flex;
@@ -43,7 +60,7 @@ h1 {
     height: 100%;
 }
 
-#menu_principal > ul > li > a {
+#menu_principale > ul > li > a {
     text-decoration: none;
     color: white;
     font-family: 'Font Awesome 6 Free', Helvetica, sans-serif;
@@ -52,7 +69,7 @@ h1 {
     transition: color 0.3s;
 }
 
-#menu_principal > ul > li > a:hover {
+#menu_principale > ul > li > a:hover {
     color: #ffc107; /* Petite touche de couleur au survol */
 }
 
@@ -71,7 +88,7 @@ h1 {
 
 #recherche button {
     padding: 8px 15px;
-    background-color: #11922f;
+    background-color: var(--couleur-principale);
     color: white;
     border: none;
     border-radius: 5px;
@@ -80,7 +97,7 @@ h1 {
 }
 
 #recherche button:hover {
-    background-color: #0e7a27;
+    background-color: var(--couleur-principale);
 }
 
 /* --- Liste des Plats et Grille --- */
@@ -91,8 +108,8 @@ h1 {
 }
 
 #liste_plat h2 {
-    color: #11922f;
-    border-bottom: 2px solid #11922f;
+    color: var(--couleur-principale);
+    border-bottom: 2px solid var(--couleur-principale);
     padding-bottom: 5px;
     margin-top: 40px;
 }
@@ -164,10 +181,10 @@ h1 {
 }
 
 .etoiles input:checked ~ label {
-    color: #11922f;
+    color: var(--couleur-principale);
 }
 
 .etoiles label:hover,
 .etoiles label:hover ~ label {
-    color: #11922f;
+    color: var(--couleur-principale);
 }
