@@ -26,6 +26,11 @@ body {
 
 /* --- En-tête et Navigation --- */
 header {
+    position: sticky;                           /* * Le menu reste en haut au scroll */
+    top: 0;                                     /* * Fixé tout en haut */
+    z-index: 1000;                              /* * Toujours au-dessus du reste */
+    justify-content: space-between;             /* * Équilibre logo et nav */
+
     display: flex;
     margin: 0px;
     width: 100%;
@@ -127,20 +132,27 @@ h1 {
     display: flex;
     width: 100%;
     background-color: white;
-    border-radius: 8px;
+    border-radius: 15px;
     overflow: hidden;
+    margin-bottom: 20px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    transition: transform 0.2s ease;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0,0,0,0.05);
 }
 
 .plat:hover {
-    transform: translateY(-5px); /* Fait "lever" la carte au survol */
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transform: translateY(-10px); /* Fait "lever" la carte au survol */
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
 }
 
 .plat > img {
-    width: 45%;
+    width: 40%;
     object-fit: cover; /* Empêche l'image de se déformer */
+    transition: transform 0.5s ease;
+}
+
+.plat:hover > img {
+    transform: scale(1.02); /* Zoom léger sur l'image au survol de la carte */
 }
 
 .description {
@@ -153,7 +165,10 @@ h1 {
 
 .description h3 {
     margin: 0 0 5px 0;
-    color: #333;
+    color: var(--couleur-principale);
+    font-size: 1.4em;
+    font-weight: bold;
+    margin-bottom: 8px;
 }
 
 .description p {
