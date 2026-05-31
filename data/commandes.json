@@ -1,0 +1,158 @@
+[
+    {
+        "id": 201,
+        "client_id": 10,
+        "client_nom": "Sara Diallo",
+        "produit": "Reine x2",
+        "lignes": [
+            {
+                "nom": "Reine",
+                "prix": 12.5,
+                "quantite": 2,
+                "sous_total": 25
+            }
+        ],
+        "adresse": "10 rue des ecoles, Cergy",
+        "telephone": "0611111111",
+        "mode_retrait": "livraison",
+        "type_livraison": "immediate",
+        "creneau": "Maintenant",
+        "statut_paiement": "paye",
+        "statut_commande": "a_preparer",
+        "livreur_id": 0,
+        "livreur_nom": "",
+        "date_commande": "2026-05-31 11:15",
+        "total": 25
+    },
+    {
+        "id": 202,
+        "client_id": 11,
+        "client_nom": "Leo Dubois",
+        "produit": "Menu Duo x1",
+        "lignes": [
+            {
+                "nom": "Menu Duo",
+                "prix": 28,
+                "quantite": 1,
+                "sous_total": 28
+            }
+        ],
+        "adresse": "Retrait au restaurant",
+        "telephone": "0622222222",
+        "mode_retrait": "a_emporter",
+        "type_livraison": "differee",
+        "creneau": "2026-06-01 19:30",
+        "statut_paiement": "paye",
+        "statut_commande": "en_attente",
+        "livreur_id": 0,
+        "livreur_nom": "",
+        "date_commande": "2026-05-30 18:05",
+        "total": 28
+    },
+    {
+        "id": 203,
+        "client_id": 12,
+        "client_nom": "Ines Benali",
+        "produit": "Vegan x1, Margharita x1",
+        "lignes": [
+            {
+                "nom": "Vegan",
+                "prix": 13,
+                "quantite": 1,
+                "sous_total": 13
+            },
+            {
+                "nom": "Margharita",
+                "prix": 10,
+                "quantite": 1,
+                "sous_total": 10
+            }
+        ],
+        "adresse": "12 boulevard de l'oise, Cergy",
+        "telephone": "0633333333",
+        "mode_retrait": "livraison",
+        "type_livraison": "immediate",
+        "creneau": "Maintenant",
+        "statut_paiement": "paye",
+        "statut_commande": "en_preparation",
+        "livreur_id": 0,
+        "livreur_nom": "",
+        "date_commande": "2026-05-31 12:00",
+        "total": 23
+    },
+    {
+        "id": 204,
+        "client_id": 13,
+        "client_nom": "Nora Leroy",
+        "produit": "Menu Solo x1",
+        "lignes": [
+            {
+                "nom": "Menu Solo",
+                "prix": 16,
+                "quantite": 1,
+                "sous_total": 16
+            }
+        ],
+        "adresse": "13 allee des roses, Pontoise",
+        "telephone": "0644444444",
+        "mode_retrait": "livraison",
+        "type_livraison": "immediate",
+        "creneau": "Maintenant",
+        "statut_paiement": "paye",
+        "statut_commande": "livree",
+        "livreur_id": 4,
+        "livreur_nom": "Sami Roux",
+        "date_commande": "2026-05-31 12:35",
+        "total": 16
+    },
+    {
+        "id": 205,
+        "client_id": 10,
+        "client_nom": "Sara Diallo",
+        "produit": "Cannibale x1",
+        "lignes": [
+            {
+                "nom": "Cannibale",
+                "prix": 15.5,
+                "quantite": 1,
+                "sous_total": 15.5
+            }
+        ],
+        "adresse": "10 rue des ecoles, Cergy",
+        "telephone": "0611111111",
+        "mode_retrait": "livraison",
+        "type_livraison": "immediate",
+        "creneau": "Maintenant",
+        "statut_paiement": "paye",
+        "statut_commande": "livree",
+        "livreur_id": 4,
+        "livreur_nom": "Sami Roux",
+        "date_commande": "2026-05-29 20:10",
+        "total": 15.5
+    },
+    {
+        "id": 206,
+        "client_id": 14,
+        "client_nom": "Yanis Moulin",
+        "produit": "Menu Famille x1",
+        "lignes": [
+            {
+                "nom": "Menu Famille",
+                "prix": 42,
+                "quantite": 1,
+                "sous_total": 42
+            }
+        ],
+        "adresse": "14 rue de paris, Eragny",
+        "telephone": "0655555555",
+        "mode_retrait": "livraison",
+        "type_livraison": "immediate",
+        "creneau": "Maintenant",
+        "statut_paiement": "paye",
+        "statut_commande": "abandonnee",
+        "livreur_id": 4,
+        "livreur_nom": "Sami Roux",
+        "date_commande": "2026-05-28 21:25",
+        "total": 42
+    }
+]
