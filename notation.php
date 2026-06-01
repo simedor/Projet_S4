@@ -6,12 +6,11 @@ if (!isset($_SESSION['utilisateur_id'])) {
     exit();
 }
 
-$commandeId = isset($_GET['id']) ? (int) $_GET['id'] : 0;
-$commande = null;
 $utilisateur = null;
+$commande = null;
+$commandeId = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 
-$utilisateurs = lire_json('utilisateurs.json');
-foreach ($utilisateurs as $unUtilisateur) {
+foreach (lire_json('utilisateurs.json') as $unUtilisateur) {
     if ((int) $unUtilisateur['id'] === (int) $_SESSION['utilisateur_id']) {
         $utilisateur = $unUtilisateur;
         break;
@@ -23,15 +22,14 @@ if ($utilisateur === null || $utilisateur['role'] !== 'client') {
     exit();
 }
 
-$commandes = lire_json('commandes.json');
-foreach ($commandes as $uneCommande) {
+foreach (lire_json('commandes.json') as $uneCommande) {
     if ((int) $uneCommande['id'] === $commandeId) {
         $commande = $uneCommande;
         break;
     }
 }
 
-if ($commande === null || (int) $commande['client_id'] !== (int) $utilisateur['id'] || $commande['statut_commande'] !== 'livree') {
+if ($commande === null || (int) $commande['client_id'] !== (int) $utilisateur['id'] || $commande['statut_commande'] !== 'livree' || $commande['mode_retrait'] === 'a_emporter') {
     header('Location: profil.php');
     exit();
 }
@@ -49,13 +47,13 @@ include 'Includes/header.php';
 
 <section class="bloc_page bloc_formulaire">
     <h2>Noter la commande #<?php echo (int) $commande['id']; ?></h2>
-    <p>Commande concernee : <?php echo h($commande['produit']); ?></p>
+    <p>Commande : <?php echo h($commande['produit']); ?></p>
 
-    <form action="traitements/process_notation.php" method="POST" class="formulaire">
+    <form action="traitements/process_notation.php" method="POST" class="formulaire js-validate-form" id="form_notation" novalidate>
         <input type="hidden" name="commande_id" value="<?php echo (int) $commande['id']; ?>">
 
         <div>
-            <label for="note_livraison">Note livraison (sur 5)</label>
+            <label for="note_livraison">Note livraison</label>
             <select name="note_livraison" id="note_livraison" required>
                 <option value="5">5</option>
                 <option value="4">4</option>
@@ -66,7 +64,7 @@ include 'Includes/header.php';
         </div>
 
         <div>
-            <label for="note_produit">Note produit (sur 5)</label>
+            <label for="note_produit">Note produit</label>
             <select name="note_produit" id="note_produit" required>
                 <option value="5">5</option>
                 <option value="4">4</option>
@@ -77,11 +75,12 @@ include 'Includes/header.php';
         </div>
 
         <div>
-            <label for="commentaire">Petit commentaire</label>
-            <textarea name="commentaire" id="commentaire" rows="4"></textarea>
+            <label for="commentaire">Commentaire</label>
+            <textarea name="commentaire" id="commentaire" maxlength="150"></textarea>
+            <small class="compteur" data-for="commentaire">0 / 150</small>
         </div>
 
-        <button type="submit">Envoyer la note</button>
+        <button type="submit">Envoyer</button>
     </form>
 </section>
 

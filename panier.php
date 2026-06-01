@@ -6,10 +6,8 @@ if (!isset($_SESSION['utilisateur_id'])) {
     exit();
 }
 
-$utilisateurs = lire_json('utilisateurs.json');
 $utilisateur = null;
-
-foreach ($utilisateurs as $unUtilisateur) {
+foreach (lire_json('utilisateurs.json') as $unUtilisateur) {
     if ((int) $unUtilisateur['id'] === (int) $_SESSION['utilisateur_id']) {
         $utilisateur = $unUtilisateur;
         break;
@@ -34,12 +32,11 @@ foreach ($panier as $article) {
 
 $erreurs = [
     'panier_vide' => 'Votre panier est vide.',
-    'paiement_refuse' => 'Le paiement CYBank a ete refuse.',
-    'champs_manquants' => 'Merci de remplir les informations de commande et de paiement.'
+    'paiement_refuse' => 'Le paiement a ete refuse.',
+    'champs_manquants' => 'Merci de remplir tous les champs.'
 ];
 
 $messageErreur = '';
-
 if (isset($_GET['erreur']) && isset($erreurs[$_GET['erreur']])) {
     $messageErreur = $erreurs[$_GET['erreur']];
 }
@@ -56,7 +53,7 @@ include 'Includes/header.php';
     <?php endif; ?>
 
     <?php if (empty($panier)) : ?>
-        <p class="info">Votre panier est vide. <a href="presentation.php">Retour a la carte</a></p>
+        <p class="info">Votre panier est vide.</p>
     <?php else : ?>
         <table class="tableau">
             <thead>
@@ -74,10 +71,10 @@ include 'Includes/header.php';
                         <td><?php echo h($article['nom']); ?></td>
                         <td><?php echo number_format($article['prix'], 2, ',', ' '); ?> EUR</td>
                         <td>
-                            <form action="traitements/process_panier.php" method="POST" class="ligne_action">
+                            <form action="traitements/process_panier.php" method="POST" class="ligne_action js-validate-form" novalidate>
                                 <input type="hidden" name="action" value="modifier">
                                 <input type="hidden" name="nom" value="<?php echo h($article['nom']); ?>">
-                                <input type="number" name="quantite" min="0" max="20" value="<?php echo (int) $article['quantite']; ?>">
+                                <input type="number" name="quantite" min="0" max="20" value="<?php echo (int) $article['quantite']; ?>" data-rule="quantite" required>
                                 <button type="submit">Mettre a jour</button>
                             </form>
                         </td>
@@ -92,13 +89,6 @@ include 'Includes/header.php';
                     </tr>
                 <?php endforeach; ?>
             </tbody>
-            <tfoot>
-                <tr>
-                    <th colspan="3">Total</th>
-                    <th><?php echo number_format($total, 2, ',', ' '); ?> EUR</th>
-                    <th></th>
-                </tr>
-            </tfoot>
         </table>
 
         <form action="traitements/process_panier.php" method="POST" class="alignement_droite">
@@ -106,63 +96,62 @@ include 'Includes/header.php';
             <button type="submit" class="bouton_secondaire">Vider le panier</button>
         </form>
 
-        <div class="deux_colonnes">
-            <div class="encadre">
-                <h3>Infos client</h3>
-                <p><strong>Nom :</strong> <?php echo h($utilisateur['prenom'] . ' ' . $utilisateur['nom']); ?></p>
-                <p><strong>Adresse :</strong> <?php echo h($utilisateur['adresse']); ?></p>
-                <p><strong>Telephone :</strong> <?php echo h($utilisateur['telephone']); ?></p>
+        <form action="traitements/process_commande.php" method="POST" class="formulaire js-validate-form" id="form_commande" novalidate>
+            <h3>Valider la commande</h3>
+
+            <div>
+                <label>Mode</label>
+                <div class="ligne_radio">
+                    <label><input type="radio" name="mode_retrait" value="livraison" checked> Livraison</label>
+                    <label><input type="radio" name="mode_retrait" value="a_emporter"> A emporter</label>
+                </div>
             </div>
 
-            <form action="traitements/process_commande.php" method="POST" class="formulaire">
-                <h3>Valider la commande</h3>
-
-                <div>
-                    <label>Mode</label>
-                    <div class="ligne_radio">
-                        <label><input type="radio" name="mode_retrait" value="livraison" checked> Livraison</label>
-                        <label><input type="radio" name="mode_retrait" value="a_emporter"> A emporter</label>
-                    </div>
+            <div>
+                <label>Quand ?</label>
+                <div class="ligne_radio">
+                    <label><input type="radio" name="type_livraison" value="immediate" checked> Maintenant</label>
+                    <label><input type="radio" name="type_livraison" value="differee"> Plus tard</label>
                 </div>
+            </div>
 
-                <div>
-                    <label>Quand ?</label>
-                    <div class="ligne_radio">
-                        <label><input type="radio" name="type_livraison" value="immediate" checked> Preparation immediate</label>
-                        <label><input type="radio" name="type_livraison" value="differee"> Plus tard</label>
-                    </div>
+            <div id="bloc_creneau" class="cache">
+                <label for="creneau">Date et heure</label>
+                <input type="datetime-local" name="creneau" id="creneau" data-rule="datetime">
+                <small class="erreur_champ"></small>
+            </div>
+
+            <div>
+                <label for="nom_carte">Nom sur la carte</label>
+                <input type="text" name="nom_carte" id="nom_carte" maxlength="40" data-rule="texte" required>
+                <small class="erreur_champ"></small>
+            </div>
+
+            <div>
+                <label for="numero_carte">Numero de carte</label>
+                <input type="text" name="numero_carte" id="numero_carte" maxlength="16" data-rule="carte" required>
+                <small class="compteur" data-for="numero_carte">0 / 16</small>
+                <small class="erreur_champ"></small>
+            </div>
+
+            <div>
+                <label for="expiration">Expiration</label>
+                <input type="month" name="expiration" id="expiration" data-rule="expiration" required>
+                <small class="erreur_champ"></small>
+            </div>
+
+            <div>
+                <label for="cvv">CVV</label>
+                <div class="champ_mdp">
+                    <input type="password" name="cvv" id="cvv" maxlength="4" data-rule="cvv" required>
+                    <button type="button" class="toggle-password" data-target="cvv">Afficher</button>
                 </div>
+                <small class="compteur" data-for="cvv">0 / 4</small>
+                <small class="erreur_champ"></small>
+            </div>
 
-                <div id="bloc_creneau" class="champ_cache">
-                    <label for="creneau">Date et heure souhaitees</label>
-                    <input type="datetime-local" name="creneau" id="creneau">
-                </div>
-
-                <h3>Paiement</h3>
-
-                <div>
-                    <label for="nom_carte">Nom sur la carte</label>
-                    <input type="text" name="nom_carte" id="nom_carte" required>
-                </div>
-
-                <div>
-                    <label for="numero_carte">Numero de carte</label>
-                    <input type="text" name="numero_carte" id="numero_carte" required>
-                </div>
-
-                <div>
-                    <label for="expiration">Expiration</label>
-                    <input type="month" name="expiration" id="expiration" required>
-                </div>
-
-                <div>
-                    <label for="cvv">CVV</label>
-                    <input type="password" name="cvv" id="cvv" maxlength="4" required>
-                </div>
-
-                <button type="submit">Payer et commander</button>
-            </form>
-        </div>
+            <button type="submit">Payer et commander</button>
+        </form>
     <?php endif; ?>
 </section>
 

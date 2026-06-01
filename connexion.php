@@ -9,16 +9,6 @@ $erreurs = [
 ];
 
 $messageErreur = '';
-if (isset($_SESSION['utilisateur_id'])) {
-    $utilisateurs = lire_json('utilisateurs.json');
-
-    foreach ($utilisateurs as $unUtilisateur) {
-        if ((int) $unUtilisateur['id'] === (int) $_SESSION['utilisateur_id']) {
-            $utilisateurConnecte = $unUtilisateur;
-            break;
-        }
-    }
-}
 
 if (isset($_GET['erreur']) && isset($erreurs[$_GET['erreur']])) {
     $messageErreur = $erreurs[$_GET['erreur']];
@@ -35,19 +25,22 @@ include 'Includes/header.php';
         <p class="alerte"><?php echo h($messageErreur); ?></p>
     <?php endif; ?>
 
-    <?php if (isset($utilisateurConnecte)) : ?>
-        <p class="info">Vous etes deja connecte. Vous pouvez aller sur votre <a href="profil.php">profil</a>.</p>
-    <?php endif; ?>
-
-    <form action="traitements/process_connexion.php" method="POST" class="formulaire">
+    <form action="traitements/process_connexion.php" method="POST" class="formulaire js-validate-form" id="form_connexion" novalidate>
         <div>
             <label for="identifiant">Login</label>
-            <input type="text" name="identifiant" id="identifiant" required>
+            <input type="text" name="identifiant" id="identifiant" maxlength="30" data-rule="login" required>
+            <small class="compteur" data-for="identifiant">0 / 30</small>
+            <small class="erreur_champ"></small>
         </div>
 
         <div>
             <label for="mot_de_passe">Mot de passe</label>
-            <input type="password" name="mot_de_passe" id="mot_de_passe" required>
+            <div class="champ_mdp">
+                <input type="password" name="mot_de_passe" id="mot_de_passe" maxlength="30" data-rule="password" required>
+                <button type="button" class="toggle-password" data-target="mot_de_passe">Afficher</button>
+            </div>
+            <small class="compteur" data-for="mot_de_passe">0 / 30</small>
+            <small class="erreur_champ"></small>
         </div>
 
         <button type="submit">Se connecter</button>

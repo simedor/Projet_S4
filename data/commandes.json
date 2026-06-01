@@ -21,8 +21,15 @@
         "statut_commande": "a_preparer",
         "livreur_id": 0,
         "livreur_nom": "",
-        "date_commande": "2026-05-31 11:15",
-        "total": 25
+        "date_commande": "2026-06-01 12:10",
+        "total": 25,
+        "paiements": [
+            {
+                "date": "2026-06-01 12:10",
+                "montant": 25,
+                "type": "initial"
+            }
+        ]
     },
     {
         "id": 202,
@@ -46,8 +53,15 @@
         "statut_commande": "en_attente",
         "livreur_id": 0,
         "livreur_nom": "",
-        "date_commande": "2026-05-30 18:05",
-        "total": 28
+        "date_commande": "2026-06-01 10:20",
+        "total": 28,
+        "paiements": [
+            {
+                "date": "2026-06-01 10:20",
+                "montant": 28,
+                "type": "initial"
+            }
+        ]
     },
     {
         "id": 203,
@@ -77,8 +91,15 @@
         "statut_commande": "en_preparation",
         "livreur_id": 0,
         "livreur_nom": "",
-        "date_commande": "2026-05-31 12:00",
-        "total": 23
+        "date_commande": "2026-06-01 11:00",
+        "total": 23,
+        "paiements": [
+            {
+                "date": "2026-06-01 11:00",
+                "montant": 23,
+                "type": "initial"
+            }
+        ]
     },
     {
         "id": 204,
@@ -99,11 +120,18 @@
         "type_livraison": "immediate",
         "creneau": "Maintenant",
         "statut_paiement": "paye",
-        "statut_commande": "livree",
+        "statut_commande": "en_livraison",
         "livreur_id": 4,
         "livreur_nom": "Sami Roux",
-        "date_commande": "2026-05-31 12:35",
-        "total": 16
+        "date_commande": "2026-06-01 11:35",
+        "total": 16,
+        "paiements": [
+            {
+                "date": "2026-06-01 11:35",
+                "montant": 16,
+                "type": "initial"
+            }
+        ]
     },
     {
         "id": 205,
@@ -127,8 +155,15 @@
         "statut_commande": "livree",
         "livreur_id": 4,
         "livreur_nom": "Sami Roux",
-        "date_commande": "2026-05-29 20:10",
-        "total": 15.5
+        "date_commande": "2026-05-30 20:10",
+        "total": 15.5,
+        "paiements": [
+            {
+                "date": "2026-05-30 20:10",
+                "montant": 15.5,
+                "type": "initial"
+            }
+        ]
     },
     {
         "id": 206,
@@ -152,7 +187,14 @@
         "statut_commande": "abandonnee",
         "livreur_id": 4,
         "livreur_nom": "Sami Roux",
-        "date_commande": "2026-05-28 21:25",
-        "total": 42
+        "date_commande": "2026-05-29 18:30",
+        "total": 42,
+        "paiements": [
+            {
+                "date": "2026-05-29 18:30",
+                "montant": 42,
+                "type": "initial"
+            }
+        ]
     }
 ]

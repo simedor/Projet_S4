@@ -6,10 +6,6 @@ if (!isset($_SESSION['utilisateur_id'])) {
     exit();
 }
 
-$commandeId = isset($_POST['commande_id']) ? (int) $_POST['commande_id'] : 0;
-$noteLivraison = isset($_POST['note_livraison']) ? (int) $_POST['note_livraison'] : 0;
-$noteProduit = isset($_POST['note_produit']) ? (int) $_POST['note_produit'] : 0;
-$commentaire = isset($_POST['commentaire']) ? trim($_POST['commentaire']) : '';
 $utilisateur = null;
 
 foreach (lire_json('utilisateurs.json') as $unUtilisateur) {
@@ -24,6 +20,7 @@ if ($utilisateur === null || $utilisateur['role'] !== 'client') {
     exit();
 }
 
+$commandeId = isset($_POST['commande_id']) ? (int) $_POST['commande_id'] : 0;
 $commande = null;
 
 foreach (lire_json('commandes.json') as $uneCommande) {
@@ -33,35 +30,30 @@ foreach (lire_json('commandes.json') as $uneCommande) {
     }
 }
 
-if ($commande === null || (int) $commande['client_id'] !== (int) $utilisateur['id']) {
+if ($commande === null || (int) $commande['client_id'] !== (int) $utilisateur['id'] || $commande['mode_retrait'] === 'a_emporter' || $commande['statut_commande'] !== 'livree') {
     header('Location: ../profil.php');
     exit();
 }
 
-if ($commande['statut_commande'] !== 'livree') {
-    header('Location: ../profil.php');
-    exit();
-}
+$notations = lire_json('notations.json');
 
-$listeNotations = lire_json('notations.json');
-
-foreach ($listeNotations as $notation) {
+foreach ($notations as $notation) {
     if ((int) $notation['commande_id'] === $commandeId && (int) $notation['client_id'] === (int) $utilisateur['id']) {
         header('Location: ../profil.php');
         exit();
     }
 }
 
-$listeNotations[] = [
+$notations[] = [
     'commande_id' => $commandeId,
     'client_id' => $utilisateur['id'],
-    'note_livraison' => $noteLivraison,
-    'note_produit' => $noteProduit,
-    'commentaire' => $commentaire,
+    'note_livraison' => (int) $_POST['note_livraison'],
+    'note_produit' => (int) $_POST['note_produit'],
+    'commentaire' => isset($_POST['commentaire']) ? trim($_POST['commentaire']) : '',
     'date' => date('Y-m-d')
 ];
 
-ecrire_json('notations.json', $listeNotations);
+ecrire_json('notations.json', $notations);
 
 header('Location: ../profil.php?notation=ok');
 exit();

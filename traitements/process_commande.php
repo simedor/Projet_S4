@@ -20,13 +20,7 @@ if ($utilisateur === null || $utilisateur['role'] !== 'client') {
     exit();
 }
 
-if (!isset($_SESSION['panier']) || !is_array($_SESSION['panier'])) {
-    $_SESSION['panier'] = [];
-}
-
-$panier = $_SESSION['panier'];
-
-if (empty($panier)) {
+if (!isset($_SESSION['panier']) || !is_array($_SESSION['panier']) || count($_SESSION['panier']) === 0) {
     header('Location: ../panier.php?erreur=panier_vide');
     exit();
 }
@@ -49,46 +43,45 @@ if ($typeLivraison === 'differee' && $creneau === '') {
     exit();
 }
 
-$numeroCarteNettoye = preg_replace('/\D/', '', $numeroCarte);
+$numeroCarte = preg_replace('/\D/', '', $numeroCarte);
 
-if (strlen($numeroCarteNettoye) < 12 || strlen($cvv) < 3) {
+if (strlen($numeroCarte) < 12 || strlen($cvv) < 3) {
     header('Location: ../panier.php?erreur=paiement_refuse');
     exit();
 }
 
+$panier = $_SESSION['panier'];
 $total = 0;
-$nouvellesLignes = [];
-$produits = [];
+$lignes = [];
+$resume = [];
 
 foreach ($panier as $article) {
     $sousTotal = $article['prix'] * $article['quantite'];
     $total += $sousTotal;
-
-    $nouvellesLignes[] = [
+    $lignes[] = [
         'nom' => $article['nom'],
-        'prix' => (float) $article['prix'],
-        'quantite' => (int) $article['quantite'],
+        'prix' => $article['prix'],
+        'quantite' => $article['quantite'],
         'sous_total' => $sousTotal
     ];
-
-    $produits[] = $article['nom'] . ' x' . $article['quantite'];
+    $resume[] = $article['nom'] . ' x' . $article['quantite'];
 }
 
-$listeCommandes = lire_json('commandes.json');
+$commandes = lire_json('commandes.json');
 $nouvelId = 1;
 
-foreach ($listeCommandes as $commande) {
+foreach ($commandes as $commande) {
     if ((int) $commande['id'] >= $nouvelId) {
         $nouvelId = (int) $commande['id'] + 1;
     }
 }
 
-$listeCommandes[] = [
+$commandes[] = [
     'id' => $nouvelId,
     'client_id' => $utilisateur['id'],
     'client_nom' => $utilisateur['prenom'] . ' ' . $utilisateur['nom'],
-    'produit' => implode(', ', $produits),
-    'lignes' => $nouvellesLignes,
+    'produit' => implode(', ', $resume),
+    'lignes' => $lignes,
     'adresse' => $modeRetrait === 'a_emporter' ? 'Retrait au restaurant' : $utilisateur['adresse'],
     'telephone' => $utilisateur['telephone'],
     'mode_retrait' => $modeRetrait,
@@ -99,10 +92,17 @@ $listeCommandes[] = [
     'livreur_id' => 0,
     'livreur_nom' => '',
     'date_commande' => date('Y-m-d H:i'),
-    'total' => $total
+    'total' => $total,
+    'paiements' => [
+        [
+            'date' => date('Y-m-d H:i'),
+            'montant' => $total,
+            'type' => 'initial'
+        ]
+    ]
 ];
 
-ecrire_json('commandes.json', $listeCommandes);
+ecrire_json('commandes.json', $commandes);
 $_SESSION['panier'] = [];
 
 header('Location: ../profil.php?commande=ok');

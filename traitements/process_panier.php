@@ -6,16 +6,16 @@ if (!isset($_SESSION['utilisateur_id'])) {
     exit();
 }
 
-$utilisateur = null;
+$client = null;
 
-foreach (lire_json('utilisateurs.json') as $unUtilisateur) {
-    if ((int) $unUtilisateur['id'] === (int) $_SESSION['utilisateur_id']) {
-        $utilisateur = $unUtilisateur;
+foreach (lire_json('utilisateurs.json') as $utilisateur) {
+    if ((int) $utilisateur['id'] === (int) $_SESSION['utilisateur_id']) {
+        $client = $utilisateur;
         break;
     }
 }
 
-if ($utilisateur === null || $utilisateur['role'] !== 'client') {
+if ($client === null || $client['role'] !== 'client') {
     header('Location: ../accueil.php');
     exit();
 }
@@ -30,7 +30,6 @@ $panier = $_SESSION['panier'];
 if ($action === 'ajouter') {
     $nom = isset($_POST['nom']) ? trim($_POST['nom']) : '';
     $quantite = isset($_POST['quantite']) ? (int) $_POST['quantite'] : 1;
-    $quantite = max(1, $quantite);
     $platTrouve = null;
 
     foreach (lire_json('plats.json') as $plat) {
@@ -42,19 +41,18 @@ if ($action === 'ajouter') {
 
     if ($platTrouve !== null) {
         if (isset($panier[$nom])) {
-            $panier[$nom]['quantite'] += $quantite;
+            $panier[$nom]['quantite'] += max(1, $quantite);
         } else {
             $panier[$nom] = [
                 'nom' => $platTrouve['nom'],
-                'prix' => (float) $platTrouve['prix'],
+                'prix' => $platTrouve['prix'],
                 'image' => $platTrouve['image'],
-                'quantite' => $quantite
+                'quantite' => max(1, $quantite)
             ];
         }
-
-        $_SESSION['panier'] = $panier;
     }
 
+    $_SESSION['panier'] = $panier;
     header('Location: ../presentation.php');
     exit();
 }

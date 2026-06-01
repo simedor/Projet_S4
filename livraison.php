@@ -6,42 +6,24 @@ if (!isset($_SESSION['utilisateur_id'])) {
     exit();
 }
 
-$utilisateur = null;
-$utilisateurs = lire_json('utilisateurs.json');
+$livreur = null;
+$commandes = [];
 
-foreach ($utilisateurs as $unUtilisateur) {
+foreach (lire_json('utilisateurs.json') as $unUtilisateur) {
     if ((int) $unUtilisateur['id'] === (int) $_SESSION['utilisateur_id']) {
-        $utilisateur = $unUtilisateur;
+        $livreur = $unUtilisateur;
         break;
     }
 }
 
-if ($utilisateur === null || $utilisateur['role'] !== 'livreur') {
+if ($livreur === null || $livreur['role'] !== 'livreur') {
     header('Location: accueil.php');
     exit();
 }
 
-$mesCommandes = [];
-$toutesLesCommandes = lire_json('commandes.json');
-
-foreach ($toutesLesCommandes as $commande) {
-    if ((int) $commande['livreur_id'] === (int) $utilisateur['id']) {
-        $mesCommandes[] = $commande;
-    }
-}
-
-usort($mesCommandes, function ($a, $b) {
-    return strcmp($b['date_commande'], $a['date_commande']);
-});
-
-$commandesActives = [];
-$commandesFermees = [];
-
-foreach ($mesCommandes as $commande) {
-    if ($commande['statut_commande'] === 'en_livraison') {
-        $commandesActives[] = $commande;
-    } else {
-        $commandesFermees[] = $commande;
+foreach (lire_json('commandes.json') as $commande) {
+    if ((int) $commande['livreur_id'] === (int) $livreur['id']) {
+        $commandes[] = $commande;
     }
 }
 
@@ -51,57 +33,21 @@ include 'Includes/header.php';
 
 <section class="bloc_page">
     <h2>Mes livraisons</h2>
-    <p>Livreur connecte : <?php echo h($utilisateur['prenom'] . ' ' . $utilisateur['nom']); ?></p>
-</section>
-
-<section class="bloc_page">
-    <h2>Livraisons en cours</h2>
-
-    <?php if (empty($commandesActives)) : ?>
-        <p class="info">Aucune livraison en cours.</p>
-    <?php else : ?>
-        <div class="grille_cartes">
-            <?php foreach ($commandesActives as $commande) : ?>
-                <article class="carte_resume">
-                    <h3>Commande #<?php echo (int) $commande['id']; ?></h3>
-                    <p><strong>Client :</strong> <?php echo h($commande['client_nom']); ?></p>
-                    <p><strong>Adresse :</strong> <?php echo h($commande['adresse']); ?></p>
-                    <p><strong>Telephone :</strong> <?php echo h($commande['telephone']); ?></p>
-                    <p><strong>Total :</strong> <?php echo number_format($commande['total'], 2, ',', ' '); ?> EUR</p>
-                    <p><a href="detail_commande.php?id=<?php echo (int) $commande['id']; ?>">Voir le detail</a></p>
-                </article>
-            <?php endforeach; ?>
-        </div>
-    <?php endif; ?>
-</section>
-
-<section class="bloc_page">
-    <h2>Historique des livraisons attribuees</h2>
-
-    <?php if (empty($commandesFermees)) : ?>
-        <p class="info">Pas encore d'historique.</p>
-    <?php else : ?>
-        <table class="tableau">
-            <thead>
-                <tr>
-                    <th>Commande</th>
-                    <th>Client</th>
-                    <th>Statut</th>
-                    <th>Detail</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($commandesFermees as $commande) : ?>
-                    <tr>
-                        <td>#<?php echo (int) $commande['id']; ?></td>
-                        <td><?php echo h($commande['client_nom']); ?></td>
-                        <td><?php echo h(ucfirst(str_replace('_', ' ', $commande['statut_commande']))); ?></td>
-                        <td><a href="detail_commande.php?id=<?php echo (int) $commande['id']; ?>">Voir</a></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    <?php endif; ?>
+    <div class="grille_cartes">
+        <?php foreach ($commandes as $commande) : ?>
+            <article class="carte_resume" id="carte_livraison_<?php echo (int) $commande['id']; ?>">
+                <h3>Commande #<?php echo (int) $commande['id']; ?></h3>
+                <p><strong>Client :</strong> <?php echo h($commande['client_nom']); ?></p>
+                <p><strong>Adresse :</strong> <?php echo h($commande['adresse']); ?></p>
+                <p><strong>Statut :</strong> <span class="statut_livraison"><?php echo h(ucfirst(str_replace('_', ' ', $commande['statut_commande']))); ?></span></p>
+                <p><a href="detail_commande.php?id=<?php echo (int) $commande['id']; ?>">Voir</a></p>
+                <?php if ($commande['statut_commande'] === 'en_livraison') : ?>
+                    <button type="button" class="btn-livraison" data-commande-id="<?php echo (int) $commande['id']; ?>">Marquer livree</button>
+                <?php endif; ?>
+            </article>
+        <?php endforeach; ?>
+    </div>
+    <p id="message_livraison"></p>
 </section>
 
 </main>

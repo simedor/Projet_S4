@@ -1,0 +1,76 @@
+<?php
+require_once __DIR__ . '/../Includes/fonctions.php';
+header('Content-Type: application/json; charset=utf-8');
+
+if (!isset($_SESSION['utilisateur_id'])) {
+    echo json_encode(['ok' => false, 'message' => 'Non connecte']);
+    exit();
+}
+
+$restaurateur = null;
+$utilisateurs = lire_json('utilisateurs.json');
+
+foreach ($utilisateurs as $utilisateur) {
+    if ((int) $utilisateur['id'] === (int) $_SESSION['utilisateur_id']) {
+        $restaurateur = $utilisateur;
+        break;
+    }
+}
+
+if ($restaurateur === null || $restaurateur['role'] !== 'restaurateur') {
+    echo json_encode(['ok' => false, 'message' => 'Acces refuse']);
+    exit();
+}
+
+$commandeId = isset($_POST['commande_id']) ? (int) $_POST['commande_id'] : 0;
+$action = isset($_POST['action']) ? trim($_POST['action']) : '';
+$livreurId = isset($_POST['livreur_id']) ? (int) $_POST['livreur_id'] : 0;
+$commandes = lire_json('commandes.json');
+$message = 'Commande introuvable';
+$prochaineAction = '';
+$statut = '';
+
+foreach ($commandes as &$commande) {
+    if ((int) $commande['id'] === $commandeId) {
+        if ($action === 'preparer' && $commande['statut_commande'] === 'a_preparer') {
+            $commande['statut_commande'] = 'en_preparation';
+            $message = 'Commande passee en preparation';
+            $prochaineAction = 'prete';
+        } elseif ($action === 'prete' && $commande['statut_commande'] === 'en_preparation') {
+            $commande['statut_commande'] = 'prete';
+            $message = 'Commande marquee prete';
+            $prochaineAction = 'assigner';
+        } elseif ($action === 'assigner' && $commande['statut_commande'] === 'prete') {
+            if ($livreurId === 0) {
+                echo json_encode(['ok' => false, 'message' => 'Choisissez un livreur']);
+                exit();
+            }
+
+            foreach ($utilisateurs as &$livreur) {
+                if ((int) $livreur['id'] === $livreurId && $livreur['role'] === 'livreur') {
+                    $commande['livreur_id'] = $livreur['id'];
+                    $commande['livreur_nom'] = $livreur['prenom'] . ' ' . $livreur['nom'];
+                    $commande['statut_commande'] = 'en_livraison';
+                    $livreur['disponible'] = false;
+                    $message = 'Commande assignee';
+                    $prochaineAction = '';
+                    break;
+                }
+            }
+        }
+
+        $statut = $commande['statut_commande'];
+        break;
+    }
+}
+
+ecrire_json('commandes.json', $commandes);
+ecrire_json('utilisateurs.json', $utilisateurs);
+
+echo json_encode([
+    'ok' => true,
+    'message' => $message,
+    'statut' => $statut,
+    'statut_libelle' => ucfirst(str_replace('_', ' ', $statut)),
+    'prochaine_action' => $prochaineAction
+]);

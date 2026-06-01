@@ -4,9 +4,9 @@ require_once __DIR__ . '/../Includes/fonctions.php';
 $login = isset($_POST['identifiant']) ? trim($_POST['identifiant']) : '';
 $motDePasse = isset($_POST['mot_de_passe']) ? trim($_POST['mot_de_passe']) : '';
 $utilisateurTrouve = null;
-$listeUtilisateurs = lire_json('utilisateurs.json');
+$utilisateurs = lire_json('utilisateurs.json');
 
-foreach ($listeUtilisateurs as $utilisateur) {
+foreach ($utilisateurs as $utilisateur) {
     if ($utilisateur['login'] === $login) {
         $utilisateurTrouve = $utilisateur;
         break;
@@ -34,14 +34,14 @@ if (!isset($_SESSION['panier']) || !is_array($_SESSION['panier'])) {
     $_SESSION['panier'] = [];
 }
 
-foreach ($listeUtilisateurs as &$utilisateur) {
+foreach ($utilisateurs as &$utilisateur) {
     if ((int) $utilisateur['id'] === (int) $utilisateurTrouve['id']) {
         $utilisateur['derniere_connexion'] = date('Y-m-d H:i');
         break;
     }
 }
 
-ecrire_json('utilisateurs.json', $listeUtilisateurs);
+ecrire_json('utilisateurs.json', $utilisateurs);
 
 if ($utilisateurTrouve['role'] === 'admin') {
     header('Location: ../administrateur.php');

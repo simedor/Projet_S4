@@ -4,7 +4,12 @@ require_once __DIR__ . '/fonctions.php';
 $titrePage = isset($titre_page) ? $titre_page : 'CY Pizza';
 $utilisateur = null;
 $nombrePanier = 0;
+$modeTheme = 'clair';
 $utilisateurs = lire_json('utilisateurs.json');
+
+if (isset($_COOKIE['theme_site']) && in_array($_COOKIE['theme_site'], ['clair', 'sombre'], true)) {
+    $modeTheme = $_COOKIE['theme_site'];
+}
 
 if (isset($_SESSION['utilisateur_id'])) {
     foreach ($utilisateurs as $unUtilisateur) {
@@ -12,6 +17,12 @@ if (isset($_SESSION['utilisateur_id'])) {
             $utilisateur = $unUtilisateur;
             break;
         }
+    }
+
+    if ($utilisateur !== null && $utilisateur['statut_compte'] === 'bloque') {
+        session_destroy();
+        header('Location: connexion.php?erreur=compte_bloque');
+        exit();
     }
 }
 
@@ -27,9 +38,9 @@ if (isset($_SESSION['panier']) && is_array($_SESSION['panier'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo h($titrePage); ?></title>
-    <link rel="stylesheet" href="style.css">
+    <link id="theme_stylesheet" rel="stylesheet" href="<?php echo $modeTheme === 'sombre' ? 'style_alt.css' : 'style.css'; ?>">
 </head>
-<body>
+<body data-theme="<?php echo h($modeTheme); ?>" data-connecte="<?php echo $utilisateur !== null ? '1' : '0'; ?>">
     <header class="entete">
         <div class="logo_zone">
             <h1>CY Pizza</h1>
@@ -64,7 +75,7 @@ if (isset($_SESSION['panier']) && is_array($_SESSION['panier'])) {
                     <li><a href="inscription.php">Inscription</a></li>
                 <?php endif; ?>
 
-                <li><a href="#" id="btn_theme">Theme</a></li>
+                <li><a href="#" id="btn_theme">Changer le theme</a></li>
             </ul>
         </nav>
     </header>

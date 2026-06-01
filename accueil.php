@@ -22,7 +22,7 @@ include 'Includes/header.php';
 <section class="hero">
     <div>
         <h2>Bienvenue sur CY Pizza</h2>
-        <p>Consultez la carte, ajoutez vos articles au panier et suivez vos commandes.</p>
+        <p>Decouvrez la carte et commandez en ligne.</p>
         <a class="bouton_action" href="presentation.php">Voir la carte</a>
     </div>
 </section>
@@ -36,7 +36,6 @@ include 'Includes/header.php';
                 <h3><?php echo h($platDuJour['nom']); ?></h3>
                 <p><?php echo h($platDuJour['description']); ?></p>
                 <p><strong><?php echo number_format($platDuJour['prix'], 2, ',', ' '); ?> EUR</strong></p>
-                <p>Categorie : <?php echo h($platDuJour['categorie']); ?></p>
             </div>
         </article>
     </section>
@@ -44,7 +43,6 @@ include 'Includes/header.php';
 
 <section class="bloc_page">
     <h2>Nos best sellers</h2>
-
     <div class="grille_cartes">
         <?php foreach ($bestSellers as $plat) : ?>
             <article class="carte_plat">

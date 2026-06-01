@@ -7,10 +7,11 @@ if (!isset($_SESSION['utilisateur_id'])) {
 }
 
 $commandeId = isset($_GET['id']) ? (int) $_GET['id'] : 0;
-$commande = null;
 $utilisateur = null;
-
+$commande = null;
 $utilisateurs = lire_json('utilisateurs.json');
+$plats = lire_json('plats.json');
+
 foreach ($utilisateurs as $unUtilisateur) {
     if ((int) $unUtilisateur['id'] === (int) $_SESSION['utilisateur_id']) {
         $utilisateur = $unUtilisateur;
@@ -18,38 +19,38 @@ foreach ($utilisateurs as $unUtilisateur) {
     }
 }
 
-$commandes = lire_json('commandes.json');
-foreach ($commandes as $uneCommande) {
+foreach (lire_json('commandes.json') as $uneCommande) {
     if ((int) $uneCommande['id'] === $commandeId) {
         $commande = $uneCommande;
         break;
     }
 }
 
-if ($commande === null || $utilisateur === null) {
+if ($utilisateur === null || $commande === null) {
     header('Location: profil.php');
     exit();
 }
 
-$aLeDroit = false;
+$autorise = false;
 
 if ($utilisateur['role'] === 'admin' || $utilisateur['role'] === 'restaurateur') {
-    $aLeDroit = true;
+    $autorise = true;
 }
 
 if ($utilisateur['role'] === 'client' && (int) $commande['client_id'] === (int) $utilisateur['id']) {
-    $aLeDroit = true;
+    $autorise = true;
 }
 
 if ($utilisateur['role'] === 'livreur' && (int) $commande['livreur_id'] === (int) $utilisateur['id']) {
-    $aLeDroit = true;
+    $autorise = true;
 }
 
-if (!$aLeDroit) {
+if (!$autorise) {
     header('Location: profil.php');
     exit();
 }
 
+$modifiableClient = $utilisateur['role'] === 'client' && in_array($commande['statut_commande'], ['a_preparer', 'en_attente'], true);
 $titre_page = 'Detail commande';
 include 'Includes/header.php';
 ?>
@@ -60,24 +61,21 @@ include 'Includes/header.php';
     <div class="deux_colonnes">
         <div class="encadre">
             <p><strong>Client :</strong> <?php echo h($commande['client_nom']); ?></p>
-            <p><strong>Telephone :</strong> <?php echo h($commande['telephone']); ?></p>
             <p><strong>Adresse :</strong> <?php echo h($commande['adresse']); ?></p>
             <p><strong>Mode :</strong> <?php echo h($commande['mode_retrait']); ?></p>
             <p><strong>Creneau :</strong> <?php echo h($commande['creneau']); ?></p>
         </div>
-
         <div class="encadre">
-            <p><strong>Statut commande :</strong> <?php echo h(ucfirst(str_replace('_', ' ', $commande['statut_commande']))); ?></p>
-            <p><strong>Statut paiement :</strong> <?php echo h($commande['statut_paiement']); ?></p>
+            <p><strong>Statut :</strong> <?php echo h(ucfirst(str_replace('_', ' ', $commande['statut_commande']))); ?></p>
+            <p><strong>Paiement :</strong> <?php echo h($commande['statut_paiement']); ?></p>
             <p><strong>Livreur :</strong> <?php echo $commande['livreur_nom'] !== '' ? h($commande['livreur_nom']) : 'Non attribue'; ?></p>
-            <p><strong>Total :</strong> <?php echo number_format($commande['total'], 2, ',', ' '); ?> EUR</p>
-            <p><strong>Date :</strong> <?php echo h($commande['date_commande']); ?></p>
+            <p><strong>Total :</strong> <span id="commande_total_affiche"><?php echo number_format($commande['total'], 2, ',', ' '); ?></span> EUR</p>
         </div>
     </div>
 </section>
 
 <section class="bloc_page">
-    <h2>Produits commandes</h2>
+    <h2>Lignes de commande</h2>
 
     <table class="tableau">
         <thead>
@@ -101,80 +99,101 @@ include 'Includes/header.php';
     </table>
 </section>
 
-<?php if ($utilisateur['role'] === 'restaurateur') : ?>
+<?php if ($modifiableClient) : ?>
     <section class="bloc_page">
-        <h2>Gestion restaurateur</h2>
+        <h2>Modifier la commande</h2>
 
-        <form class="formulaire">
-            <div>
-                <label for="statut_commande">Changer le statut</label>
-                <select id="statut_commande" disabled>
-                    <option <?php echo $commande['statut_commande'] === 'a_preparer' ? 'selected' : ''; ?>>A preparer</option>
-                    <option <?php echo $commande['statut_commande'] === 'en_attente' ? 'selected' : ''; ?>>En attente</option>
-                    <option <?php echo $commande['statut_commande'] === 'en_preparation' ? 'selected' : ''; ?>>En preparation</option>
-                    <option <?php echo $commande['statut_commande'] === 'en_livraison' ? 'selected' : ''; ?>>En livraison</option>
-                    <option <?php echo $commande['statut_commande'] === 'livree' ? 'selected' : ''; ?>>Livree</option>
-                    <option <?php echo $commande['statut_commande'] === 'abandonnee' ? 'selected' : ''; ?>>Abandonnee</option>
-                </select>
-            </div>
+        <form id="form_modif_commande_client" class="formulaire js-validate-form" novalidate>
+            <input type="hidden" name="commande_id" value="<?php echo (int) $commande['id']; ?>">
+
+            <?php foreach ($commande['lignes'] as $index => $ligne) : ?>
+                <div class="ligne_commande_edit">
+                    <label><?php echo h($ligne['nom']); ?> (<?php echo number_format($ligne['prix'], 2, ',', ' '); ?> EUR)</label>
+                    <input type="hidden" name="noms[]" value="<?php echo h($ligne['nom']); ?>">
+                    <input type="hidden" class="prix_ligne" value="<?php echo h($ligne['prix']); ?>">
+                    <input type="number" name="quantites[]" value="<?php echo (int) $ligne['quantite']; ?>" min="0" max="20" class="js-qte-commande" data-rule="quantite" required>
+                    <small class="erreur_champ"></small>
+                </div>
+            <?php endforeach; ?>
 
             <div>
-                <label for="livreur">Attribuer un livreur</label>
-                <select id="livreur" disabled>
-                    <option><?php echo $commande['livreur_nom'] !== '' ? h($commande['livreur_nom']) : 'Choisir un livreur'; ?></option>
-                    <?php foreach ($utilisateurs as $livreur) : ?>
-                        <?php if ($livreur['role'] === 'livreur' && !empty($livreur['disponible'])) : ?>
-                            <option><?php echo h($livreur['prenom'] . ' ' . $livreur['nom']); ?></option>
-                        <?php endif; ?>
+                <label for="ajout_nom">Ajouter un produit</label>
+                <select name="ajout_nom" id="ajout_nom">
+                    <option value="">Aucun</option>
+                    <?php foreach ($plats as $plat) : ?>
+                        <option value="<?php echo h($plat['nom']); ?>" data-prix="<?php echo h($plat['prix']); ?>">
+                            <?php echo h($plat['nom']); ?> - <?php echo number_format($plat['prix'], 2, ',', ' '); ?> EUR
+                        </option>
                     <?php endforeach; ?>
                 </select>
             </div>
 
-            <button type="button" disabled>Enregistrer</button>
+            <div>
+                <label for="ajout_quantite">Quantite a ajouter</label>
+                <input type="number" name="ajout_quantite" id="ajout_quantite" value="1" min="1" max="20" data-rule="quantite">
+                <small class="erreur_champ"></small>
+            </div>
+
+            <div class="encadre">
+                <p><strong>Nouveau total :</strong> <span id="nouveau_total"><?php echo number_format($commande['total'], 2, ',', ' '); ?></span> EUR</p>
+                <p><strong>Difference :</strong> <span id="difference_total">0,00</span> EUR</p>
+            </div>
+
+            <div id="bloc_paiement_complement" class="cache">
+                <h3>Paiement complementaire</h3>
+                <div>
+                    <label for="modif_nom_carte">Nom sur la carte</label>
+                    <input type="text" name="nom_carte" id="modif_nom_carte" maxlength="40" data-rule="texte">
+                    <small class="erreur_champ"></small>
+                </div>
+                <div>
+                    <label for="modif_numero_carte">Numero de carte</label>
+                    <input type="text" name="numero_carte" id="modif_numero_carte" maxlength="16" data-rule="carte">
+                    <small class="compteur" data-for="modif_numero_carte">0 / 16</small>
+                    <small class="erreur_champ"></small>
+                </div>
+                <div>
+                    <label for="modif_expiration">Expiration</label>
+                    <input type="month" name="expiration" id="modif_expiration" data-rule="expiration">
+                    <small class="erreur_champ"></small>
+                </div>
+                <div>
+                    <label for="modif_cvv">CVV</label>
+                    <div class="champ_mdp">
+                        <input type="password" name="cvv" id="modif_cvv" maxlength="4" data-rule="cvv">
+                        <button type="button" class="toggle-password" data-target="modif_cvv">Afficher</button>
+                    </div>
+                    <small class="compteur" data-for="modif_cvv">0 / 4</small>
+                    <small class="erreur_champ"></small>
+                </div>
+            </div>
+
+            <button type="submit">Enregistrer la modification</button>
+            <p id="message_modif_commande"></p>
         </form>
     </section>
 <?php endif; ?>
 
-<?php if ($utilisateur['role'] === 'livreur') : ?>
-    <section class="bloc_page">
-        <h2>Actions livreur</h2>
-
-        <?php if ($commande['statut_commande'] === 'en_livraison') : ?>
-            <div class="ligne_action">
-                <form action="traitements/process_livraison.php" method="POST">
-                    <input type="hidden" name="commande_id" value="<?php echo (int) $commande['id']; ?>">
-                    <input type="hidden" name="action" value="livree">
-                    <button type="submit">Marquer comme livree</button>
-                </form>
-
-                <form action="traitements/process_livraison.php" method="POST">
-                    <input type="hidden" name="commande_id" value="<?php echo (int) $commande['id']; ?>">
-                    <input type="hidden" name="action" value="abandonnee">
-                    <button type="submit" class="bouton_danger">Adresse introuvable / abandon</button>
-                </form>
-            </div>
-        <?php else : ?>
-            <p class="info">Cette commande n'est plus modifiable par le livreur.</p>
-        <?php endif; ?>
-    </section>
-<?php endif; ?>
-
-<?php
-$dejaNotee = false;
-
-foreach (lire_json('notations.json') as $notation) {
-    if ((int) $notation['commande_id'] === (int) $commande['id'] && (int) $notation['client_id'] === (int) $utilisateur['id']) {
-        $dejaNotee = true;
-        break;
+<?php if ($utilisateur['role'] === 'client' && $commande['statut_commande'] === 'livree' && $commande['mode_retrait'] !== 'a_emporter') : ?>
+    <?php
+    $dejaNotee = false;
+    foreach (lire_json('notations.json') as $notation) {
+        if ((int) $notation['commande_id'] === (int) $commande['id'] && (int) $notation['client_id'] === (int) $utilisateur['id']) {
+            $dejaNotee = true;
+            break;
+        }
     }
-}
-?>
-<?php if ($utilisateur['role'] === 'client' && $commande['statut_commande'] === 'livree' && !$dejaNotee) : ?>
-    <section class="bloc_page">
-        <p><a class="bouton_action" href="notation.php?id=<?php echo (int) $commande['id']; ?>">Noter cette commande</a></p>
-    </section>
+    ?>
+    <?php if (!$dejaNotee) : ?>
+        <section class="bloc_page">
+            <a class="bouton_action" href="notation.php?id=<?php echo (int) $commande['id']; ?>">Noter cette commande</a>
+        </section>
+    <?php endif; ?>
 <?php endif; ?>
 
+<script>
+window.commandeCourante = <?php echo json_encode($commande, JSON_UNESCAPED_UNICODE); ?>;
+</script>
 </main>
 <script src="script.js"></script>
 </body>
