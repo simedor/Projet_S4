@@ -27,22 +27,37 @@ $action = isset($_POST['action']) ? trim($_POST['action']) : '';
 $message = 'Utilisateur introuvable';
 $prochaineAction = 'bloquer';
 $statut = '';
+$trouve = false;
+
+if ($userId === (int) $admin['id']) {
+    echo json_encode(['ok' => false, 'message' => 'Action impossible sur votre compte']);
+    exit();
+}
 
 foreach ($utilisateurs as &$utilisateur) {
     if ((int) $utilisateur['id'] === $userId) {
+        $trouve = true;
+
         if ($action === 'bloquer') {
             $utilisateur['statut_compte'] = 'bloque';
             $message = 'Utilisateur bloque';
             $prochaineAction = 'debloquer';
+            ajouter_incident('admin', 'Compte bloque par un admin', $utilisateur['login'], $utilisateur['id']);
         } else {
             $utilisateur['statut_compte'] = 'actif';
             $message = 'Utilisateur debloque';
             $prochaineAction = 'bloquer';
+            ajouter_incident('admin', 'Compte debloque par un admin', $utilisateur['login'], $utilisateur['id']);
         }
 
         $statut = $utilisateur['statut_compte'];
         break;
     }
+}
+
+if (!$trouve) {
+    echo json_encode(['ok' => false, 'message' => 'Utilisateur introuvable']);
+    exit();
 }
 
 ecrire_json('utilisateurs.json', $utilisateurs);

@@ -62,6 +62,10 @@ include 'Includes/header.php';
         <div class="encadre">
             <p><strong>Client :</strong> <?php echo h($commande['client_nom']); ?></p>
             <p><strong>Adresse :</strong> <?php echo h($commande['adresse']); ?></p>
+            <p><strong>Telephone :</strong> <?php echo h(isset($commande['telephone']) ? $commande['telephone'] : 'Non renseigne'); ?></p>
+            <p><strong>Interphone :</strong> <?php echo h(isset($commande['interphone']) && $commande['interphone'] !== '' ? $commande['interphone'] : 'Non renseigne'); ?></p>
+            <p><strong>Etage :</strong> <?php echo h(isset($commande['etage']) && $commande['etage'] !== '' ? $commande['etage'] : 'Non renseigne'); ?></p>
+            <p><strong>Commentaire livraison :</strong> <?php echo h(isset($commande['commentaire_livraison']) && $commande['commentaire_livraison'] !== '' ? $commande['commentaire_livraison'] : 'Aucun'); ?></p>
             <p><strong>Mode :</strong> <?php echo h($commande['mode_retrait']); ?></p>
             <p><strong>Creneau :</strong> <?php echo h($commande['creneau']); ?></p>
         </div>
@@ -143,25 +147,25 @@ include 'Includes/header.php';
                 <h3>Paiement complementaire</h3>
                 <div>
                     <label for="modif_nom_carte">Nom sur la carte</label>
-                    <input type="text" name="nom_carte" id="modif_nom_carte" maxlength="40" data-rule="texte">
+                    <input type="text" name="nom_carte" id="modif_nom_carte" maxlength="40" data-rule="texte" autocomplete="cc-name">
                     <small class="erreur_champ"></small>
                 </div>
                 <div>
                     <label for="modif_numero_carte">Numero de carte</label>
-                    <input type="text" name="numero_carte" id="modif_numero_carte" maxlength="16" data-rule="carte">
+                    <input type="text" name="numero_carte" id="modif_numero_carte" maxlength="16" data-rule="carte" autocomplete="cc-number">
                     <small class="compteur" data-for="modif_numero_carte">0 / 16</small>
                     <small class="erreur_champ"></small>
                 </div>
                 <div>
                     <label for="modif_expiration">Expiration</label>
-                    <input type="month" name="expiration" id="modif_expiration" data-rule="expiration">
+                    <input type="month" name="expiration" id="modif_expiration" data-rule="expiration" autocomplete="cc-exp">
                     <small class="erreur_champ"></small>
                 </div>
                 <div>
                     <label for="modif_cvv">CVV</label>
                     <div class="champ_mdp">
-                        <input type="password" name="cvv" id="modif_cvv" maxlength="4" data-rule="cvv">
-                        <button type="button" class="toggle-password" data-target="modif_cvv">Afficher</button>
+                        <input type="password" name="cvv" id="modif_cvv" maxlength="4" data-rule="cvv" autocomplete="cc-csc">
+                        <button type="button" class="toggle-password" data-target="modif_cvv" aria-label="Afficher le CVV">Afficher</button>
                     </div>
                     <small class="compteur" data-for="modif_cvv">0 / 4</small>
                     <small class="erreur_champ"></small>
@@ -169,7 +173,7 @@ include 'Includes/header.php';
             </div>
 
             <button type="submit">Enregistrer la modification</button>
-            <p id="message_modif_commande"></p>
+            <p id="message_modif_commande" class="zone_message" aria-live="polite"></p>
         </form>
     </section>
 <?php endif; ?>

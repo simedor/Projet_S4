@@ -35,6 +35,15 @@ function changerTheme(mode) {
     setCookie("theme_site", mode, 30);
 }
 
+function echapperHtml(texte) {
+    return String(texte)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
 function regleChamp(champ) {
     const valeur = champ.value.trim();
     const regle = champ.dataset.rule || "";
@@ -187,6 +196,21 @@ function gererCreneau() {
     }
 }
 
+function gererModeRetrait() {
+    const bloc = document.getElementById("bloc_infos_livraison");
+    const radio = document.querySelector('input[name="mode_retrait"]:checked');
+
+    if (!bloc || !radio) {
+        return;
+    }
+
+    if (radio.value === "livraison") {
+        bloc.classList.remove("cache");
+    } else {
+        bloc.classList.add("cache");
+    }
+}
+
 let platsCourants = [];
 
 function rendreCartesProduits(plats) {
@@ -200,20 +224,25 @@ function rendreCartesProduits(plats) {
     info.textContent = plats.length + " element(s)";
     conteneur.innerHTML = "";
 
+    if (plats.length === 0) {
+        conteneur.innerHTML = '<p class="info">Aucun produit ne correspond aux filtres.</p>';
+        return;
+    }
+
     plats.forEach(function (plat) {
         let html = '<article class="carte_plat">';
-        html += '<img src="' + plat.image + '" alt="' + plat.nom + '">';
+        html += '<img src="' + echapperHtml(plat.image) + '" alt="' + echapperHtml(plat.nom) + '">';
         html += '<div>';
-        html += '<span class="badge">' + plat.type + '</span>';
-        html += '<h3>' + plat.nom + '</h3>';
-        html += '<p>' + plat.description + '</p>';
+        html += '<span class="badge">' + echapperHtml(plat.type) + '</span>';
+        html += '<h3>' + echapperHtml(plat.nom) + '</h3>';
+        html += '<p>' + echapperHtml(plat.description) + '</p>';
         html += '<p><strong>' + Number(plat.prix).toFixed(2).replace(".", ",") + ' EUR</strong></p>';
-        html += '<p>Categorie : ' + plat.categorie + '</p>';
+        html += '<p>Categorie : ' + echapperHtml(plat.categorie) + '</p>';
 
         if (window.estClient) {
             html += '<form action="traitements/process_panier.php" method="POST" class="petit_formulaire">';
             html += '<input type="hidden" name="action" value="ajouter">';
-            html += '<input type="hidden" name="nom" value="' + plat.nom + '">';
+            html += '<input type="hidden" name="nom" value="' + echapperHtml(plat.nom) + '">';
             html += '<label>Quantite</label>';
             html += '<input type="number" name="quantite" min="1" max="20" value="1">';
             html += '<button type="submit">Ajouter au panier</button>';
@@ -285,6 +314,39 @@ function chargerFiltresPlats() {
     rendreCartesProduits(platsCourants);
 }
 
+function gererMenuAleatoire() {
+    const bouton = document.getElementById("btn_menu_aleatoire");
+    const bloc = document.getElementById("bloc_aleatoire");
+    const resultat = document.getElementById("resultat_aleatoire");
+
+    if (!bouton || !bloc || !resultat) {
+        return;
+    }
+
+    bouton.addEventListener("click", function () {
+        const source = platsCourants.length > 0 ? platsCourants : (window.platsInitiaux || []);
+
+        if (source.length === 0) {
+            resultat.innerHTML = '<p class="info">Aucun produit disponible.</p>';
+            bloc.classList.remove("cache");
+            return;
+        }
+
+        const index = Math.floor(Math.random() * source.length);
+        const plat = source[index];
+        let html = '<article class="carte_plat carte_grande">';
+        html += '<img src="' + echapperHtml(plat.image) + '" alt="' + echapperHtml(plat.nom) + '">';
+        html += '<div>';
+        html += '<h3>' + echapperHtml(plat.nom) + '</h3>';
+        html += '<p>' + echapperHtml(plat.description) + '</p>';
+        html += '<p><strong>' + Number(plat.prix).toFixed(2).replace(".", ",") + ' EUR</strong></p>';
+        html += '<p>Categorie : ' + echapperHtml(plat.categorie) + '</p>';
+        html += '</div></article>';
+        resultat.innerHTML = html;
+        bloc.classList.remove("cache");
+    });
+}
+
 function gererProfil() {
     const bouton = document.getElementById("btn_modifier_profil");
     const boutonAnnuler = document.getElementById("btn_annuler_profil");
@@ -329,6 +391,7 @@ function gererProfil() {
                 document.getElementById("profil_email").textContent = data.utilisateur.email;
                 document.getElementById("profil_adresse").textContent = data.utilisateur.adresse;
                 document.getElementById("profil_telephone").textContent = data.utilisateur.telephone;
+                document.getElementById("profil_infos_complementaires").textContent = data.utilisateur.infos_complementaires !== "" ? data.utilisateur.infos_complementaires : "Aucune";
                 message.textContent = "Profil mis a jour.";
                 formulaire.classList.add("cache");
             });
@@ -337,6 +400,11 @@ function gererProfil() {
 
 function gererAdmin() {
     document.querySelectorAll(".btn-admin-user").forEach(function (bouton) {
+        if (bouton.dataset.ready === "1") {
+            return;
+        }
+
+        bouton.dataset.ready = "1";
         bouton.addEventListener("click", function () {
             const donnees = new FormData();
             donnees.append("user_id", bouton.dataset.userId);
@@ -352,18 +420,23 @@ function gererAdmin() {
                     message.textContent = data.message;
 
                     if (data.ok) {
-                    const ligne = document.getElementById("ligne_user_" + bouton.dataset.userId);
-                    ligne.querySelector(".statut_user").textContent = data.statut;
-                    bouton.dataset.action = data.action;
-                    bouton.textContent = data.action === "bloquer" ? "Bloquer" : "Debloquer";
-                }
-            });
+                        const ligne = document.getElementById("ligne_user_" + bouton.dataset.userId);
+                        ligne.querySelector(".statut_user").textContent = data.statut;
+                        bouton.dataset.action = data.action;
+                        bouton.textContent = data.action === "bloquer" ? "Bloquer" : "Debloquer";
+                    }
+                });
         });
     });
 }
 
 function gererCommandesResto() {
     document.querySelectorAll(".btn-commande-resto").forEach(function (bouton) {
+        if (bouton.dataset.ready === "1") {
+            return;
+        }
+
+        bouton.dataset.ready = "1";
         bouton.addEventListener("click", function () {
             const id = bouton.dataset.commandeId;
             const select = document.querySelector('.select_livreur[data-commande-id="' + id + '"]');
@@ -407,9 +480,15 @@ function gererCommandesResto() {
 
 function gererLivraisons() {
     document.querySelectorAll(".btn-livraison").forEach(function (bouton) {
+        if (bouton.dataset.ready === "1") {
+            return;
+        }
+
+        bouton.dataset.ready = "1";
         bouton.addEventListener("click", function () {
             const donnees = new FormData();
             donnees.append("commande_id", bouton.dataset.commandeId);
+            donnees.append("action", bouton.dataset.action || "livree");
 
             fetch("traitements/api_livraison.php", {
                 method: "POST",
@@ -423,7 +502,10 @@ function gererLivraisons() {
                     if (data.ok) {
                         const carte = document.getElementById("carte_livraison_" + bouton.dataset.commandeId);
                         carte.querySelector(".statut_livraison").textContent = data.statut;
-                        bouton.remove();
+                        const zoneActions = carte.querySelector(".zone_actions_livraison");
+                        if (zoneActions) {
+                            zoneActions.remove();
+                        }
                     }
                 });
         });
@@ -507,7 +589,7 @@ function verifierSession() {
     }
 
     setInterval(function () {
-        fetch("traitements/api_session.php")
+        fetch("traitements/api_session.php", { cache: "no-store" })
             .then(function (reponse) { return reponse.json(); })
             .then(function (data) {
                 if (data.statut === "bloque") {
@@ -536,8 +618,12 @@ document.addEventListener("DOMContentLoaded", function () {
     mettreCompteurs();
     activerMotsDePasse();
     gererCreneau();
+    gererModeRetrait();
     document.querySelectorAll('input[name="type_livraison"]').forEach(function (radio) {
         radio.addEventListener("change", gererCreneau);
+    });
+    document.querySelectorAll('input[name="mode_retrait"]').forEach(function (radio) {
+        radio.addEventListener("change", gererModeRetrait);
     });
 
     document.querySelectorAll(".js-validate-form").forEach(function (formulaire) {
@@ -555,6 +641,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     chargerFiltresPlats();
+    gererMenuAleatoire();
     gererProfil();
     gererAdmin();
     gererCommandesResto();

@@ -28,12 +28,20 @@ if (!isset($_SESSION['panier']) || !is_array($_SESSION['panier']) || count($_SES
 $modeRetrait = isset($_POST['mode_retrait']) ? trim($_POST['mode_retrait']) : '';
 $typeLivraison = isset($_POST['type_livraison']) ? trim($_POST['type_livraison']) : '';
 $creneau = isset($_POST['creneau']) ? trim($_POST['creneau']) : '';
+$interphone = isset($_POST['interphone']) ? trim($_POST['interphone']) : '';
+$etage = isset($_POST['etage']) ? trim($_POST['etage']) : '';
+$commentaireLivraison = isset($_POST['commentaire_livraison']) ? trim($_POST['commentaire_livraison']) : '';
 $nomCarte = isset($_POST['nom_carte']) ? trim($_POST['nom_carte']) : '';
 $numeroCarte = isset($_POST['numero_carte']) ? trim($_POST['numero_carte']) : '';
 $expiration = isset($_POST['expiration']) ? trim($_POST['expiration']) : '';
 $cvv = isset($_POST['cvv']) ? trim($_POST['cvv']) : '';
 
 if ($modeRetrait === '' || $typeLivraison === '' || $nomCarte === '' || $numeroCarte === '' || $expiration === '' || $cvv === '') {
+    header('Location: ../panier.php?erreur=champs_manquants');
+    exit();
+}
+
+if (!in_array($modeRetrait, ['livraison', 'a_emporter'], true) || !in_array($typeLivraison, ['immediate', 'differee'], true)) {
     header('Location: ../panier.php?erreur=champs_manquants');
     exit();
 }
@@ -84,6 +92,9 @@ $commandes[] = [
     'lignes' => $lignes,
     'adresse' => $modeRetrait === 'a_emporter' ? 'Retrait au restaurant' : $utilisateur['adresse'],
     'telephone' => $utilisateur['telephone'],
+    'interphone' => $modeRetrait === 'livraison' ? $interphone : '',
+    'etage' => $modeRetrait === 'livraison' ? $etage : '',
+    'commentaire_livraison' => $modeRetrait === 'livraison' ? $commentaireLivraison : '',
     'mode_retrait' => $modeRetrait,
     'type_livraison' => $typeLivraison,
     'creneau' => $typeLivraison === 'differee' ? $creneau : 'Maintenant',
@@ -103,6 +114,7 @@ $commandes[] = [
 ];
 
 ecrire_json('commandes.json', $commandes);
+ajouter_incident('commande', 'Nouvelle commande payee', $utilisateur['login'], $utilisateur['id']);
 $_SESSION['panier'] = [];
 
 header('Location: ../profil.php?commande=ok');

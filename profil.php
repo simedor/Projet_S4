@@ -70,10 +70,13 @@ include 'Includes/header.php';
             <p><strong>Email :</strong> <span id="profil_email"><?php echo h($utilisateur['email']); ?></span></p>
             <p><strong>Adresse :</strong> <span id="profil_adresse"><?php echo h($utilisateur['adresse']); ?></span></p>
             <p><strong>Telephone :</strong> <span id="profil_telephone"><?php echo h($utilisateur['telephone']); ?></span></p>
+            <p><strong>Infos complementaires :</strong> <span id="profil_infos_complementaires"><?php echo h(isset($utilisateur['infos_complementaires']) && $utilisateur['infos_complementaires'] !== '' ? $utilisateur['infos_complementaires'] : 'Aucune'); ?></span></p>
             <?php if ($utilisateur['role'] === 'client') : ?>
+                <p><strong>Statut fidelite :</strong> <span id="profil_fidelite"><?php echo h(isset($utilisateur['fidelite']) ? $utilisateur['fidelite'] : 'Standard'); ?></span></p>
+                <p><strong>Remise actuelle :</strong> <span id="profil_remise"><?php echo (int) (isset($utilisateur['remise']) ? $utilisateur['remise'] : 0); ?></span> %</p>
                 <p><strong>Avoir :</strong> <span id="profil_avoir"><?php echo number_format($avoirs, 2, ',', ' '); ?></span> EUR</p>
             <?php endif; ?>
-            <button type="button" id="btn_modifier_profil">Modifier mes informations</button>
+            <button type="button" id="btn_modifier_profil">&#9998; Modifier mes informations</button>
         </div>
 
         <div class="encadre">
@@ -81,36 +84,41 @@ include 'Includes/header.php';
                 <h3>Modifier</h3>
                 <div>
                     <label for="edit_nom">Nom</label>
-                    <input type="text" id="edit_nom" name="nom" value="<?php echo h($utilisateur['nom']); ?>" data-rule="texte" required>
+                    <input type="text" id="edit_nom" name="nom" value="<?php echo h($utilisateur['nom']); ?>" data-rule="texte" autocomplete="family-name" required>
                     <small class="erreur_champ"></small>
                 </div>
                 <div>
                     <label for="edit_prenom">Prenom</label>
-                    <input type="text" id="edit_prenom" name="prenom" value="<?php echo h($utilisateur['prenom']); ?>" data-rule="texte" required>
+                    <input type="text" id="edit_prenom" name="prenom" value="<?php echo h($utilisateur['prenom']); ?>" data-rule="texte" autocomplete="given-name" required>
                     <small class="erreur_champ"></small>
                 </div>
                 <div>
                     <label for="edit_email">Email</label>
-                    <input type="email" id="edit_email" name="email" value="<?php echo h($utilisateur['email']); ?>" maxlength="60" data-rule="email" required>
+                    <input type="email" id="edit_email" name="email" value="<?php echo h($utilisateur['email']); ?>" maxlength="60" data-rule="email" autocomplete="email" required>
                     <small class="compteur" data-for="edit_email">0 / 60</small>
                     <small class="erreur_champ"></small>
                 </div>
                 <div>
                     <label for="edit_adresse">Adresse</label>
-                    <input type="text" id="edit_adresse" name="adresse" value="<?php echo h($utilisateur['adresse']); ?>" maxlength="120" data-rule="adresse" required>
+                    <input type="text" id="edit_adresse" name="adresse" value="<?php echo h($utilisateur['adresse']); ?>" maxlength="120" data-rule="adresse" autocomplete="street-address" required>
                     <small class="erreur_champ"></small>
                 </div>
                 <div>
                     <label for="edit_telephone">Telephone</label>
-                    <input type="text" id="edit_telephone" name="telephone" value="<?php echo h($utilisateur['telephone']); ?>" maxlength="10" data-rule="telephone" required>
+                    <input type="text" id="edit_telephone" name="telephone" value="<?php echo h($utilisateur['telephone']); ?>" maxlength="10" data-rule="telephone" autocomplete="tel" required>
                     <small class="compteur" data-for="edit_telephone">0 / 10</small>
                     <small class="erreur_champ"></small>
+                </div>
+                <div>
+                    <label for="edit_infos_complementaires">Informations complementaires</label>
+                    <textarea id="edit_infos_complementaires" name="infos_complementaires" rows="3" maxlength="150"><?php echo h(isset($utilisateur['infos_complementaires']) ? $utilisateur['infos_complementaires'] : ''); ?></textarea>
+                    <small class="compteur" data-for="edit_infos_complementaires">0 / 150</small>
                 </div>
                 <div class="ligne_action">
                     <button type="submit">Enregistrer</button>
                     <button type="button" class="bouton_secondaire" id="btn_annuler_profil">Annuler</button>
                 </div>
-                <p id="message_profil"></p>
+                <p id="message_profil" class="zone_message" aria-live="polite"></p>
             </form>
         </div>
     </div>
@@ -173,6 +181,7 @@ include 'Includes/header.php';
                                 <?php if ($commande['statut_commande'] === 'livree' && $commande['mode_retrait'] !== 'a_emporter' && !$dejaNotee) : ?>
                                     | <a href="notation.php?id=<?php echo (int) $commande['id']; ?>">Noter</a>
                                 <?php endif; ?>
+                                | <a href="traitements/process_recommander.php?id=<?php echo (int) $commande['id']; ?>">Recommander</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

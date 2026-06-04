@@ -9,6 +9,7 @@ if (!isset($_SESSION['utilisateur_id'])) {
 $admin = null;
 $utilisateurs = lire_json('utilisateurs.json');
 $commandes = lire_json('commandes.json');
+$incidents = lire_json('incidents.json');
 
 foreach ($utilisateurs as $unUtilisateur) {
     if ((int) $unUtilisateur['id'] === (int) $_SESSION['utilisateur_id']) {
@@ -72,7 +73,36 @@ include 'Includes/header.php';
         </tbody>
     </table>
 
-    <p id="message_admin"></p>
+    <p id="message_admin" class="zone_message" aria-live="polite"></p>
+</section>
+
+<section class="bloc_page">
+    <h2>Derniers incidents</h2>
+
+    <?php if (empty($incidents)) : ?>
+        <p class="info">Aucun incident enregistre pour le moment.</p>
+    <?php else : ?>
+        <table class="tableau">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Login</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach (array_reverse(array_slice($incidents, -12)) as $incident) : ?>
+                    <tr>
+                        <td><?php echo h($incident['date']); ?></td>
+                        <td><?php echo h($incident['type']); ?></td>
+                        <td><?php echo h($incident['login']); ?></td>
+                        <td><?php echo h($incident['message']); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php endif; ?>
 </section>
 
 </main>

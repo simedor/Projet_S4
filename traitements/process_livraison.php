@@ -27,12 +27,18 @@ $listeCommandes = lire_json('commandes.json');
 
 foreach ($listeCommandes as &$commande) {
     if ((int) $commande['id'] === $commandeId && (int) $commande['livreur_id'] === (int) $utilisateur['id']) {
+        if ($commande['statut_commande'] !== 'en_livraison') {
+            break;
+        }
+
         if ($action === 'livree') {
             $commande['statut_commande'] = 'livree';
+            ajouter_incident('livraison', 'Commande livree', $utilisateur['login'], $commande['client_id']);
         }
 
         if ($action === 'abandonnee') {
             $commande['statut_commande'] = 'abandonnee';
+            ajouter_incident('livraison', 'Commande abandonnee', $utilisateur['login'], $commande['client_id']);
         }
     }
 }

@@ -41,6 +41,11 @@ if (isset($_GET['erreur']) && isset($erreurs[$_GET['erreur']])) {
     $messageErreur = $erreurs[$_GET['erreur']];
 }
 
+$messageSucces = '';
+if (isset($_GET['recommande']) && $_GET['recommande'] === 'ok') {
+    $messageSucces = 'L ancienne commande a ete remise dans votre panier.';
+}
+
 $titre_page = 'Panier';
 include 'Includes/header.php';
 ?>
@@ -49,7 +54,11 @@ include 'Includes/header.php';
     <h2>Mon panier</h2>
 
     <?php if ($messageErreur !== '') : ?>
-        <p class="alerte"><?php echo h($messageErreur); ?></p>
+        <p class="alerte" role="alert"><?php echo h($messageErreur); ?></p>
+    <?php endif; ?>
+
+    <?php if ($messageSucces !== '') : ?>
+        <p class="succes"><?php echo h($messageSucces); ?></p>
     <?php endif; ?>
 
     <?php if (empty($panier)) : ?>
@@ -121,30 +130,50 @@ include 'Includes/header.php';
                 <small class="erreur_champ"></small>
             </div>
 
+            <div id="bloc_infos_livraison">
+                <div>
+                    <label for="interphone">Code interphone</label>
+                    <input type="text" name="interphone" id="interphone" maxlength="30" placeholder="Ex : B203 ou 45A">
+                    <small class="compteur" data-for="interphone">0 / 30</small>
+                </div>
+
+                <div>
+                    <label for="etage">Etage</label>
+                    <input type="text" name="etage" id="etage" maxlength="20" placeholder="Ex : 3e etage">
+                    <small class="compteur" data-for="etage">0 / 20</small>
+                </div>
+
+                <div>
+                    <label for="commentaire_livraison">Commentaire de livraison</label>
+                    <textarea name="commentaire_livraison" id="commentaire_livraison" rows="3" maxlength="150" placeholder="Ex : appeler en arrivant"></textarea>
+                    <small class="compteur" data-for="commentaire_livraison">0 / 150</small>
+                </div>
+            </div>
+
             <div>
                 <label for="nom_carte">Nom sur la carte</label>
-                <input type="text" name="nom_carte" id="nom_carte" maxlength="40" data-rule="texte" required>
+                <input type="text" name="nom_carte" id="nom_carte" maxlength="40" data-rule="texte" autocomplete="cc-name" required>
                 <small class="erreur_champ"></small>
             </div>
 
             <div>
                 <label for="numero_carte">Numero de carte</label>
-                <input type="text" name="numero_carte" id="numero_carte" maxlength="16" data-rule="carte" required>
+                <input type="text" name="numero_carte" id="numero_carte" maxlength="16" data-rule="carte" autocomplete="cc-number" required>
                 <small class="compteur" data-for="numero_carte">0 / 16</small>
                 <small class="erreur_champ"></small>
             </div>
 
             <div>
                 <label for="expiration">Expiration</label>
-                <input type="month" name="expiration" id="expiration" data-rule="expiration" required>
+                <input type="month" name="expiration" id="expiration" data-rule="expiration" autocomplete="cc-exp" required>
                 <small class="erreur_champ"></small>
             </div>
 
             <div>
                 <label for="cvv">CVV</label>
                 <div class="champ_mdp">
-                    <input type="password" name="cvv" id="cvv" maxlength="4" data-rule="cvv" required>
-                    <button type="button" class="toggle-password" data-target="cvv">Afficher</button>
+                    <input type="password" name="cvv" id="cvv" maxlength="4" data-rule="cvv" autocomplete="cc-csc" required>
+                    <button type="button" class="toggle-password" data-target="cvv" aria-label="Afficher le CVV">Afficher</button>
                 </div>
                 <small class="compteur" data-for="cvv">0 / 4</small>
                 <small class="erreur_champ"></small>

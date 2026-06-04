@@ -10,6 +10,23 @@ foreach ($champs as $champ) {
     }
 }
 
+$email = trim($_POST['email']);
+$telephone = trim($_POST['telephone']);
+$naissance = trim($_POST['naissance']);
+$motDePasse = trim($_POST['mot_de_passe']);
+$infosComplementaires = isset($_POST['infos_complementaires']) ? trim($_POST['infos_complementaires']) : '';
+
+if (!filter_var($email, FILTER_VALIDATE_EMAIL) || !preg_match('/^\d{10}$/', $telephone) || strlen($motDePasse) < 4) {
+    header('Location: ../inscription.php?erreur=champs_manquants');
+    exit();
+}
+
+$timestampNaissance = strtotime($naissance);
+if ($timestampNaissance === false || $timestampNaissance > strtotime('-13 years')) {
+    header('Location: ../inscription.php?erreur=champs_manquants');
+    exit();
+}
+
 $listeUtilisateurs = lire_json('utilisateurs.json');
 $nouvelId = 1;
 
@@ -41,6 +58,7 @@ $listeUtilisateurs[] = [
     'naissance' => trim($_POST['naissance']),
     'adresse' => trim($_POST['adresse']),
     'telephone' => trim($_POST['telephone']),
+    'infos_complementaires' => $infosComplementaires,
     'civilite' => trim($_POST['civilite']),
     'date_inscription' => date('Y-m-d'),
     'derniere_connexion' => date('Y-m-d H:i'),
@@ -52,6 +70,7 @@ $listeUtilisateurs[] = [
 ];
 
 ecrire_json('utilisateurs.json', $listeUtilisateurs);
+ajouter_incident('inscription', 'Nouveau compte cree', trim($_POST['login']), $nouvelId);
 
 $_SESSION['utilisateur_id'] = $nouvelId;
 $_SESSION['panier'] = [];

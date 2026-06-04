@@ -14,16 +14,19 @@ foreach ($utilisateurs as $utilisateur) {
 }
 
 if ($utilisateurTrouve === null || $utilisateurTrouve['mdp'] !== $motDePasse) {
+    ajouter_incident('connexion', 'Mauvais identifiants', $login);
     header('Location: ../connexion.php?erreur=identifiants_incorrects');
     exit();
 }
 
 if ($utilisateurTrouve['statut_compte'] === 'bloque') {
+    ajouter_incident('connexion', 'Tentative de connexion sur compte bloque', $login, $utilisateurTrouve['id']);
     header('Location: ../connexion.php?erreur=compte_bloque');
     exit();
 }
 
 if ($utilisateurTrouve['statut_compte'] === 'desactive') {
+    ajouter_incident('connexion', 'Tentative de connexion sur compte desactive', $login, $utilisateurTrouve['id']);
     header('Location: ../connexion.php?erreur=compte_desactive');
     exit();
 }
@@ -42,6 +45,7 @@ foreach ($utilisateurs as &$utilisateur) {
 }
 
 ecrire_json('utilisateurs.json', $utilisateurs);
+ajouter_incident('connexion', 'Connexion reussie', $login, $utilisateurTrouve['id']);
 
 if ($utilisateurTrouve['role'] === 'admin') {
     header('Location: ../administrateur.php');

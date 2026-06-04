@@ -123,7 +123,7 @@ if ($difference > 0) {
     $expiration = isset($_POST['expiration']) ? trim($_POST['expiration']) : '';
     $cvv = isset($_POST['cvv']) ? trim($_POST['cvv']) : '';
 
-    if ($nomCarte === '' || $numeroCarte === '' || $expiration === '' || strlen($cvv) < 3) {
+    if ($nomCarte === '' || strlen($numeroCarte) < 12 || $expiration === '' || strlen($cvv) < 3) {
         echo json_encode(['ok' => false, 'message' => 'Paiement complementaire invalide']);
         exit();
     }
@@ -155,6 +155,7 @@ if ($difference > 0) {
 
 ecrire_json('commandes.json', $commandes);
 ecrire_json('utilisateurs.json', $utilisateurs);
+ajouter_incident('commande', 'Commande client modifiee', $client['login'], $client['id']);
 
 $message = $difference > 0 ? 'Commande modifiee avec paiement complementaire.' : 'Commande modifiee.';
 

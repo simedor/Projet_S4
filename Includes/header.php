@@ -41,12 +41,13 @@ if (isset($_SESSION['panier']) && is_array($_SESSION['panier'])) {
     <link id="theme_stylesheet" rel="stylesheet" href="<?php echo $modeTheme === 'sombre' ? 'style_alt.css' : 'style.css'; ?>">
 </head>
 <body data-theme="<?php echo h($modeTheme); ?>" data-connecte="<?php echo $utilisateur !== null ? '1' : '0'; ?>">
+    <a class="lien_evitement" href="#contenu">Aller au contenu</a>
     <header class="entete">
         <div class="logo_zone">
             <h1>CY Pizza</h1>
         </div>
 
-        <nav id="menu_principal">
+        <nav id="menu_principal" aria-label="Menu principal">
             <ul>
                 <li><a href="accueil.php">Accueil</a></li>
                 <li><a href="presentation.php">Carte</a></li>
@@ -75,9 +76,9 @@ if (isset($_SESSION['panier']) && is_array($_SESSION['panier'])) {
                     <li><a href="inscription.php">Inscription</a></li>
                 <?php endif; ?>
 
-                <li><a href="#" id="btn_theme">Changer le theme</a></li>
+                <li><button type="button" id="btn_theme">Changer le theme</button></li>
             </ul>
         </nav>
     </header>
 
-    <main class="contenu_page">
+    <main class="contenu_page" id="contenu">
