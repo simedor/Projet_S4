@@ -24,6 +24,19 @@ $action = isset($_POST['action']) ? trim($_POST['action']) : '';
 $plats = lire_json('plats.json');
 $nomOriginal = isset($_POST['nom_original']) ? trim($_POST['nom_original']) : '';
 
+function redirection_plat($action, $nomOriginal, $etat = '')
+{
+    $suffixe = $etat !== '' ? '?plat=' . $etat : '';
+
+    if ($action === 'modifier') {
+        header('Location: ../modifier_plat.php?edit=' . urlencode($nomOriginal) . ($etat !== '' ? '&plat=' . urlencode($etat) : ''));
+        exit();
+    }
+
+    header('Location: ../commande.php' . $suffixe);
+    exit();
+}
+
 if ($action === 'supprimer') {
     foreach ($plats as $index => $plat) {
         if ($plat['nom'] === $nomOriginal) {
@@ -55,8 +68,7 @@ $imageEnvoyee = false;
 
 if ($imageFichier !== null && isset($imageFichier['error']) && $imageFichier['error'] !== UPLOAD_ERR_NO_FILE) {
     if ($imageFichier['error'] !== UPLOAD_ERR_OK) {
-        header('Location: ../commande.php?plat=image_upload');
-        exit();
+        redirection_plat($action, $nomOriginal, 'image_upload');
     }
 
     $nomFichier = isset($imageFichier['name']) ? $imageFichier['name'] : '';
@@ -64,8 +76,7 @@ if ($imageFichier !== null && isset($imageFichier['error']) && $imageFichier['er
     $extensionsAutorisees = ['png', 'jpg', 'jpeg', 'webp'];
 
     if (!in_array($extension, $extensionsAutorisees, true)) {
-        header('Location: ../commande.php?plat=image_invalide');
-        exit();
+        redirection_plat($action, $nomOriginal, 'image_invalide');
     }
 
     $nomNettoye = preg_replace('/[^a-zA-Z0-9._-]/', '_', $nomFichier);
@@ -73,8 +84,7 @@ if ($imageFichier !== null && isset($imageFichier['error']) && $imageFichier['er
     $cheminDestination = __DIR__ . '/../Images/' . $nomFinal;
 
     if (!move_uploaded_file($imageFichier['tmp_name'], $cheminDestination)) {
-        header('Location: ../commande.php?plat=image_upload');
-        exit();
+        redirection_plat($action, $nomOriginal, 'image_upload');
     }
 
     $imageFinale = 'Images/' . $nomFinal;
@@ -91,8 +101,7 @@ if ($action === 'modifier' && $imageFinale === '') {
 }
 
 if ($nom === '' || $description === '' || $prix <= 0 || $imageFinale === '' || $categorie === '' || $regime === '' || $gout === '') {
-    header('Location: ../commande.php?plat=' . ($action === 'ajouter' ? 'image_absente' : 'incomplet'));
-    exit();
+    redirection_plat($action, $nomOriginal, $action === 'ajouter' ? 'image_absente' : 'incomplet');
 }
 
 if ($action === 'ajouter') {

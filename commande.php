@@ -11,7 +11,6 @@ $utilisateurs = lire_json('utilisateurs.json');
 $livreurs = [];
 $commandes = lire_json('commandes.json');
 $plats = lire_json('plats.json');
-$platEnEdition = null;
 $statsPlats = [];
 $statsDuos = [];
 
@@ -28,17 +27,6 @@ foreach ($utilisateurs as $unUtilisateur) {
 if ($restaurateur === null || $restaurateur['role'] !== 'restaurateur') {
     header('Location: accueil.php');
     exit();
-}
-
-if (isset($_GET['edit'])) {
-    $nomEdition = trim($_GET['edit']);
-
-    foreach ($plats as $plat) {
-        if ($plat['nom'] === $nomEdition) {
-            $platEnEdition = $plat;
-            break;
-        }
-    }
 }
 
 foreach ($commandes as $commande) {
@@ -203,25 +191,25 @@ include 'Includes/header.php';
 </section>
 
 <section class="bloc_page">
-    <h2><?php echo $platEnEdition !== null ? 'Modifier un plat' : 'Ajouter un plat'; ?></h2>
+    <h2>Ajouter un plat</h2>
 
     <form action="traitements/process_plat.php" method="POST" class="formulaire" enctype="multipart/form-data">
-        <input type="hidden" name="action" value="<?php echo $platEnEdition !== null ? 'modifier' : 'ajouter'; ?>">
-        <input type="hidden" name="nom_original" value="<?php echo $platEnEdition !== null ? h($platEnEdition['nom']) : ''; ?>">
+        <input type="hidden" name="action" value="ajouter">
+        <input type="hidden" name="nom_original" value="">
 
         <div>
             <label for="plat_nom">Nom</label>
-            <input type="text" name="nom" id="plat_nom" maxlength="40" value="<?php echo $platEnEdition !== null ? h($platEnEdition['nom']) : ''; ?>" required>
+            <input type="text" name="nom" id="plat_nom" maxlength="40" value="" required>
         </div>
 
         <div>
             <label for="plat_description">Description</label>
-            <textarea name="description" id="plat_description" rows="3" required><?php echo $platEnEdition !== null ? h($platEnEdition['description']) : ''; ?></textarea>
+            <textarea name="description" id="plat_description" rows="3" required></textarea>
         </div>
 
         <div>
             <label for="plat_prix">Prix</label>
-            <input type="number" step="0.5" min="1" name="prix" id="plat_prix" value="<?php echo $platEnEdition !== null ? h($platEnEdition['prix']) : ''; ?>" required>
+            <input type="number" step="0.5" min="1" name="prix" id="plat_prix" value="" required>
         </div>
 
         <div>
@@ -231,37 +219,36 @@ include 'Includes/header.php';
 
         <div>
             <label for="plat_categorie">Categorie</label>
-            <input type="text" name="categorie" id="plat_categorie" value="<?php echo $platEnEdition !== null ? h($platEnEdition['categorie']) : ''; ?>" required>
+            <input type="text" name="categorie" id="plat_categorie" value="" required>
         </div>
 
         <div>
             <label for="plat_type">Type</label>
             <select name="type" id="plat_type">
-                <option value="pizza" <?php echo $platEnEdition !== null && $platEnEdition['type'] === 'pizza' ? 'selected' : ''; ?>>Pizza</option>
-                <option value="menu" <?php echo $platEnEdition !== null && $platEnEdition['type'] === 'menu' ? 'selected' : ''; ?>>Menu</option>
+                <option value="pizza">Pizza</option>
+                <option value="menu">Menu</option>
+                <option value="boisson">Boisson</option>
+                <option value="accompagnement">Accompagnement</option>
             </select>
         </div>
 
         <div>
             <label for="plat_regime">Regime</label>
-            <input type="text" name="regime" id="plat_regime" value="<?php echo $platEnEdition !== null ? h($platEnEdition['regime']) : ''; ?>" required>
+            <input type="text" name="regime" id="plat_regime" value="" required>
         </div>
 
         <div>
             <label for="plat_gout">Gout</label>
-            <input type="text" name="gout" id="plat_gout" value="<?php echo $platEnEdition !== null ? h($platEnEdition['gout']) : ''; ?>" required>
+            <input type="text" name="gout" id="plat_gout" value="" required>
         </div>
 
         <div class="ligne_radio">
-            <label><input type="checkbox" name="plat_du_jour" value="1" <?php echo $platEnEdition !== null && !empty($platEnEdition['plat_du_jour']) ? 'checked' : ''; ?>> Plat du jour</label>
-            <label><input type="checkbox" name="best_seller" value="1" <?php echo $platEnEdition !== null && !empty($platEnEdition['best_seller']) ? 'checked' : ''; ?>> Best seller</label>
+            <label><input type="checkbox" name="plat_du_jour" value="1"> Plat du jour</label>
+            <label><input type="checkbox" name="best_seller" value="1"> Best seller</label>
         </div>
 
         <div class="ligne_action">
-            <button type="submit"><?php echo $platEnEdition !== null ? 'Enregistrer les changements' : 'Ajouter le plat'; ?></button>
-            <?php if ($platEnEdition !== null) : ?>
-                <a class="bouton_secondaire" href="commande.php">Annuler</a>
-            <?php endif; ?>
+            <button type="submit">Ajouter le plat</button>
         </div>
     </form>
 </section>
@@ -287,7 +274,7 @@ include 'Includes/header.php';
                     <td><?php echo number_format($plat['prix'], 2, ',', ' '); ?> EUR</td>
                     <td><?php echo h($plat['categorie']); ?></td>
                     <td>
-                        <a href="commande.php?edit=<?php echo urlencode($plat['nom']); ?>">Modifier</a>
+                        <a href="modifier_plat.php?edit=<?php echo urlencode($plat['nom']); ?>">Modifier</a>
                         <form action="traitements/process_plat.php" method="POST" class="ligne_action">
                             <input type="hidden" name="action" value="supprimer">
                             <input type="hidden" name="nom_original" value="<?php echo h($plat['nom']); ?>">

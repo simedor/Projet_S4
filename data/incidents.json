@@ -432,5 +432,26 @@
         "message": "Connexion reussie",
         "login": "resto1",
         "utilisateur_id": 3
+    },
+    {
+        "date": "2026-06-04 18:14:57",
+        "type": "commande",
+        "message": "Commande passee en preparation",
+        "login": "",
+        "utilisateur_id": 10
+    },
+    {
+        "date": "2026-06-04 18:15:00",
+        "type": "commande",
+        "message": "Commande marquee prete",
+        "login": "",
+        "utilisateur_id": 10
+    },
+    {
+        "date": "2026-06-04 18:15:05",
+        "type": "commande",
+        "message": "Commande assignee a un livreur",
+        "login": "livreur2",
+        "utilisateur_id": 10
     }
 ]

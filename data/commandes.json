@@ -243,9 +243,9 @@
         "type_livraison": "immediate",
         "creneau": "Maintenant",
         "statut_paiement": "paye",
-        "statut_commande": "a_preparer",
-        "livreur_id": 0,
-        "livreur_nom": "",
+        "statut_commande": "en_livraison",
+        "livreur_id": 5,
+        "livreur_nom": "Lina Faure",
         "date_commande": "2026-06-04 11:54",
         "total": 26.5,
         "paiements": [
