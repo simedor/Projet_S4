@@ -425,5 +425,12 @@
         "message": "Code promo ajoute",
         "login": "admin1",
         "utilisateur_id": 1
+    },
+    {
+        "date": "2026-06-04 17:48:33",
+        "type": "connexion",
+        "message": "Connexion reussie",
+        "login": "resto1",
+        "utilisateur_id": 3
     }
 ]

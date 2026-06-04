@@ -101,6 +101,22 @@ include 'Includes/header.php';
         <p class="succes">Le plat a bien ete supprime.</p>
     <?php endif; ?>
 
+    <?php if (isset($_GET['plat']) && $_GET['plat'] === 'image_absente') : ?>
+        <p class="erreur">Choisis une image.</p>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['plat']) && $_GET['plat'] === 'image_invalide') : ?>
+        <p class="erreur">Le format d'image n'est pas accepte.</p>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['plat']) && $_GET['plat'] === 'image_upload') : ?>
+        <p class="erreur">L'image n'a pas pu etre envoyee.</p>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['plat']) && $_GET['plat'] === 'incomplet') : ?>
+        <p class="erreur">Remplis tous les champs du plat.</p>
+    <?php endif; ?>
+
     <table class="tableau">
         <thead>
             <tr>
@@ -189,7 +205,7 @@ include 'Includes/header.php';
 <section class="bloc_page">
     <h2><?php echo $platEnEdition !== null ? 'Modifier un plat' : 'Ajouter un plat'; ?></h2>
 
-    <form action="traitements/process_plat.php" method="POST" class="formulaire">
+    <form action="traitements/process_plat.php" method="POST" class="formulaire" enctype="multipart/form-data">
         <input type="hidden" name="action" value="<?php echo $platEnEdition !== null ? 'modifier' : 'ajouter'; ?>">
         <input type="hidden" name="nom_original" value="<?php echo $platEnEdition !== null ? h($platEnEdition['nom']) : ''; ?>">
 
@@ -209,8 +225,8 @@ include 'Includes/header.php';
         </div>
 
         <div>
-            <label for="plat_image">Image</label>
-            <input type="text" name="image" id="plat_image" value="<?php echo $platEnEdition !== null ? h($platEnEdition['image']) : 'Images/Reine.png'; ?>" required>
+            <label for="plat_image_fichier">Envoyer une image</label>
+            <input type="file" name="image_fichier" id="plat_image_fichier" accept=".png,.jpg,.jpeg,.webp">
         </div>
 
         <div>

@@ -43,16 +43,55 @@ if ($action === 'supprimer') {
 $nom = isset($_POST['nom']) ? trim($_POST['nom']) : '';
 $description = isset($_POST['description']) ? trim($_POST['description']) : '';
 $prix = isset($_POST['prix']) ? (float) $_POST['prix'] : 0;
-$image = isset($_POST['image']) ? trim($_POST['image']) : '';
 $categorie = isset($_POST['categorie']) ? trim($_POST['categorie']) : '';
 $type = isset($_POST['type']) ? trim($_POST['type']) : 'pizza';
 $regime = isset($_POST['regime']) ? trim($_POST['regime']) : '';
 $gout = isset($_POST['gout']) ? trim($_POST['gout']) : '';
 $platDuJour = isset($_POST['plat_du_jour']);
 $bestSeller = isset($_POST['best_seller']);
+$imageFichier = isset($_FILES['image_fichier']) ? $_FILES['image_fichier'] : null;
+$imageFinale = '';
+$imageEnvoyee = false;
 
-if ($nom === '' || $description === '' || $prix <= 0 || $image === '' || $categorie === '' || $regime === '' || $gout === '') {
-    header('Location: ../commande.php');
+if ($imageFichier !== null && isset($imageFichier['error']) && $imageFichier['error'] !== UPLOAD_ERR_NO_FILE) {
+    if ($imageFichier['error'] !== UPLOAD_ERR_OK) {
+        header('Location: ../commande.php?plat=image_upload');
+        exit();
+    }
+
+    $nomFichier = isset($imageFichier['name']) ? $imageFichier['name'] : '';
+    $extension = strtolower(pathinfo($nomFichier, PATHINFO_EXTENSION));
+    $extensionsAutorisees = ['png', 'jpg', 'jpeg', 'webp'];
+
+    if (!in_array($extension, $extensionsAutorisees, true)) {
+        header('Location: ../commande.php?plat=image_invalide');
+        exit();
+    }
+
+    $nomNettoye = preg_replace('/[^a-zA-Z0-9._-]/', '_', $nomFichier);
+    $nomFinal = date('YmdHis') . '_' . $nomNettoye;
+    $cheminDestination = __DIR__ . '/../Images/' . $nomFinal;
+
+    if (!move_uploaded_file($imageFichier['tmp_name'], $cheminDestination)) {
+        header('Location: ../commande.php?plat=image_upload');
+        exit();
+    }
+
+    $imageFinale = 'Images/' . $nomFinal;
+    $imageEnvoyee = true;
+}
+
+if ($action === 'modifier' && $imageFinale === '') {
+    foreach ($plats as $plat) {
+        if ($plat['nom'] === $nomOriginal) {
+            $imageFinale = isset($plat['image']) ? $plat['image'] : '';
+            break;
+        }
+    }
+}
+
+if ($nom === '' || $description === '' || $prix <= 0 || $imageFinale === '' || $categorie === '' || $regime === '' || $gout === '') {
+    header('Location: ../commande.php?plat=' . ($action === 'ajouter' ? 'image_absente' : 'incomplet'));
     exit();
 }
 
@@ -75,7 +114,7 @@ if ($action === 'ajouter') {
         'nom' => $nom,
         'description' => $description,
         'prix' => $prix,
-        'image' => $image,
+        'image' => $imageFinale,
         'categorie' => $categorie,
         'type' => $type,
         'regime' => $regime,
@@ -107,7 +146,7 @@ if ($action === 'modifier') {
             $plat['nom'] = $nom;
             $plat['description'] = $description;
             $plat['prix'] = $prix;
-            $plat['image'] = $image;
+            $plat['image'] = $imageFinale;
             $plat['categorie'] = $categorie;
             $plat['type'] = $type;
             $plat['regime'] = $regime;
