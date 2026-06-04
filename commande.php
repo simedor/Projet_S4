@@ -121,21 +121,25 @@ include 'Includes/header.php';
                     <td><?php echo h($commande['produit']); ?></td>
                     <td class="statut_commande"><?php echo h(ucfirst(str_replace('_', ' ', $commande['statut_commande']))); ?></td>
                     <td>
-                        <select class="select_livreur" data-commande-id="<?php echo (int) $commande['id']; ?>">
-                            <option value="">Choisir</option>
-                            <?php foreach ($livreurs as $livreur) : ?>
-                                <option value="<?php echo (int) $livreur['id']; ?>" <?php echo (int) $commande['livreur_id'] === (int) $livreur['id'] ? 'selected' : ''; ?>>
-                                    <?php echo h($livreur['prenom'] . ' ' . $livreur['nom']); ?><?php echo !empty($livreur['disponible']) ? '' : ' (occupe)'; ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
+                        <?php if ($commande['mode_retrait'] === 'livraison') : ?>
+                            <select class="select_livreur" data-commande-id="<?php echo (int) $commande['id']; ?>">
+                                <option value="">Choisir</option>
+                                <?php foreach ($livreurs as $livreur) : ?>
+                                    <option value="<?php echo (int) $livreur['id']; ?>" <?php echo (int) $commande['livreur_id'] === (int) $livreur['id'] ? 'selected' : ''; ?>>
+                                        <?php echo h($livreur['prenom'] . ' ' . $livreur['nom']); ?><?php echo !empty($livreur['disponible']) ? '' : ' (occupe)'; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        <?php else : ?>
+                            -
+                        <?php endif; ?>
                     </td>
                     <td class="cell_actions">
                         <?php if ($commande['statut_commande'] === 'a_preparer') : ?>
                             <button type="button" class="btn-commande-resto" data-commande-id="<?php echo (int) $commande['id']; ?>" data-action="preparer">Passer en preparation</button>
                         <?php elseif ($commande['statut_commande'] === 'en_preparation') : ?>
                             <button type="button" class="btn-commande-resto" data-commande-id="<?php echo (int) $commande['id']; ?>" data-action="prete">Marquer prete</button>
-                        <?php elseif ($commande['statut_commande'] === 'prete') : ?>
+                        <?php elseif ($commande['statut_commande'] === 'prete' && $commande['mode_retrait'] === 'livraison') : ?>
                             <button type="button" class="btn-commande-resto" data-commande-id="<?php echo (int) $commande['id']; ?>" data-action="assigner">Assigner au livreur</button>
                         <?php else : ?>
                             -

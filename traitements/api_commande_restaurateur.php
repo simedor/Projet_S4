@@ -45,10 +45,15 @@ foreach ($commandes as &$commande) {
         } elseif ($action === 'prete' && $commande['statut_commande'] === 'en_preparation') {
             $commande['statut_commande'] = 'prete';
             $message = 'Commande marquee prete';
-            $prochaineAction = 'assigner';
+            $prochaineAction = $commande['mode_retrait'] === 'livraison' ? 'assigner' : '';
             $ok = true;
             ajouter_incident('commande', 'Commande marquee prete', '', $commande['client_id']);
         } elseif ($action === 'assigner' && $commande['statut_commande'] === 'prete') {
+            if ($commande['mode_retrait'] !== 'livraison') {
+                echo json_encode(['ok' => false, 'message' => 'Cette commande ne doit pas etre assignee a un livreur']);
+                exit();
+            }
+
             if ($livreurId === 0) {
                 echo json_encode(['ok' => false, 'message' => 'Choisissez un livreur']);
                 exit();

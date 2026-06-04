@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../Includes/fonctions.php';
+require_once __DIR__ . '/../Includes/cybank.php';
 header('Content-Type: application/json; charset=utf-8');
 
 if (!isset($_SESSION['utilisateur_id'])) {
@@ -48,6 +48,14 @@ if ((int) $commande['client_id'] !== (int) $client['id'] || !in_array($commande[
 
 $noms = isset($_POST['noms']) ? $_POST['noms'] : [];
 $quantites = isset($_POST['quantites']) ? $_POST['quantites'] : [];
+
+if (!is_array($noms)) {
+    $noms = [$noms];
+}
+
+if (!is_array($quantites)) {
+    $quantites = [$quantites];
+}
 $ajoutNom = isset($_POST['ajout_nom']) ? trim($_POST['ajout_nom']) : '';
 $ajoutQuantite = isset($_POST['ajout_quantite']) ? (int) $_POST['ajout_quantite'] : 0;
 $nouvellesLignes = [];
@@ -118,18 +126,18 @@ foreach ($nouvellesLignes as &$ligne) {
 $difference = $nouveauTotal - $commande['total'];
 
 if ($difference > 0) {
-    $nomCarte = isset($_POST['nom_carte']) ? trim($_POST['nom_carte']) : '';
-    $numeroCarte = isset($_POST['numero_carte']) ? preg_replace('/\D/', '', $_POST['numero_carte']) : '';
-    $expiration = isset($_POST['expiration']) ? trim($_POST['expiration']) : '';
-    $cvv = isset($_POST['cvv']) ? trim($_POST['cvv']) : '';
+    $paiement = cybank_creer_paiement('modification_commande', $difference, [
+        'commande_id' => $commande['id'],
+        'lignes' => $nouvellesLignes,
+        'produit' => implode(', ', $resume),
+        'nouveau_total' => $nouveauTotal
+    ]);
 
-    if ($nomCarte === '' || strlen($numeroCarte) < 12 || $expiration === '' || strlen($cvv) < 3) {
-        echo json_encode(['ok' => false, 'message' => 'Paiement complementaire invalide']);
+    if ($paiement === null) {
+        echo json_encode(['ok' => false, 'message' => 'CYBank est indisponible']);
         exit();
     }
-}
-
-if ($difference < 0) {
+} elseif ($difference < 0) {
     if (!isset($client['avoir'])) {
         $client['avoir'] = 0;
     }
@@ -137,21 +145,19 @@ if ($difference < 0) {
     $client['avoir'] += abs($difference);
 }
 
+if ($difference > 0) {
+    ajouter_incident('paiement', 'Preparation du paiement complementaire CYBank', $client['login'], $client['id']);
+    echo json_encode([
+        'ok' => true,
+        'message' => 'Redirection vers CYBank pour payer la difference.',
+        'redirect_url' => 'paiement_cybank.php?token=' . urlencode($paiement['token'])
+    ]);
+    exit();
+}
+
 $commandes[$commandeIndex]['lignes'] = $nouvellesLignes;
 $commandes[$commandeIndex]['produit'] = implode(', ', $resume);
 $commandes[$commandeIndex]['total'] = $nouveauTotal;
-
-if (!isset($commandes[$commandeIndex]['paiements']) || !is_array($commandes[$commandeIndex]['paiements'])) {
-    $commandes[$commandeIndex]['paiements'] = [];
-}
-
-if ($difference > 0) {
-    $commandes[$commandeIndex]['paiements'][] = [
-        'date' => date('Y-m-d H:i'),
-        'montant' => $difference,
-        'type' => 'complement'
-    ];
-}
 
 ecrire_json('commandes.json', $commandes);
 ecrire_json('utilisateurs.json', $utilisateurs);

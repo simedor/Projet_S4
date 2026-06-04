@@ -4,8 +4,6 @@ header('Content-Type: application/json; charset=utf-8');
 
 $recherche = isset($_GET['recherche']) ? trim($_GET['recherche']) : '';
 $categorie = isset($_GET['categorie']) ? trim($_GET['categorie']) : '';
-$regime = isset($_GET['regime']) ? trim($_GET['regime']) : '';
-$gout = isset($_GET['gout']) ? trim($_GET['gout']) : '';
 $resultats = [];
 
 foreach (lire_json('plats.json') as $plat) {
@@ -16,14 +14,6 @@ foreach (lire_json('plats.json') as $plat) {
     }
 
     if ($categorie !== '' && $plat['categorie'] !== $categorie) {
-        $garder = false;
-    }
-
-    if ($regime !== '' && $plat['regime'] !== $regime) {
-        $garder = false;
-    }
-
-    if ($gout !== '' && $plat['gout'] !== $gout) {
         $garder = false;
     }
 

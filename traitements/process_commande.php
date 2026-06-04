@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../Includes/fonctions.php';
+require_once __DIR__ . '/../Includes/cybank.php';
 
 if (!isset($_SESSION['utilisateur_id'])) {
     header('Location: ../connexion.php?erreur=connexion_requise');
@@ -31,12 +31,8 @@ $creneau = isset($_POST['creneau']) ? trim($_POST['creneau']) : '';
 $interphone = isset($_POST['interphone']) ? trim($_POST['interphone']) : '';
 $etage = isset($_POST['etage']) ? trim($_POST['etage']) : '';
 $commentaireLivraison = isset($_POST['commentaire_livraison']) ? trim($_POST['commentaire_livraison']) : '';
-$nomCarte = isset($_POST['nom_carte']) ? trim($_POST['nom_carte']) : '';
-$numeroCarte = isset($_POST['numero_carte']) ? trim($_POST['numero_carte']) : '';
-$expiration = isset($_POST['expiration']) ? trim($_POST['expiration']) : '';
-$cvv = isset($_POST['cvv']) ? trim($_POST['cvv']) : '';
 
-if ($modeRetrait === '' || $typeLivraison === '' || $nomCarte === '' || $numeroCarte === '' || $expiration === '' || $cvv === '') {
+if ($modeRetrait === '' || $typeLivraison === '') {
     header('Location: ../panier.php?erreur=champs_manquants');
     exit();
 }
@@ -48,13 +44,6 @@ if (!in_array($modeRetrait, ['livraison', 'a_emporter'], true) || !in_array($typ
 
 if ($typeLivraison === 'differee' && $creneau === '') {
     header('Location: ../panier.php?erreur=champs_manquants');
-    exit();
-}
-
-$numeroCarte = preg_replace('/\D/', '', $numeroCarte);
-
-if (strlen($numeroCarte) < 12 || strlen($cvv) < 3) {
-    header('Location: ../panier.php?erreur=paiement_refuse');
     exit();
 }
 
@@ -75,17 +64,7 @@ foreach ($panier as $article) {
     $resume[] = $article['nom'] . ' x' . $article['quantite'];
 }
 
-$commandes = lire_json('commandes.json');
-$nouvelId = 1;
-
-foreach ($commandes as $commande) {
-    if ((int) $commande['id'] >= $nouvelId) {
-        $nouvelId = (int) $commande['id'] + 1;
-    }
-}
-
-$commandes[] = [
-    'id' => $nouvelId,
+$paiement = cybank_creer_paiement('nouvelle_commande', $total, [
     'client_id' => $utilisateur['id'],
     'client_nom' => $utilisateur['prenom'] . ' ' . $utilisateur['nom'],
     'produit' => implode(', ', $resume),
@@ -97,25 +76,14 @@ $commandes[] = [
     'commentaire_livraison' => $modeRetrait === 'livraison' ? $commentaireLivraison : '',
     'mode_retrait' => $modeRetrait,
     'type_livraison' => $typeLivraison,
-    'creneau' => $typeLivraison === 'differee' ? $creneau : 'Maintenant',
-    'statut_paiement' => 'paye',
-    'statut_commande' => $typeLivraison === 'differee' ? 'en_attente' : 'a_preparer',
-    'livreur_id' => 0,
-    'livreur_nom' => '',
-    'date_commande' => date('Y-m-d H:i'),
-    'total' => $total,
-    'paiements' => [
-        [
-            'date' => date('Y-m-d H:i'),
-            'montant' => $total,
-            'type' => 'initial'
-        ]
-    ]
-];
+    'creneau' => $typeLivraison === 'differee' ? $creneau : 'Maintenant'
+]);
 
-ecrire_json('commandes.json', $commandes);
-ajouter_incident('commande', 'Nouvelle commande payee', $utilisateur['login'], $utilisateur['id']);
-$_SESSION['panier'] = [];
+if ($paiement === null) {
+    header('Location: ../panier.php?erreur=cybank_indisponible');
+    exit();
+}
 
-header('Location: ../profil.php?commande=ok');
+ajouter_incident('paiement', 'Preparation du paiement CYBank', $utilisateur['login'], $utilisateur['id']);
+header('Location: ../paiement_cybank.php?token=' . urlencode($paiement['token']));
 exit();

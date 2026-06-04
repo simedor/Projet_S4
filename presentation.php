@@ -6,8 +6,6 @@ $utilisateur = null;
 $estClient = false;
 $rechercheInitiale = isset($_GET['recherche']) ? trim($_GET['recherche']) : '';
 $categories = [];
-$regimes = [];
-$gouts = [];
 $platsAffiches = [];
 
 if (isset($_SESSION['utilisateur_id'])) {
@@ -31,19 +29,9 @@ foreach ($plats as $plat) {
     if (!in_array($plat['categorie'], $categories, true)) {
         $categories[] = $plat['categorie'];
     }
-
-    if (!in_array($plat['regime'], $regimes, true)) {
-        $regimes[] = $plat['regime'];
-    }
-
-    if (!in_array($plat['gout'], $gouts, true)) {
-        $gouts[] = $plat['gout'];
-    }
 }
 
 sort($categories);
-sort($regimes);
-sort($gouts);
 
 $titre_page = 'Carte';
 include 'Includes/header.php';
@@ -69,26 +57,6 @@ include 'Includes/header.php';
                 <option value="">Toutes</option>
                 <?php foreach ($categories as $categorie) : ?>
                     <option value="<?php echo h($categorie); ?>"><?php echo h($categorie); ?></option>
-                <?php endforeach; ?>
-            </select>
-        </div>
-
-        <div>
-            <label for="regime">Regime</label>
-            <select name="regime" id="regime">
-                <option value="">Tous</option>
-                <?php foreach ($regimes as $regime) : ?>
-                    <option value="<?php echo h($regime); ?>"><?php echo h($regime); ?></option>
-                <?php endforeach; ?>
-            </select>
-        </div>
-
-        <div>
-            <label for="gout">Gout</label>
-            <select name="gout" id="gout">
-                <option value="">Tous</option>
-                <?php foreach ($gouts as $gout) : ?>
-                    <option value="<?php echo h($gout); ?>"><?php echo h($gout); ?></option>
                 <?php endforeach; ?>
             </select>
         </div>

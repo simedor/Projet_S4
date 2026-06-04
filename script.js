@@ -284,8 +284,6 @@ function chargerFiltresPlats() {
 
         params.append("recherche", donnees.get("recherche") || "");
         params.append("categorie", donnees.get("categorie") || "");
-        params.append("regime", donnees.get("regime") || "");
-        params.append("gout", donnees.get("gout") || "");
 
         fetch("traitements/api_plats.php?" + params.toString())
             .then(function (reponse) { return reponse.json(); })
@@ -575,6 +573,11 @@ function gererModificationCommande() {
             .then(function (data) {
                 const message = document.getElementById("message_modif_commande");
                 message.textContent = data.message;
+
+                if (data.redirect_url) {
+                    window.location.href = data.redirect_url;
+                    return;
+                }
 
                 if (data.ok) {
                     window.location.reload();

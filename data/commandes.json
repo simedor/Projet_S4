@@ -132,7 +132,7 @@
         "type_livraison": "immediate",
         "creneau": "Maintenant",
         "statut_paiement": "paye",
-        "statut_commande": "en_livraison",
+        "statut_commande": "livree",
         "livreur_id": 4,
         "livreur_nom": "Sami Roux",
         "date_commande": "2026-06-01 11:35",
@@ -212,6 +212,96 @@
                 "date": "2026-05-29 18:30",
                 "montant": 42,
                 "type": "initial"
+            }
+        ]
+    },
+    {
+        "id": 207,
+        "client_id": 10,
+        "client_nom": "Sara Diallo",
+        "produit": "Pepperoni x1, Vegan x1",
+        "lignes": [
+            {
+                "nom": "Pepperoni",
+                "prix": 13.5,
+                "quantite": 1,
+                "sous_total": 13.5
+            },
+            {
+                "nom": "Vegan",
+                "prix": 13,
+                "quantite": 1,
+                "sous_total": 13
+            }
+        ],
+        "adresse": "10 rue des ecoles, Cergy",
+        "telephone": "0611111111",
+        "interphone": "456",
+        "etage": "2e etage",
+        "commentaire_livraison": "appeler moi une fois en bas",
+        "mode_retrait": "livraison",
+        "type_livraison": "immediate",
+        "creneau": "Maintenant",
+        "statut_paiement": "paye",
+        "statut_commande": "a_preparer",
+        "livreur_id": 0,
+        "livreur_nom": "",
+        "date_commande": "2026-06-04 11:54",
+        "total": 26.5,
+        "paiements": [
+            {
+                "date": "2026-06-04 11:54",
+                "montant": 26.5,
+                "type": "initial",
+                "transaction": "20260604115241C3B3D1"
+            }
+        ]
+    },
+    {
+        "id": 208,
+        "client_id": 10,
+        "client_nom": "Sara Diallo",
+        "produit": "Hawaienne x1, Coca-Cola x1",
+        "lignes": [
+            {
+                "nom": "Hawaienne",
+                "prix": 13,
+                "quantite": 1,
+                "sous_total": 13
+            },
+            {
+                "nom": "Coca-Cola",
+                "prix": 2.5,
+                "quantite": 1,
+                "sous_total": 2.5
+            }
+        ],
+        "adresse": "10 rue des ecoles, Cergy",
+        "telephone": "0611111111",
+        "interphone": "456",
+        "etage": "2e etage",
+        "commentaire_livraison": "appeler en arrivant",
+        "mode_retrait": "livraison",
+        "type_livraison": "immediate",
+        "creneau": "Maintenant",
+        "statut_paiement": "paye",
+        "statut_commande": "a_preparer",
+        "livreur_id": 0,
+        "livreur_nom": "",
+        "date_commande": "2026-06-04 13:20",
+        "total": 15.5,
+        "paiements": [
+            {
+                "date": "2026-06-04 13:20",
+                "montant": 13,
+                "type": "initial",
+                "transaction": "20260604132001AFE0F2"
+            },
+            {
+                "date": "2026-06-04 13:20",
+                "montant": 2.5,
+                "type": "complement",
+                "transaction": "202606041320432E9C53"
             }
         ]
     }

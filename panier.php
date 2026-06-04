@@ -33,7 +33,8 @@ foreach ($panier as $article) {
 $erreurs = [
     'panier_vide' => 'Votre panier est vide.',
     'paiement_refuse' => 'Le paiement a ete refuse.',
-    'champs_manquants' => 'Merci de remplir tous les champs.'
+    'champs_manquants' => 'Merci de remplir tous les champs.',
+    'cybank_indisponible' => 'CYBank est indisponible pour le moment.'
 ];
 
 $messageErreur = '';
@@ -150,36 +151,12 @@ include 'Includes/header.php';
                 </div>
             </div>
 
-            <div>
-                <label for="nom_carte">Nom sur la carte</label>
-                <input type="text" name="nom_carte" id="nom_carte" maxlength="40" data-rule="texte" autocomplete="cc-name" required>
-                <small class="erreur_champ"></small>
+            <div class="encadre">
+                <p><strong>Total :</strong> <?php echo number_format($total, 2, ',', ' '); ?> EUR</p>
+                <p>Le paiement se fera sur l interface externe CYBank.</p>
             </div>
 
-            <div>
-                <label for="numero_carte">Numero de carte</label>
-                <input type="text" name="numero_carte" id="numero_carte" maxlength="16" data-rule="carte" autocomplete="cc-number" required>
-                <small class="compteur" data-for="numero_carte">0 / 16</small>
-                <small class="erreur_champ"></small>
-            </div>
-
-            <div>
-                <label for="expiration">Expiration</label>
-                <input type="month" name="expiration" id="expiration" data-rule="expiration" autocomplete="cc-exp" required>
-                <small class="erreur_champ"></small>
-            </div>
-
-            <div>
-                <label for="cvv">CVV</label>
-                <div class="champ_mdp">
-                    <input type="password" name="cvv" id="cvv" maxlength="4" data-rule="cvv" autocomplete="cc-csc" required>
-                    <button type="button" class="toggle-password" data-target="cvv" aria-label="Afficher le CVV">Afficher</button>
-                </div>
-                <small class="compteur" data-for="cvv">0 / 4</small>
-                <small class="erreur_champ"></small>
-            </div>
-
-            <button type="submit">Payer et commander</button>
+            <button type="submit">Continuer vers CYBank</button>
         </form>
     <?php endif; ?>
 </section>

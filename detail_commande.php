@@ -58,6 +58,14 @@ include 'Includes/header.php';
 <section class="bloc_page">
     <h2>Commande #<?php echo (int) $commande['id']; ?></h2>
 
+    <?php if (isset($_GET['modif']) && $_GET['modif'] === 'ok') : ?>
+        <p class="succes">La commande a bien ete modifiee apres paiement CYBank.</p>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['erreur']) && $_GET['erreur'] === 'paiement_refuse') : ?>
+        <p class="alerte">Le paiement CYBank a ete refuse. La commande n a pas ete modifiee.</p>
+    <?php endif; ?>
+
     <div class="deux_colonnes">
         <div class="encadre">
             <p><strong>Client :</strong> <?php echo h($commande['client_nom']); ?></p>
@@ -143,33 +151,9 @@ include 'Includes/header.php';
                 <p><strong>Difference :</strong> <span id="difference_total">0,00</span> EUR</p>
             </div>
 
-            <div id="bloc_paiement_complement" class="cache">
+            <div id="bloc_paiement_complement" class="cache encadre">
                 <h3>Paiement complementaire</h3>
-                <div>
-                    <label for="modif_nom_carte">Nom sur la carte</label>
-                    <input type="text" name="nom_carte" id="modif_nom_carte" maxlength="40" data-rule="texte" autocomplete="cc-name">
-                    <small class="erreur_champ"></small>
-                </div>
-                <div>
-                    <label for="modif_numero_carte">Numero de carte</label>
-                    <input type="text" name="numero_carte" id="modif_numero_carte" maxlength="16" data-rule="carte" autocomplete="cc-number">
-                    <small class="compteur" data-for="modif_numero_carte">0 / 16</small>
-                    <small class="erreur_champ"></small>
-                </div>
-                <div>
-                    <label for="modif_expiration">Expiration</label>
-                    <input type="month" name="expiration" id="modif_expiration" data-rule="expiration" autocomplete="cc-exp">
-                    <small class="erreur_champ"></small>
-                </div>
-                <div>
-                    <label for="modif_cvv">CVV</label>
-                    <div class="champ_mdp">
-                        <input type="password" name="cvv" id="modif_cvv" maxlength="4" data-rule="cvv" autocomplete="cc-csc">
-                        <button type="button" class="toggle-password" data-target="modif_cvv" aria-label="Afficher le CVV">Afficher</button>
-                    </div>
-                    <small class="compteur" data-for="modif_cvv">0 / 4</small>
-                    <small class="erreur_champ"></small>
-                </div>
+                <p>Si la commande coute plus cher, vous serez redirige vers CYBank pour payer la difference.</p>
             </div>
 
             <button type="submit">Enregistrer la modification</button>

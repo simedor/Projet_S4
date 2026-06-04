@@ -232,5 +232,83 @@
         "popularite": 15,
         "plat_du_jour": false,
         "best_seller": false
+    },
+    {
+        "nom": "Fries",
+        "description": "Portion de frites classiques",
+        "prix": 3.5,
+        "image": "Images/Reine.png",
+        "categorie": "accompagnement",
+        "type": "accompagnement",
+        "regime": "vegetarien",
+        "gout": "sale",
+        "popularite": 6,
+        "plat_du_jour": false,
+        "best_seller": false
+    },
+    {
+        "nom": "Curly Fries",
+        "description": "Frites torsadees croustillantes",
+        "prix": 4.5,
+        "image": "Images/Pepperoni.jpg",
+        "categorie": "accompagnement",
+        "type": "accompagnement",
+        "regime": "vegetarien",
+        "gout": "sale",
+        "popularite": 7,
+        "plat_du_jour": false,
+        "best_seller": false
+    },
+    {
+        "nom": "Wedges",
+        "description": "Potatoes epicees au four",
+        "prix": 4,
+        "image": "Images/Cannibale.png",
+        "categorie": "accompagnement",
+        "type": "accompagnement",
+        "regime": "vegetarien",
+        "gout": "sale",
+        "popularite": 7,
+        "plat_du_jour": false,
+        "best_seller": false
+    },
+    {
+        "nom": "Coca-Cola",
+        "description": "Canette 33cl",
+        "prix": 2.5,
+        "image": "Images/Margharita.jpg",
+        "categorie": "boisson",
+        "type": "boisson",
+        "regime": "mixte",
+        "gout": "sucre",
+        "popularite": 9,
+        "plat_du_jour": false,
+        "best_seller": false
+    },
+    {
+        "nom": "Ice Tea",
+        "description": "Canette 33cl",
+        "prix": 2.5,
+        "image": "Images/Vegan.jpg",
+        "categorie": "boisson",
+        "type": "boisson",
+        "regime": "mixte",
+        "gout": "sucre",
+        "popularite": 8,
+        "plat_du_jour": false,
+        "best_seller": false
+    },
+    {
+        "nom": "Eau",
+        "description": "Bouteille d eau 50cl",
+        "prix": 1.5,
+        "image": "Images/Reine.png",
+        "categorie": "boisson",
+        "type": "boisson",
+        "regime": "mixte",
+        "gout": "sale",
+        "popularite": 5,
+        "plat_du_jour": false,
+        "best_seller": false
     }
 ]

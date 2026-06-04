@@ -50,7 +50,6 @@ include 'Includes/header.php';
                     <p><a href="detail_commande.php?id=<?php echo (int) $commande['id']; ?>">Voir</a></p>
                     <p class="ligne_action">
                         <a class="bouton_secondaire" target="_blank" rel="noopener noreferrer" href="https://www.google.com/maps/search/?api=1&query=<?php echo urlencode($commande['adresse']); ?>">Maps</a>
-                        <a class="bouton_secondaire" target="_blank" rel="noopener noreferrer" href="https://waze.com/ul?q=<?php echo urlencode($commande['adresse']); ?>">Waze</a>
                     </p>
                     <?php if ($commande['statut_commande'] === 'en_livraison') : ?>
                         <div class="ligne_action zone_actions_livraison">
