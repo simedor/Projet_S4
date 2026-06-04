@@ -51,6 +51,9 @@ $panier = $_SESSION['panier'];
 $total = 0;
 $lignes = [];
 $resume = [];
+$codePromo = '';
+$pourcentagePromo = 0;
+$montantRemise = 0;
 
 foreach ($panier as $article) {
     $sousTotal = $article['prix'] * $article['quantite'];
@@ -64,6 +67,23 @@ foreach ($panier as $article) {
     $resume[] = $article['nom'] . ' x' . $article['quantite'];
 }
 
+$totalAvantRemise = $total;
+
+if (isset($_SESSION['code_promo']) && $_SESSION['code_promo'] !== '') {
+    $promo = trouver_code_promo($_SESSION['code_promo']);
+
+    if ($promo === null) {
+        unset($_SESSION['code_promo']);
+        header('Location: ../panier.php?erreur=promo_invalide');
+        exit();
+    }
+
+    $codePromo = $promo['code'];
+    $pourcentagePromo = (int) $promo['reduction'];
+    $montantRemise = calculer_reduction_promo($totalAvantRemise, $pourcentagePromo);
+    $total = max(0, $totalAvantRemise - $montantRemise);
+}
+
 $paiement = cybank_creer_paiement('nouvelle_commande', $total, [
     'client_id' => $utilisateur['id'],
     'client_nom' => $utilisateur['prenom'] . ' ' . $utilisateur['nom'],
@@ -74,6 +94,10 @@ $paiement = cybank_creer_paiement('nouvelle_commande', $total, [
     'interphone' => $modeRetrait === 'livraison' ? $interphone : '',
     'etage' => $modeRetrait === 'livraison' ? $etage : '',
     'commentaire_livraison' => $modeRetrait === 'livraison' ? $commentaireLivraison : '',
+    'code_promo' => $codePromo,
+    'pourcentage_promo' => $pourcentagePromo,
+    'montant_remise' => $montantRemise,
+    'total_avant_remise' => $totalAvantRemise,
     'mode_retrait' => $modeRetrait,
     'type_livraison' => $typeLivraison,
     'creneau' => $typeLivraison === 'differee' ? $creneau : 'Maintenant'

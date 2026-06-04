@@ -60,3 +60,35 @@ function image_plat($image)
 
     return 'Images/Reine.png';
 }
+
+function trouver_code_promo($code)
+{
+    $codeRecherche = strtoupper(trim((string) $code));
+
+    if ($codeRecherche === '') {
+        return null;
+    }
+
+    foreach (lire_json('codes_promo.json') as $promo) {
+        $promoCode = isset($promo['code']) ? strtoupper(trim((string) $promo['code'])) : '';
+        $actif = !isset($promo['actif']) || $promo['actif'];
+
+        if ($promoCode === $codeRecherche && $actif) {
+            return $promo;
+        }
+    }
+
+    return null;
+}
+
+function calculer_reduction_promo($total, $pourcentage)
+{
+    $montant = (float) $total;
+    $reduction = (int) $pourcentage;
+
+    if ($montant <= 0 || $reduction <= 0) {
+        return 0;
+    }
+
+    return round($montant * $reduction / 100, 2);
+}

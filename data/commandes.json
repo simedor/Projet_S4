@@ -304,5 +304,95 @@
                 "transaction": "202606041320432E9C53"
             }
         ]
+    },
+    {
+        "id": 209,
+        "client_id": 10,
+        "client_nom": "Sara Diallo",
+        "produit": "Vegan x1, 4 Fromages x1, Fries x1",
+        "lignes": [
+            {
+                "nom": "Vegan",
+                "prix": 13,
+                "quantite": 1,
+                "sous_total": 13
+            },
+            {
+                "nom": "4 Fromages",
+                "prix": 14,
+                "quantite": 1,
+                "sous_total": 14
+            },
+            {
+                "nom": "Fries",
+                "prix": 3.5,
+                "quantite": 1,
+                "sous_total": 3.5
+            }
+        ],
+        "adresse": "10 rue des ecoles, Cergy",
+        "telephone": "0611111111",
+        "interphone": "456",
+        "etage": "2e etage",
+        "commentaire_livraison": "ehghdj",
+        "mode_retrait": "livraison",
+        "type_livraison": "immediate",
+        "creneau": "Maintenant",
+        "statut_paiement": "paye",
+        "statut_commande": "a_preparer",
+        "livreur_id": 0,
+        "livreur_nom": "",
+        "date_commande": "2026-06-04 15:56",
+        "total": 30.5,
+        "paiements": [
+            {
+                "date": "2026-06-04 15:56",
+                "montant": 27,
+                "type": "initial",
+                "transaction": "202606041555437BC697"
+            },
+            {
+                "date": "2026-06-04 15:56",
+                "montant": 3.5,
+                "type": "complement",
+                "transaction": "2026060415562276B448"
+            }
+        ]
+    },
+    {
+        "id": 210,
+        "client_id": 16,
+        "client_nom": "Simeon Dorninger",
+        "produit": "Margharita x1",
+        "lignes": [
+            {
+                "nom": "Margharita",
+                "prix": 10,
+                "quantite": 1,
+                "sous_total": 10
+            }
+        ],
+        "adresse": "aerfzergzg",
+        "telephone": "0909090909",
+        "interphone": "545",
+        "etage": "2e etage",
+        "commentaire_livraison": "appeler en arrivant",
+        "mode_retrait": "livraison",
+        "type_livraison": "immediate",
+        "creneau": "Maintenant",
+        "statut_paiement": "paye",
+        "statut_commande": "a_preparer",
+        "livreur_id": 0,
+        "livreur_nom": "",
+        "date_commande": "2026-06-04 16:09",
+        "total": 10,
+        "paiements": [
+            {
+                "date": "2026-06-04 16:09",
+                "montant": 10,
+                "type": "initial",
+                "transaction": "2026060416085495BC43"
+            }
+        ]
     }
 ]

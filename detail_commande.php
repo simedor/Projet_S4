@@ -82,6 +82,11 @@ include 'Includes/header.php';
             <p><strong>Paiement :</strong> <?php echo h($commande['statut_paiement']); ?></p>
             <p><strong>Livreur :</strong> <?php echo $commande['livreur_nom'] !== '' ? h($commande['livreur_nom']) : 'Non attribue'; ?></p>
             <p><strong>Total :</strong> <span id="commande_total_affiche"><?php echo number_format($commande['total'], 2, ',', ' '); ?></span> EUR</p>
+            <?php if (isset($commande['code_promo']) && $commande['code_promo'] !== '') : ?>
+                <p><strong>Code promo :</strong> <?php echo h($commande['code_promo']); ?> (<?php echo (int) $commande['pourcentage_promo']; ?> %)</p>
+                <p><strong>Reduction :</strong> -<?php echo number_format((float) $commande['montant_remise'], 2, ',', ' '); ?> EUR</p>
+                <p><strong>Total avant remise :</strong> <?php echo number_format((float) $commande['total_avant_remise'], 2, ',', ' '); ?> EUR</p>
+            <?php endif; ?>
         </div>
     </div>
 </section>

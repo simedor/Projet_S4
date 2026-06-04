@@ -25,16 +25,32 @@ if (!isset($_SESSION['panier']) || !is_array($_SESSION['panier'])) {
 
 $panier = $_SESSION['panier'];
 $total = 0;
+$promoActive = null;
+$montantRemise = 0;
+$totalFinal = 0;
 
 foreach ($panier as $article) {
     $total += $article['prix'] * $article['quantite'];
 }
 
+if (isset($_SESSION['code_promo']) && $_SESSION['code_promo'] !== '') {
+    $promoActive = trouver_code_promo($_SESSION['code_promo']);
+
+    if ($promoActive === null) {
+        unset($_SESSION['code_promo']);
+    } else {
+        $montantRemise = calculer_reduction_promo($total, $promoActive['reduction']);
+    }
+}
+
+$totalFinal = max(0, $total - $montantRemise);
+
 $erreurs = [
     'panier_vide' => 'Votre panier est vide.',
     'paiement_refuse' => 'Le paiement a ete refuse.',
     'champs_manquants' => 'Merci de remplir tous les champs.',
-    'cybank_indisponible' => 'CYBank est indisponible pour le moment.'
+    'cybank_indisponible' => 'CYBank est indisponible pour le moment.',
+    'promo_invalide' => 'Le code promo n est plus valide.'
 ];
 
 $messageErreur = '';
@@ -45,6 +61,18 @@ if (isset($_GET['erreur']) && isset($erreurs[$_GET['erreur']])) {
 $messageSucces = '';
 if (isset($_GET['recommande']) && $_GET['recommande'] === 'ok') {
     $messageSucces = 'L ancienne commande a ete remise dans votre panier.';
+}
+
+if (isset($_GET['promo']) && $_GET['promo'] === 'ok') {
+    $messageSucces = 'Le code promo a bien ete applique.';
+}
+
+if (isset($_GET['promo']) && $_GET['promo'] === 'supprime') {
+    $messageSucces = 'Le code promo a bien ete retire.';
+}
+
+if (isset($_GET['promo']) && $_GET['promo'] === 'invalide') {
+    $messageErreur = 'Ce code promo est invalide.';
 }
 
 $titre_page = 'Panier';
@@ -106,6 +134,25 @@ include 'Includes/header.php';
             <button type="submit" class="bouton_secondaire">Vider le panier</button>
         </form>
 
+        <section class="encadre">
+            <h3>Code promo</h3>
+
+            <?php if ($promoActive !== null) : ?>
+                <p><strong>Code applique :</strong> <?php echo h($promoActive['code']); ?> (<?php echo (int) $promoActive['reduction']; ?> %)</p>
+                <form action="traitements/process_promo.php" method="POST" class="ligne_action">
+                    <input type="hidden" name="action" value="supprimer">
+                    <button type="submit" class="bouton_secondaire">Retirer le code promo</button>
+                </form>
+            <?php else : ?>
+                <form action="traitements/process_promo.php" method="POST" class="ligne_action">
+                    <input type="hidden" name="action" value="appliquer">
+                    <label for="code_promo">Entrer un code promo</label>
+                    <input type="text" name="code" id="code_promo" maxlength="20" placeholder="Ex : PIZZA10">
+                    <button type="submit">Appliquer</button>
+                </form>
+            <?php endif; ?>
+        </section>
+
         <form action="traitements/process_commande.php" method="POST" class="formulaire js-validate-form" id="form_commande" novalidate>
             <h3>Valider la commande</h3>
 
@@ -152,7 +199,13 @@ include 'Includes/header.php';
             </div>
 
             <div class="encadre">
-                <p><strong>Total :</strong> <?php echo number_format($total, 2, ',', ' '); ?> EUR</p>
+                <p><strong>Total avant remise :</strong> <?php echo number_format($total, 2, ',', ' '); ?> EUR</p>
+                <?php if ($promoActive !== null) : ?>
+                    <p><strong>Reduction :</strong> -<?php echo number_format($montantRemise, 2, ',', ' '); ?> EUR</p>
+                    <p><strong>Total a payer :</strong> <?php echo number_format($totalFinal, 2, ',', ' '); ?> EUR</p>
+                <?php else : ?>
+                    <p><strong>Total a payer :</strong> <?php echo number_format($totalFinal, 2, ',', ' '); ?> EUR</p>
+                <?php endif; ?>
                 <p>Le paiement se fera sur l interface externe CYBank.</p>
             </div>
 

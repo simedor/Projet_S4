@@ -1,0 +1,14 @@
+[
+    {
+        "code": "PIZZA10",
+        "reduction": 10,
+        "actif": true,
+        "date_creation": "2026-06-04 17:12"
+    },
+    {
+        "code": "ALEX30",
+        "reduction": 30,
+        "actif": true,
+        "date_creation": "2026-06-04 17:20"
+    }
+]

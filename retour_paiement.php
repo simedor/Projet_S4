@@ -60,6 +60,10 @@ if ($paiement['type_operation'] === 'nouvelle_commande') {
         'client_nom' => $donnees['client_nom'],
         'produit' => $donnees['produit'],
         'lignes' => $donnees['lignes'],
+        'code_promo' => isset($donnees['code_promo']) ? $donnees['code_promo'] : '',
+        'pourcentage_promo' => isset($donnees['pourcentage_promo']) ? (int) $donnees['pourcentage_promo'] : 0,
+        'montant_remise' => isset($donnees['montant_remise']) ? (float) $donnees['montant_remise'] : 0,
+        'total_avant_remise' => isset($donnees['total_avant_remise']) ? (float) $donnees['total_avant_remise'] : (float) $paiement['montant'],
         'adresse' => $donnees['adresse'],
         'telephone' => $donnees['telephone'],
         'interphone' => $donnees['interphone'],
@@ -87,6 +91,7 @@ if ($paiement['type_operation'] === 'nouvelle_commande') {
     ecrire_json('commandes.json', $commandes);
     cybank_supprimer_paiement($token);
     $_SESSION['panier'] = [];
+    unset($_SESSION['code_promo']);
     ajouter_incident('paiement', 'Paiement CYBank accepte', '', (int) $paiement['client_id']);
     header('Location: profil.php?commande=ok');
     exit();
