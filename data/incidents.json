@@ -453,5 +453,40 @@
         "message": "Commande assignee a un livreur",
         "login": "livreur2",
         "utilisateur_id": 10
+    },
+    {
+        "date": "2026-06-09 16:05:06",
+        "type": "connexion",
+        "message": "Connexion reussie",
+        "login": "sara",
+        "utilisateur_id": 10
+    },
+    {
+        "date": "2026-06-09 16:05:37",
+        "type": "paiement",
+        "message": "Preparation du paiement complementaire CYBank",
+        "login": "sara",
+        "utilisateur_id": 10
+    },
+    {
+        "date": "2026-06-09 16:09:42",
+        "type": "connexion",
+        "message": "Connexion reussie",
+        "login": "sara",
+        "utilisateur_id": 10
+    },
+    {
+        "date": "2026-06-09 16:10:29",
+        "type": "paiement",
+        "message": "Preparation du paiement CYBank",
+        "login": "sara",
+        "utilisateur_id": 10
+    },
+    {
+        "date": "2026-06-09 16:11:17",
+        "type": "paiement",
+        "message": "Paiement CYBank refuse",
+        "login": "",
+        "utilisateur_id": 10
     }
 ]

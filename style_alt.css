@@ -17,13 +17,20 @@
 body {
     margin: 0;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    background: var(--fond);
+    background:
+        radial-gradient(circle at top right, #233328 0, transparent 28%),
+        linear-gradient(180deg, #1a211b 0%, var(--fond) 220px);
     color: var(--texte);
     line-height: 1.5;
 }
 
 a {
     color: #9ce4aa;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: #c2f3cb;
 }
 
 a:focus,
@@ -51,18 +58,38 @@ textarea:focus {
 }
 
 .entete {
-    background: var(--principal);
+    background: linear-gradient(135deg, #2f8f46 0%, #215f30 100%);
     color: #fff;
-    padding: 18px 24px;
+    padding: 20px 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 20px;
     flex-wrap: wrap;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
 }
 
-.logo_zone h1 {
-    margin: 0;
+.logo_lien {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-decoration: none;
+}
+
+.logo_lien:hover {
+    color: #fff;
+}
+
+.logo_image {
+    width: 76px;
+    height: 76px;
+    object-fit: contain;
+    display: block;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    padding: 6px;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.26);
 }
 
 #menu_principal ul {
@@ -78,16 +105,25 @@ textarea:focus {
     color: #fff;
     text-decoration: none;
     font-weight: bold;
+    display: inline-block;
+    padding: 7px 10px;
+    border-radius: 999px;
+}
+
+#menu_principal a:hover {
+    background: rgba(255, 255, 255, 0.12);
 }
 
 #menu_principal button {
     padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .contenu_page {
     max-width: 1180px;
     margin: 0 auto;
-    padding: 24px 16px 40px;
+    padding: 28px 16px 44px;
 }
 
 .hero,
@@ -97,39 +133,73 @@ textarea:focus {
 .carte_resume {
     background: var(--surface);
     border: 1px solid var(--bordure);
-    border-radius: 8px;
+    border-radius: 14px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
 }
 
 .hero,
 .bloc_page {
-    padding: 22px;
-    margin-bottom: 20px;
+    padding: 24px;
+    margin-bottom: 22px;
+}
+
+.hero {
+    background:
+        linear-gradient(135deg, rgba(47, 143, 70, 0.18), rgba(35, 41, 36, 0.98)),
+        var(--surface);
+}
+
+.hero h2,
+.bloc_page h2,
+.encadre h3 {
+    margin-top: 0;
+}
+
+.hero h2 {
+    font-size: 34px;
+    margin-bottom: 8px;
+}
+
+.hero p {
+    max-width: 560px;
+    margin-top: 0;
+    color: #d0ddd0;
 }
 
 .barre_recherche_accueil {
     max-width: 560px;
-    margin: 16px 0;
+    margin: 18px 0;
 }
 
 .grille_cartes {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 16px;
+    gap: 18px;
 }
 
 .carte_plat {
     overflow: hidden;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.carte_plat:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 28px rgba(0, 0, 0, 0.28);
 }
 
 .carte_plat img {
     width: 100%;
-    height: 180px;
+    height: 195px;
     object-fit: cover;
 }
 
 .carte_plat > div,
 .carte_resume {
     padding: 16px;
+}
+
+.carte_plat h3 {
+    margin: 10px 0 8px;
 }
 
 .carte_grande {
@@ -145,11 +215,13 @@ textarea:focus {
 
 .badge {
     display: inline-block;
-    padding: 4px 8px;
-    border-radius: 6px;
-    background: var(--surface-2);
-    border: 1px solid var(--bordure);
-    font-size: 13px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #2e3a2f;
+    border: 1px solid #465447;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: capitalize;
 }
 
 .formulaire {
@@ -166,11 +238,23 @@ input,
 select,
 textarea {
     width: 100%;
-    padding: 10px 12px;
+    padding: 11px 12px;
     border: 1px solid var(--bordure);
     border-radius: 8px;
     background: #172019;
     color: var(--texte);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:hover,
+select:hover,
+textarea:hover {
+    border-color: #69826b;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #aeb8ae;
 }
 
 label {
@@ -184,13 +268,23 @@ button,
 .bouton_secondaire {
     display: inline-block;
     border: none;
-    border-radius: 6px;
-    padding: 10px 14px;
+    border-radius: 10px;
+    padding: 10px 15px;
     background: var(--principal);
     color: #fff;
     text-decoration: none;
     cursor: pointer;
     font-weight: bold;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.22);
+    transition: transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
+}
+
+button:hover,
+.bouton_action:hover,
+.bouton_secondaire:hover,
+.bouton_danger:hover {
+    transform: translateY(-1px);
+    opacity: 0.97;
 }
 
 .bouton_secondaire {
@@ -204,18 +298,24 @@ button,
 .tableau {
     width: 100%;
     border-collapse: collapse;
+    overflow: hidden;
+    border-radius: 12px;
 }
 
 .tableau th,
 .tableau td {
     border: 1px solid var(--bordure);
-    padding: 10px;
+    padding: 12px 10px;
     text-align: left;
     vertical-align: top;
 }
 
 .tableau thead {
     background: var(--surface-2);
+}
+
+.tableau tbody tr:nth-child(even) {
+    background: #262d27;
 }
 
 .deux_colonnes {
@@ -249,25 +349,35 @@ button,
     margin: 16px 0;
 }
 
+.ligne_action input,
+.ligne_action select {
+    flex: 1;
+    min-width: 160px;
+}
+
 .alerte,
 .succes,
 .info {
     padding: 12px 14px;
     border-radius: 8px;
+    border: 1px solid transparent;
 }
 
 .alerte {
     background: #3b1f1b;
     color: var(--alerte);
+    border-color: #74423a;
 }
 
 .succes {
     background: #183223;
     color: var(--succes);
+    border-color: #30553a;
 }
 
 .info {
     background: #283128;
+    border-color: #404d41;
 }
 
 .cache {
@@ -330,6 +440,10 @@ button,
 }
 
 @media (max-width: 760px) {
+    .hero h2 {
+        font-size: 28px;
+    }
+
     .carte_grande {
         grid-template-columns: 1fr;
     }

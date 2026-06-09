@@ -1,1 +1,44 @@
-[]
+[
+    {
+        "token": "bf5421dc8b6a4eff08d8",
+        "transaction": "202606091605370D8382",
+        "montant": "9.00",
+        "vendeur": "MEF-2_F",
+        "retour": "https:\/\/localhost\/CY_Pizza\/retour_paiement.php?token=bf5421dc8b6a4eff08d8",
+        "control": "a81787acad8460882c8d7c3a950ba73a",
+        "type_operation": "modification_commande",
+        "client_id": 10,
+        "date_creation": "2026-06-09 16:05:37",
+        "donnees": {
+            "commande_id": 209,
+            "lignes": [
+                {
+                    "nom": "Vegan",
+                    "prix": 13,
+                    "quantite": 1,
+                    "sous_total": 13
+                },
+                {
+                    "nom": "4 Fromages",
+                    "prix": 14,
+                    "quantite": 1,
+                    "sous_total": 14
+                },
+                {
+                    "nom": "Fries",
+                    "prix": 3.5,
+                    "quantite": 1,
+                    "sous_total": 3.5
+                },
+                {
+                    "nom": "Curly Fries",
+                    "prix": 4.5,
+                    "quantite": 2,
+                    "sous_total": 9
+                }
+            ],
+            "produit": "Vegan x1, 4 Fromages x1, Fries x1, Curly Fries x2",
+            "nouveau_total": 39.5
+        }
+    }
+]
