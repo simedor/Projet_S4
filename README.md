@@ -1,11 +1,11 @@
 # Projet_S4
 
 Equipe: 
-ELIAS Charbel
-GODINEAU Alexandre
-DORNINGER Siméon
+- ELIAS Charbel
+- GODINEAU Alexandre
+- DORNINGER Siméon
 
-Projet: 
+Projet:   
 Faire le site d'une pizzeria, CY PIZZA.
 
 Profils des utilisateurs: 
@@ -14,8 +14,11 @@ Profils des utilisateurs:
 - Administrateur:
      Il intervient sur les profils depuis un ordinateur et a accès à toutes les pages du site pour vérifier       les problèmes.
 - Restaurateur:
-     Il configure les menus, prépare les commandes des clients et les visualise sur une tablette tactile
+     Il configure les menus, prépare les commandes des clients et les visualise sur une tablette tactile.
 - Livreur:
-     Il livre les commandes en utilisant un smartphone avec un petit écran
+     Il livre les commandes en utilisant un smartphone avec un petit écran.
 
 Architecture du projet: 
+
+Fonctionnalité innovante: Code promo, les clients peuvent les rentrer lors de leur commande, l'administrateur peut en créer de nouveau ou en retirer.
+
