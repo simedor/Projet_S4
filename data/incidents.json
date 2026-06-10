@@ -488,5 +488,607 @@
         "message": "Paiement CYBank refuse",
         "login": "",
         "utilisateur_id": 10
+    },
+    {
+        "date": "2026-06-09 16:24:30",
+        "type": "connexion",
+        "message": "Connexion reussie",
+        "login": "sara",
+        "utilisateur_id": 10
+    },
+    {
+        "date": "2026-06-09 16:24:43",
+        "type": "paiement",
+        "message": "Preparation du paiement complementaire CYBank",
+        "login": "sara",
+        "utilisateur_id": 10
+    },
+    {
+        "date": "2026-06-09 16:24:57",
+        "type": "paiement",
+        "message": "Paiement complementaire CYBank accepte",
+        "login": "",
+        "utilisateur_id": 10
+    },
+    {
+        "date": "2026-06-09 17:07:40",
+        "type": "connexion",
+        "message": "Connexion reussie",
+        "login": "admin1",
+        "utilisateur_id": 1
+    },
+    {
+        "date": "2026-06-09 17:07:42",
+        "type": "admin",
+        "message": "Compte bloque par un admin",
+        "login": "admin2",
+        "utilisateur_id": 2
+    },
+    {
+        "date": "2026-06-09 17:08:02",
+        "type": "admin",
+        "message": "Compte debloque par un admin",
+        "login": "admin2",
+        "utilisateur_id": 2
+    },
+    {
+        "date": "2026-06-09 17:08:23",
+        "type": "admin",
+        "message": "Code promo ajoute",
+        "login": "admin1",
+        "utilisateur_id": 1
+    },
+    {
+        "date": "2026-06-09 17:08:31",
+        "type": "admin",
+        "message": "Code promo supprime",
+        "login": "admin1",
+        "utilisateur_id": 1
+    },
+    {
+        "date": "2026-06-09 17:22:24",
+        "type": "connexion",
+        "message": "Connexion reussie",
+        "login": "resto1",
+        "utilisateur_id": 3
+    },
+    {
+        "date": "2026-06-09 17:22:36",
+        "type": "commande",
+        "message": "Commande passee en preparation",
+        "login": "",
+        "utilisateur_id": 16
+    },
+    {
+        "date": "2026-06-09 17:22:40",
+        "type": "commande",
+        "message": "Commande marquee prete",
+        "login": "",
+        "utilisateur_id": 16
+    },
+    {
+        "date": "2026-06-09 17:22:45",
+        "type": "commande",
+        "message": "Commande assignee a un livreur",
+        "login": "livreur1",
+        "utilisateur_id": 16
+    },
+    {
+        "date": "2026-06-09 17:25:59",
+        "type": "restaurant",
+        "message": "Plat ajoute",
+        "login": "resto1",
+        "utilisateur_id": 3
+    },
+    {
+        "date": "2026-06-09 17:35:02",
+        "type": "restaurant",
+        "message": "Plat supprime",
+        "login": "resto1",
+        "utilisateur_id": 3
+    },
+    {
+        "date": "2026-06-09 17:35:32",
+        "type": "connexion",
+        "message": "Connexion reussie",
+        "login": "livreur1",
+        "utilisateur_id": 4
+    },
+    {
+        "date": "2026-06-09 17:37:34",
+        "type": "livraison",
+        "message": "Commande abandonnee",
+        "login": "livreur1",
+        "utilisateur_id": 16
+    },
+    {
+        "date": "2026-06-09 17:38:01",
+        "type": "connexion",
+        "message": "Connexion reussie",
+        "login": "sara",
+        "utilisateur_id": 10
+    },
+    {
+        "date": "2026-06-09 17:39:51",
+        "type": "connexion",
+        "message": "Connexion reussie",
+        "login": "admin1",
+        "utilisateur_id": 1
+    },
+    {
+        "date": "2026-06-10 13:44:08",
+        "type": "inscription",
+        "message": "Nouveau compte cree",
+        "login": "tony1",
+        "utilisateur_id": 17
+    },
+    {
+        "date": "2026-06-10 13:44:25",
+        "type": "profil",
+        "message": "Profil modifie",
+        "login": "tony1",
+        "utilisateur_id": 17
+    },
+    {
+        "date": "2026-06-10 13:49:22",
+        "type": "paiement",
+        "message": "Preparation du paiement CYBank",
+        "login": "tony1",
+        "utilisateur_id": 17
+    },
+    {
+        "date": "2026-06-10 13:49:36",
+        "type": "paiement",
+        "message": "Paiement CYBank refuse",
+        "login": "",
+        "utilisateur_id": 17
+    },
+    {
+        "date": "2026-06-10 13:49:38",
+        "type": "paiement",
+        "message": "Preparation du paiement CYBank",
+        "login": "tony1",
+        "utilisateur_id": 17
+    },
+    {
+        "date": "2026-06-10 13:50:02",
+        "type": "paiement",
+        "message": "Paiement CYBank accepte",
+        "login": "",
+        "utilisateur_id": 17
+    },
+    {
+        "date": "2026-06-10 13:50:16",
+        "type": "paiement",
+        "message": "Preparation du paiement complementaire CYBank",
+        "login": "tony1",
+        "utilisateur_id": 17
+    },
+    {
+        "date": "2026-06-10 13:50:37",
+        "type": "paiement",
+        "message": "Paiement complementaire CYBank accepte",
+        "login": "",
+        "utilisateur_id": 17
+    },
+    {
+        "date": "2026-06-10 13:54:38",
+        "type": "connexion",
+        "message": "Connexion reussie",
+        "login": "livreur1",
+        "utilisateur_id": 4
+    },
+    {
+        "date": "2026-06-10 13:55:06",
+        "type": "connexion",
+        "message": "Connexion reussie",
+        "login": "resto1",
+        "utilisateur_id": 3
+    },
+    {
+        "date": "2026-06-10 13:55:16",
+        "type": "commande",
+        "message": "Commande passee en preparation",
+        "login": "",
+        "utilisateur_id": 17
+    },
+    {
+        "date": "2026-06-10 13:55:17",
+        "type": "commande",
+        "message": "Commande marquee prete",
+        "login": "",
+        "utilisateur_id": 17
+    },
+    {
+        "date": "2026-06-10 13:55:18",
+        "type": "commande",
+        "message": "Commande assignee a un livreur",
+        "login": "livreur1",
+        "utilisateur_id": 17
+    },
+    {
+        "date": "2026-06-10 13:55:43",
+        "type": "connexion",
+        "message": "Connexion reussie",
+        "login": "livreur1",
+        "utilisateur_id": 4
+    },
+    {
+        "date": "2026-06-10 13:56:02",
+        "type": "livraison",
+        "message": "Commande livree",
+        "login": "livreur1",
+        "utilisateur_id": 17
+    },
+    {
+        "date": "2026-06-10 13:57:15",
+        "type": "connexion",
+        "message": "Connexion reussie",
+        "login": "resto1",
+        "utilisateur_id": 3
+    },
+    {
+        "date": "2026-06-10 14:01:32",
+        "type": "restaurant",
+        "message": "Plat modifie",
+        "login": "resto1",
+        "utilisateur_id": 3
+    },
+    {
+        "date": "2026-06-10 14:04:01",
+        "type": "connexion",
+        "message": "Connexion reussie",
+        "login": "admin1",
+        "utilisateur_id": 1
+    },
+    {
+        "date": "2026-06-10 14:04:44",
+        "type": "admin",
+        "message": "Code promo ajoute",
+        "login": "admin1",
+        "utilisateur_id": 1
+    },
+    {
+        "date": "2026-06-10 14:05:03",
+        "type": "admin",
+        "message": "Compte bloque par un admin",
+        "login": "nora",
+        "utilisateur_id": 13
+    },
+    {
+        "date": "2026-06-10 14:05:44",
+        "type": "admin",
+        "message": "Compte bloque par un admin",
+        "login": "charbel",
+        "utilisateur_id": 15
+    },
+    {
+        "date": "2026-06-10 14:05:56",
+        "type": "connexion",
+        "message": "Tentative de connexion sur compte bloque",
+        "login": "charbel",
+        "utilisateur_id": 15
+    },
+    {
+        "date": "2026-06-10 14:06:03",
+        "type": "connexion",
+        "message": "Tentative de connexion sur compte bloque",
+        "login": "charbel",
+        "utilisateur_id": 15
+    },
+    {
+        "date": "2026-06-10 14:06:14",
+        "type": "connexion",
+        "message": "Connexion reussie",
+        "login": "admin1",
+        "utilisateur_id": 1
+    },
+    {
+        "date": "2026-06-10 14:25:44",
+        "type": "connexion",
+        "message": "Connexion reussie",
+        "login": "sara",
+        "utilisateur_id": 10
+    },
+    {
+        "date": "2026-06-10 14:27:27",
+        "type": "connexion",
+        "message": "Connexion reussie",
+        "login": "resto1",
+        "utilisateur_id": 3
+    },
+    {
+        "date": "2026-06-10 14:28:50",
+        "type": "restaurant",
+        "message": "Plat ajoute",
+        "login": "resto1",
+        "utilisateur_id": 3
+    },
+    {
+        "date": "2026-06-10 14:29:55",
+        "type": "restaurant",
+        "message": "Plat modifie",
+        "login": "resto1",
+        "utilisateur_id": 3
+    },
+    {
+        "date": "2026-06-10 14:32:09",
+        "type": "connexion",
+        "message": "Connexion reussie",
+        "login": "admin1",
+        "utilisateur_id": 1
+    },
+    {
+        "date": "2026-06-10 14:32:21",
+        "type": "admin",
+        "message": "Compte bloque par un admin",
+        "login": "admin2",
+        "utilisateur_id": 2
+    },
+    {
+        "date": "2026-06-10 14:32:23",
+        "type": "admin",
+        "message": "Compte debloque par un admin",
+        "login": "admin2",
+        "utilisateur_id": 2
+    },
+    {
+        "date": "2026-06-10 14:32:46",
+        "type": "admin",
+        "message": "Fidelite client modifiee",
+        "login": "admin2",
+        "utilisateur_id": 2
+    },
+    {
+        "date": "2026-06-10 14:33:09",
+        "type": "admin",
+        "message": "Fidelite client modifiee",
+        "login": "tony1",
+        "utilisateur_id": 17
+    },
+    {
+        "date": "2026-06-10 14:33:23",
+        "type": "connexion",
+        "message": "Connexion reussie",
+        "login": "tony1",
+        "utilisateur_id": 17
+    },
+    {
+        "date": "2026-06-10 14:34:24",
+        "type": "paiement",
+        "message": "Preparation du paiement CYBank",
+        "login": "tony1",
+        "utilisateur_id": 17
+    },
+    {
+        "date": "2026-06-10 14:34:38",
+        "type": "paiement",
+        "message": "Paiement CYBank accepte",
+        "login": "",
+        "utilisateur_id": 17
+    },
+    {
+        "date": "2026-06-10 14:44:48",
+        "type": "commande",
+        "message": "Commande client modifiee",
+        "login": "tony1",
+        "utilisateur_id": 17
+    },
+    {
+        "date": "2026-06-10 14:44:52",
+        "type": "commande",
+        "message": "Commande client modifiee",
+        "login": "tony1",
+        "utilisateur_id": 17
+    },
+    {
+        "date": "2026-06-10 14:44:53",
+        "type": "commande",
+        "message": "Commande client modifiee",
+        "login": "tony1",
+        "utilisateur_id": 17
+    },
+    {
+        "date": "2026-06-10 14:44:53",
+        "type": "commande",
+        "message": "Commande client modifiee",
+        "login": "tony1",
+        "utilisateur_id": 17
+    },
+    {
+        "date": "2026-06-10 14:44:54",
+        "type": "commande",
+        "message": "Commande client modifiee",
+        "login": "tony1",
+        "utilisateur_id": 17
+    },
+    {
+        "date": "2026-06-10 14:44:54",
+        "type": "commande",
+        "message": "Commande client modifiee",
+        "login": "tony1",
+        "utilisateur_id": 17
+    },
+    {
+        "date": "2026-06-10 14:45:30",
+        "type": "paiement",
+        "message": "Preparation du paiement complementaire CYBank",
+        "login": "tony1",
+        "utilisateur_id": 17
+    },
+    {
+        "date": "2026-06-10 14:45:42",
+        "type": "paiement",
+        "message": "Paiement complementaire CYBank accepte",
+        "login": "",
+        "utilisateur_id": 17
+    },
+    {
+        "date": "2026-06-10 14:47:45",
+        "type": "connexion",
+        "message": "Tentative de connexion sur compte bloque",
+        "login": "charbel",
+        "utilisateur_id": 15
+    },
+    {
+        "date": "2026-06-10 14:47:55",
+        "type": "connexion",
+        "message": "Connexion reussie",
+        "login": "sara",
+        "utilisateur_id": 10
+    },
+    {
+        "date": "2026-06-10 14:48:31",
+        "type": "connexion",
+        "message": "Connexion reussie",
+        "login": "admin1",
+        "utilisateur_id": 1
+    },
+    {
+        "date": "2026-06-10 14:48:51",
+        "type": "admin",
+        "message": "Fidelite client modifiee",
+        "login": "Simeon",
+        "utilisateur_id": 16
+    },
+    {
+        "date": "2026-06-10 14:49:10",
+        "type": "connexion",
+        "message": "Mauvais identifiants",
+        "login": "Simeon",
+        "utilisateur_id": 0
+    },
+    {
+        "date": "2026-06-10 14:49:19",
+        "type": "connexion",
+        "message": "Mauvais identifiants",
+        "login": "simeon",
+        "utilisateur_id": 0
+    },
+    {
+        "date": "2026-06-10 14:50:51",
+        "type": "inscription",
+        "message": "Nouveau compte cree",
+        "login": "Alex1",
+        "utilisateur_id": 18
+    },
+    {
+        "date": "2026-06-10 14:51:21",
+        "type": "paiement",
+        "message": "Preparation du paiement CYBank",
+        "login": "Alex1",
+        "utilisateur_id": 18
+    },
+    {
+        "date": "2026-06-10 14:51:36",
+        "type": "paiement",
+        "message": "Paiement CYBank accepte",
+        "login": "",
+        "utilisateur_id": 18
+    },
+    {
+        "date": "2026-06-10 14:52:02",
+        "type": "paiement",
+        "message": "Preparation du paiement complementaire CYBank",
+        "login": "Alex1",
+        "utilisateur_id": 18
+    },
+    {
+        "date": "2026-06-10 14:53:18",
+        "type": "paiement",
+        "message": "Paiement complementaire CYBank accepte",
+        "login": "",
+        "utilisateur_id": 18
+    },
+    {
+        "date": "2026-06-10 15:02:30",
+        "type": "paiement",
+        "message": "Preparation du paiement complementaire CYBank",
+        "login": "Alex1",
+        "utilisateur_id": 18
+    },
+    {
+        "date": "2026-06-10 15:04:22",
+        "type": "paiement",
+        "message": "Preparation du paiement complementaire CYBank",
+        "login": "Alex1",
+        "utilisateur_id": 18
+    },
+    {
+        "date": "2026-06-10 15:08:00",
+        "type": "paiement",
+        "message": "Paiement complementaire CYBank accepte",
+        "login": "",
+        "utilisateur_id": 18
+    },
+    {
+        "date": "2026-06-10 15:09:52",
+        "type": "paiement",
+        "message": "Preparation du paiement complementaire CYBank",
+        "login": "Alex1",
+        "utilisateur_id": 18
+    },
+    {
+        "date": "2026-06-10 15:10:15",
+        "type": "paiement",
+        "message": "Paiement complementaire CYBank accepte",
+        "login": "",
+        "utilisateur_id": 18
+    },
+    {
+        "date": "2026-06-10 15:22:23",
+        "type": "paiement",
+        "message": "Preparation du paiement CYBank",
+        "login": "Alex1",
+        "utilisateur_id": 18
+    },
+    {
+        "date": "2026-06-10 15:22:37",
+        "type": "paiement",
+        "message": "Paiement CYBank accepte",
+        "login": "",
+        "utilisateur_id": 18
+    },
+    {
+        "date": "2026-06-10 15:23:06",
+        "type": "paiement",
+        "message": "Preparation du paiement complementaire CYBank",
+        "login": "Alex1",
+        "utilisateur_id": 18
+    },
+    {
+        "date": "2026-06-10 15:23:19",
+        "type": "paiement",
+        "message": "Paiement complementaire CYBank accepte",
+        "login": "",
+        "utilisateur_id": 18
+    },
+    {
+        "date": "2026-06-10 15:23:41",
+        "type": "paiement",
+        "message": "Preparation du paiement CYBank",
+        "login": "Alex1",
+        "utilisateur_id": 18
+    },
+    {
+        "date": "2026-06-10 15:23:56",
+        "type": "paiement",
+        "message": "Paiement CYBank accepte",
+        "login": "",
+        "utilisateur_id": 18
+    },
+    {
+        "date": "2026-06-10 15:24:21",
+        "type": "paiement",
+        "message": "Preparation du paiement complementaire CYBank",
+        "login": "Alex1",
+        "utilisateur_id": 18
+    },
+    {
+        "date": "2026-06-10 15:27:29",
+        "type": "paiement",
+        "message": "Paiement CYBank refuse",
+        "login": "",
+        "utilisateur_id": 18
     }
 ]

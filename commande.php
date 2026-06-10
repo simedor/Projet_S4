@@ -11,7 +11,7 @@ $utilisateurs = lire_json('utilisateurs.json');
 $livreurs = [];
 $commandes = lire_json('commandes.json');
 $plats = lire_json('plats.json');
-$statsPlats = [];
+$statsPlats = statistiques_plats_commandes();
 $statsDuos = [];
 
 foreach ($utilisateurs as $unUtilisateur) {
@@ -40,11 +40,6 @@ foreach ($commandes as $commande) {
         $nomPlat = $ligne['nom'];
         $quantite = isset($ligne['quantite']) ? (int) $ligne['quantite'] : 0;
 
-        if (!isset($statsPlats[$nomPlat])) {
-            $statsPlats[$nomPlat] = 0;
-        }
-
-        $statsPlats[$nomPlat] += $quantite;
         $nomsCommande[] = $nomPlat;
     }
 
@@ -64,7 +59,6 @@ foreach ($commandes as $commande) {
     }
 }
 
-arsort($statsPlats);
 arsort($statsDuos);
 
 $statsPlats = array_slice($statsPlats, 0, 5, true);
@@ -218,11 +212,6 @@ include 'Includes/header.php';
         </div>
 
         <div>
-            <label for="plat_categorie">Categorie</label>
-            <input type="text" name="categorie" id="plat_categorie" value="" required>
-        </div>
-
-        <div>
             <label for="plat_type">Type</label>
             <select name="type" id="plat_type">
                 <option value="pizza">Pizza</option>
@@ -230,16 +219,6 @@ include 'Includes/header.php';
                 <option value="boisson">Boisson</option>
                 <option value="accompagnement">Accompagnement</option>
             </select>
-        </div>
-
-        <div>
-            <label for="plat_regime">Regime</label>
-            <input type="text" name="regime" id="plat_regime" value="" required>
-        </div>
-
-        <div>
-            <label for="plat_gout">Gout</label>
-            <input type="text" name="gout" id="plat_gout" value="" required>
         </div>
 
         <div class="ligne_radio">
@@ -262,7 +241,6 @@ include 'Includes/header.php';
                 <th>Nom</th>
                 <th>Type</th>
                 <th>Prix</th>
-                <th>Categorie</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -272,7 +250,6 @@ include 'Includes/header.php';
                     <td><?php echo h($plat['nom']); ?></td>
                     <td><?php echo h($plat['type']); ?></td>
                     <td><?php echo number_format($plat['prix'], 2, ',', ' '); ?> EUR</td>
-                    <td><?php echo h($plat['categorie']); ?></td>
                     <td>
                         <a href="modifier_plat.php?edit=<?php echo urlencode($plat['nom']); ?>">Modifier</a>
                         <form action="traitements/process_plat.php" method="POST" class="ligne_action">

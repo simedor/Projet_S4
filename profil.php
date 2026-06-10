@@ -10,7 +10,6 @@ $utilisateur = null;
 $utilisateurs = lire_json('utilisateurs.json');
 $commandesClient = [];
 $commandesActives = [];
-$avoirs = 0;
 
 foreach ($utilisateurs as $unUtilisateur) {
     if ((int) $unUtilisateur['id'] === (int) $_SESSION['utilisateur_id']) {
@@ -23,10 +22,6 @@ if ($utilisateur === null || $utilisateur['statut_compte'] === 'bloque') {
     session_destroy();
     header('Location: connexion.php?erreur=compte_bloque');
     exit();
-}
-
-if (isset($utilisateur['avoir'])) {
-    $avoirs = (float) $utilisateur['avoir'];
 }
 
 if ($utilisateur['role'] === 'client') {
@@ -73,8 +68,7 @@ include 'Includes/header.php';
             <p><strong>Infos complementaires :</strong> <span id="profil_infos_complementaires"><?php echo h(isset($utilisateur['infos_complementaires']) && $utilisateur['infos_complementaires'] !== '' ? $utilisateur['infos_complementaires'] : 'Aucune'); ?></span></p>
             <?php if ($utilisateur['role'] === 'client') : ?>
                 <p><strong>Statut fidelite :</strong> <span id="profil_fidelite"><?php echo h(isset($utilisateur['fidelite']) ? $utilisateur['fidelite'] : 'Standard'); ?></span></p>
-                <p><strong>Remise actuelle :</strong> <span id="profil_remise"><?php echo (int) (isset($utilisateur['remise']) ? $utilisateur['remise'] : 0); ?></span> %</p>
-                <p><strong>Avoir :</strong> <span id="profil_avoir"><?php echo number_format($avoirs, 2, ',', ' '); ?></span> EUR</p>
+                <p><strong>Remise actuelle :</strong> <span id="profil_remise"><?php echo remise_fidelite(isset($utilisateur['fidelite']) ? $utilisateur['fidelite'] : 'Standard'); ?></span> %</p>
             <?php endif; ?>
             <button type="button" id="btn_modifier_profil">&#9998; Modifier mes informations</button>
         </div>

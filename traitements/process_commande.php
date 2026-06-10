@@ -54,6 +54,9 @@ $resume = [];
 $codePromo = '';
 $pourcentagePromo = 0;
 $montantRemise = 0;
+$fidelite = isset($utilisateur['fidelite']) ? $utilisateur['fidelite'] : 'Standard';
+$pourcentageFidelite = remise_fidelite($fidelite);
+$montantRemiseFidelite = 0;
 
 foreach ($panier as $article) {
     $sousTotal = $article['prix'] * $article['quantite'];
@@ -68,6 +71,8 @@ foreach ($panier as $article) {
 }
 
 $totalAvantRemise = $total;
+$montantRemiseFidelite = calculer_reduction_promo($totalAvantRemise, $pourcentageFidelite);
+$total = max(0, $totalAvantRemise - $montantRemiseFidelite);
 
 if (isset($_SESSION['code_promo']) && $_SESSION['code_promo'] !== '') {
     $promo = trouver_code_promo($_SESSION['code_promo']);
@@ -80,8 +85,8 @@ if (isset($_SESSION['code_promo']) && $_SESSION['code_promo'] !== '') {
 
     $codePromo = $promo['code'];
     $pourcentagePromo = (int) $promo['reduction'];
-    $montantRemise = calculer_reduction_promo($totalAvantRemise, $pourcentagePromo);
-    $total = max(0, $totalAvantRemise - $montantRemise);
+    $montantRemise = calculer_reduction_promo($total, $pourcentagePromo);
+    $total = max(0, $total - $montantRemise);
 }
 
 $paiement = cybank_creer_paiement('nouvelle_commande', $total, [
@@ -97,6 +102,9 @@ $paiement = cybank_creer_paiement('nouvelle_commande', $total, [
     'code_promo' => $codePromo,
     'pourcentage_promo' => $pourcentagePromo,
     'montant_remise' => $montantRemise,
+    'fidelite' => $fidelite,
+    'pourcentage_fidelite' => $pourcentageFidelite,
+    'montant_remise_fidelite' => $montantRemiseFidelite,
     'total_avant_remise' => $totalAvantRemise,
     'mode_retrait' => $modeRetrait,
     'type_livraison' => $typeLivraison,

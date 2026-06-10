@@ -63,6 +63,9 @@ if ($paiement['type_operation'] === 'nouvelle_commande') {
         'code_promo' => isset($donnees['code_promo']) ? $donnees['code_promo'] : '',
         'pourcentage_promo' => isset($donnees['pourcentage_promo']) ? (int) $donnees['pourcentage_promo'] : 0,
         'montant_remise' => isset($donnees['montant_remise']) ? (float) $donnees['montant_remise'] : 0,
+        'fidelite' => isset($donnees['fidelite']) ? $donnees['fidelite'] : 'Standard',
+        'pourcentage_fidelite' => isset($donnees['pourcentage_fidelite']) ? (int) $donnees['pourcentage_fidelite'] : 0,
+        'montant_remise_fidelite' => isset($donnees['montant_remise_fidelite']) ? (float) $donnees['montant_remise_fidelite'] : 0,
         'total_avant_remise' => isset($donnees['total_avant_remise']) ? (float) $donnees['total_avant_remise'] : (float) $paiement['montant'],
         'adresse' => $donnees['adresse'],
         'telephone' => $donnees['telephone'],
@@ -107,6 +110,11 @@ if ($paiement['type_operation'] === 'modification_commande') {
             $commande['lignes'] = $donnees['lignes'];
             $commande['produit'] = $donnees['produit'];
             $commande['total'] = $donnees['nouveau_total'];
+            $commande['total_avant_remise'] = isset($donnees['total_avant_remise']) ? (float) $donnees['total_avant_remise'] : $donnees['nouveau_total'];
+            $commande['montant_remise_fidelite'] = isset($donnees['montant_remise_fidelite']) ? (float) $donnees['montant_remise_fidelite'] : 0;
+            $commande['montant_remise'] = isset($donnees['montant_remise']) ? (float) $donnees['montant_remise'] : 0;
+            $commande['pourcentage_fidelite'] = isset($donnees['pourcentage_fidelite']) ? (int) $donnees['pourcentage_fidelite'] : 0;
+            $commande['pourcentage_promo'] = isset($donnees['pourcentage_promo']) ? (int) $donnees['pourcentage_promo'] : 0;
 
             if (!isset($commande['paiements']) || !is_array($commande['paiements'])) {
                 $commande['paiements'] = [];

@@ -123,14 +123,21 @@ foreach ($nouvellesLignes as &$ligne) {
     $resume[] = $ligne['nom'] . ' x' . $ligne['quantite'];
 }
 
-$difference = $nouveauTotal - $commande['total'];
+$calculRemises = calculer_total_commande_apres_remises($nouveauTotal, $commande);
+$nouveauTotalPaye = $calculRemises['total'];
+$difference = $nouveauTotalPaye - (float) $commande['total'];
 
 if ($difference > 0) {
     $paiement = cybank_creer_paiement('modification_commande', $difference, [
         'commande_id' => $commande['id'],
         'lignes' => $nouvellesLignes,
         'produit' => implode(', ', $resume),
-        'nouveau_total' => $nouveauTotal
+        'nouveau_total' => $nouveauTotalPaye,
+        'total_avant_remise' => $nouveauTotal,
+        'montant_remise_fidelite' => $calculRemises['remise_fidelite'],
+        'montant_remise' => $calculRemises['remise_promo'],
+        'pourcentage_fidelite' => $calculRemises['pourcentage_fidelite'],
+        'pourcentage_promo' => $calculRemises['pourcentage_promo']
     ]);
 
     if ($paiement === null) {
@@ -157,7 +164,12 @@ if ($difference > 0) {
 
 $commandes[$commandeIndex]['lignes'] = $nouvellesLignes;
 $commandes[$commandeIndex]['produit'] = implode(', ', $resume);
-$commandes[$commandeIndex]['total'] = $nouveauTotal;
+$commandes[$commandeIndex]['total'] = $nouveauTotalPaye;
+$commandes[$commandeIndex]['total_avant_remise'] = $nouveauTotal;
+$commandes[$commandeIndex]['montant_remise_fidelite'] = $calculRemises['remise_fidelite'];
+$commandes[$commandeIndex]['montant_remise'] = $calculRemises['remise_promo'];
+$commandes[$commandeIndex]['pourcentage_fidelite'] = $calculRemises['pourcentage_fidelite'];
+$commandes[$commandeIndex]['pourcentage_promo'] = $calculRemises['pourcentage_promo'];
 
 ecrire_json('commandes.json', $commandes);
 ecrire_json('utilisateurs.json', $utilisateurs);
@@ -169,4 +181,4 @@ if ($difference < 0) {
     $message .= ' Un avoir a ete ajoute.';
 }
 
-echo json_encode(['ok' => true, 'message' => $message, 'total' => $nouveauTotal]);
+echo json_encode(['ok' => true, 'message' => $message, 'total' => $nouveauTotalPaye]);

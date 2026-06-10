@@ -92,3 +92,80 @@ function calculer_reduction_promo($total, $pourcentage)
 
     return round($montant * $reduction / 100, 2);
 }
+
+function remise_fidelite($fidelite)
+{
+    if ($fidelite === 'VIP') {
+        return 10;
+    }
+
+    if ($fidelite === 'Premium') {
+        return 5;
+    }
+
+    return 0;
+}
+
+function statistiques_plats_commandes()
+{
+    $stats = [];
+
+    foreach (lire_json('commandes.json') as $commande) {
+        if (isset($commande['statut_commande']) && $commande['statut_commande'] === 'abandonnee') {
+            continue;
+        }
+
+        if (!isset($commande['lignes']) || !is_array($commande['lignes'])) {
+            continue;
+        }
+
+        foreach ($commande['lignes'] as $ligne) {
+            if (!isset($ligne['nom'])) {
+                continue;
+            }
+
+            $nomPlat = $ligne['nom'];
+            $quantite = isset($ligne['quantite']) ? (int) $ligne['quantite'] : 0;
+
+            if (!isset($stats[$nomPlat])) {
+                $stats[$nomPlat] = 0;
+            }
+
+            $stats[$nomPlat] += $quantite;
+        }
+    }
+
+    arsort($stats);
+    return $stats;
+}
+
+function calculer_total_commande_apres_remises($totalBrut, $commande)
+{
+    $total = (float) $totalBrut;
+    $remiseFidelite = 0;
+    $remisePromo = 0;
+    $pourcentageFidelite = isset($commande['pourcentage_fidelite']) ? (int) $commande['pourcentage_fidelite'] : 0;
+    $pourcentagePromo = isset($commande['pourcentage_promo']) ? (int) $commande['pourcentage_promo'] : 0;
+
+    if ($pourcentageFidelite <= 0 && isset($commande['fidelite']) && $commande['fidelite'] !== '') {
+        $pourcentageFidelite = remise_fidelite($commande['fidelite']);
+    }
+
+    if ($pourcentageFidelite > 0) {
+        $remiseFidelite = calculer_reduction_promo($total, $pourcentageFidelite);
+        $total = max(0, $total - $remiseFidelite);
+    }
+
+    if (isset($commande['code_promo']) && $commande['code_promo'] !== '' && $pourcentagePromo > 0) {
+        $remisePromo = calculer_reduction_promo($total, $pourcentagePromo);
+        $total = max(0, $total - $remisePromo);
+    }
+
+    return [
+        'total' => round($total, 2),
+        'remise_fidelite' => $remiseFidelite,
+        'remise_promo' => $remisePromo,
+        'pourcentage_fidelite' => $pourcentageFidelite,
+        'pourcentage_promo' => $pourcentagePromo
+    ];
+}

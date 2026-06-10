@@ -261,7 +261,7 @@
         "id": 208,
         "client_id": 10,
         "client_nom": "Sara Diallo",
-        "produit": "Hawaienne x1, Coca-Cola x1",
+        "produit": "Hawaienne x1, Coca-Cola x1, Tartiflette x1",
         "lignes": [
             {
                 "nom": "Hawaienne",
@@ -274,6 +274,12 @@
                 "prix": 2.5,
                 "quantite": 1,
                 "sous_total": 2.5
+            },
+            {
+                "nom": "Tartiflette",
+                "prix": 15,
+                "quantite": 1,
+                "sous_total": 15
             }
         ],
         "adresse": "10 rue des ecoles, Cergy",
@@ -289,7 +295,7 @@
         "livreur_id": 0,
         "livreur_nom": "",
         "date_commande": "2026-06-04 13:20",
-        "total": 15.5,
+        "total": 30.5,
         "paiements": [
             {
                 "date": "2026-06-04 13:20",
@@ -302,6 +308,12 @@
                 "montant": 2.5,
                 "type": "complement",
                 "transaction": "202606041320432E9C53"
+            },
+            {
+                "date": "2026-06-09 16:24",
+                "montant": 15,
+                "type": "complement",
+                "transaction": "202606091624434E75BD"
             }
         ]
     },
@@ -381,9 +393,9 @@
         "type_livraison": "immediate",
         "creneau": "Maintenant",
         "statut_paiement": "paye",
-        "statut_commande": "a_preparer",
-        "livreur_id": 0,
-        "livreur_nom": "",
+        "statut_commande": "abandonnee",
+        "livreur_id": 4,
+        "livreur_nom": "Sami Roux",
         "date_commande": "2026-06-04 16:09",
         "total": 10,
         "paiements": [
@@ -392,6 +404,296 @@
                 "montant": 10,
                 "type": "initial",
                 "transaction": "2026060416085495BC43"
+            }
+        ]
+    },
+    {
+        "id": 211,
+        "client_id": 17,
+        "client_nom": "Tony Elias",
+        "produit": "4 Fromages x1, Curly Fries x1, Coca-Cola x1, Pepperoni x1",
+        "lignes": [
+            {
+                "nom": "4 Fromages",
+                "prix": 14,
+                "quantite": 1,
+                "sous_total": 14
+            },
+            {
+                "nom": "Curly Fries",
+                "prix": 4.5,
+                "quantite": 1,
+                "sous_total": 4.5
+            },
+            {
+                "nom": "Coca-Cola",
+                "prix": 2.5,
+                "quantite": 1,
+                "sous_total": 2.5
+            },
+            {
+                "nom": "Pepperoni",
+                "prix": 13.5,
+                "quantite": 1,
+                "sous_total": 13.5
+            }
+        ],
+        "code_promo": "",
+        "pourcentage_promo": 0,
+        "montant_remise": 0,
+        "total_avant_remise": 21,
+        "adresse": "25 Boulevard de l'Oise",
+        "telephone": "0766588147",
+        "interphone": "",
+        "etage": "",
+        "commentaire_livraison": "",
+        "mode_retrait": "livraison",
+        "type_livraison": "immediate",
+        "creneau": "Maintenant",
+        "statut_paiement": "paye",
+        "statut_commande": "livree",
+        "livreur_id": 4,
+        "livreur_nom": "Sami Roux",
+        "date_commande": "2026-06-10 13:50",
+        "total": 34.5,
+        "paiements": [
+            {
+                "date": "2026-06-10 13:50",
+                "montant": 21,
+                "type": "initial",
+                "transaction": "20260610134938110FB5"
+            },
+            {
+                "date": "2026-06-10 13:50",
+                "montant": 13.5,
+                "type": "complement",
+                "transaction": "2026061013501663349B"
+            }
+        ]
+    },
+    {
+        "id": 212,
+        "client_id": 17,
+        "client_nom": "Tony Elias",
+        "produit": "Cannibale x2",
+        "lignes": [
+            {
+                "nom": "Cannibale",
+                "prix": 15.5,
+                "quantite": 2,
+                "sous_total": 31
+            }
+        ],
+        "code_promo": "ALEX30",
+        "pourcentage_promo": 30,
+        "montant_remise": 8.37,
+        "fidelite": "VIP",
+        "pourcentage_fidelite": 10,
+        "montant_remise_fidelite": 3.1,
+        "total_avant_remise": 31,
+        "adresse": "25 Boulevard de l'Oise",
+        "telephone": "0766588147",
+        "interphone": "",
+        "etage": "",
+        "commentaire_livraison": "",
+        "mode_retrait": "livraison",
+        "type_livraison": "immediate",
+        "creneau": "Maintenant",
+        "statut_paiement": "paye",
+        "statut_commande": "a_preparer",
+        "livreur_id": 0,
+        "livreur_nom": "",
+        "date_commande": "2026-06-10 14:34",
+        "total": 19.53,
+        "paiements": [
+            {
+                "date": "2026-06-10 14:34",
+                "montant": 9.76,
+                "type": "initial",
+                "transaction": "20260610143424111E7B"
+            },
+            {
+                "date": "2026-06-10 14:45",
+                "montant": 9.77,
+                "type": "complement",
+                "transaction": "20260610144530735CAF"
+            }
+        ]
+    },
+    {
+        "id": 213,
+        "client_id": 18,
+        "client_nom": "Alex Dorninger",
+        "produit": "Cannibale x1, 4 Fromages x1, Pepperoni x1, Coca-Cola x1",
+        "lignes": [
+            {
+                "nom": "Cannibale",
+                "prix": 15.5,
+                "quantite": 1,
+                "sous_total": 15.5
+            },
+            {
+                "nom": "4 Fromages",
+                "prix": 14,
+                "quantite": 1,
+                "sous_total": 14
+            },
+            {
+                "nom": "Pepperoni",
+                "prix": 13.5,
+                "quantite": 1,
+                "sous_total": 13.5
+            },
+            {
+                "nom": "Coca-Cola",
+                "prix": 2.5,
+                "quantite": 1,
+                "sous_total": 2.5
+            }
+        ],
+        "code_promo": "SIM15",
+        "pourcentage_promo": 15,
+        "montant_remise": 6.83,
+        "fidelite": "Standard",
+        "pourcentage_fidelite": 0,
+        "montant_remise_fidelite": 0,
+        "total_avant_remise": 45.5,
+        "adresse": "23 Boulevard de l'Oise, 95000 Cergy",
+        "telephone": "0766588147",
+        "interphone": "",
+        "etage": "",
+        "commentaire_livraison": "",
+        "mode_retrait": "livraison",
+        "type_livraison": "immediate",
+        "creneau": "Maintenant",
+        "statut_paiement": "paye",
+        "statut_commande": "a_preparer",
+        "livreur_id": 0,
+        "livreur_nom": "",
+        "date_commande": "2026-06-10 14:51",
+        "total": 38.67,
+        "paiements": [
+            {
+                "date": "2026-06-10 14:51",
+                "montant": 13.17,
+                "type": "initial",
+                "transaction": "20260610145121D2BA3F"
+            },
+            {
+                "date": "2026-06-10 14:53",
+                "montant": 11.9,
+                "type": "complement",
+                "transaction": "2026061014520204A749"
+            },
+            {
+                "date": "2026-06-10 15:08",
+                "montant": 11.48,
+                "type": "complement",
+                "transaction": "2026061015042242DA04"
+            },
+            {
+                "date": "2026-06-10 15:10",
+                "montant": 2.12,
+                "type": "complement",
+                "transaction": "20260610150952563D9D"
+            }
+        ]
+    },
+    {
+        "id": 214,
+        "client_id": 18,
+        "client_nom": "Alex Dorninger",
+        "produit": "Vegan x1, Coca-Cola x1",
+        "lignes": [
+            {
+                "nom": "Vegan",
+                "prix": 13,
+                "quantite": 1,
+                "sous_total": 13
+            },
+            {
+                "nom": "Coca-Cola",
+                "prix": 2.5,
+                "quantite": 1,
+                "sous_total": 2.5
+            }
+        ],
+        "code_promo": "",
+        "pourcentage_promo": 0,
+        "montant_remise": 0,
+        "fidelite": "Standard",
+        "pourcentage_fidelite": 0,
+        "montant_remise_fidelite": 0,
+        "total_avant_remise": 15.5,
+        "adresse": "23 Boulevard de l'Oise, 95000 Cergy",
+        "telephone": "0766588147",
+        "interphone": "",
+        "etage": "",
+        "commentaire_livraison": "",
+        "mode_retrait": "livraison",
+        "type_livraison": "immediate",
+        "creneau": "Maintenant",
+        "statut_paiement": "paye",
+        "statut_commande": "a_preparer",
+        "livreur_id": 0,
+        "livreur_nom": "",
+        "date_commande": "2026-06-10 15:22",
+        "total": 15.5,
+        "paiements": [
+            {
+                "date": "2026-06-10 15:22",
+                "montant": 13,
+                "type": "initial",
+                "transaction": "202606101522232BD2CD"
+            },
+            {
+                "date": "2026-06-10 15:23",
+                "montant": 2.5,
+                "type": "complement",
+                "transaction": "202606101523068C63B0"
+            }
+        ]
+    },
+    {
+        "id": 215,
+        "client_id": 18,
+        "client_nom": "Alex Dorninger",
+        "produit": "Margharita x1",
+        "lignes": [
+            {
+                "nom": "Margharita",
+                "prix": 10.5,
+                "quantite": 1,
+                "sous_total": 10.5
+            }
+        ],
+        "code_promo": "ALEX30",
+        "pourcentage_promo": 30,
+        "montant_remise": 3.15,
+        "fidelite": "Standard",
+        "pourcentage_fidelite": 0,
+        "montant_remise_fidelite": 0,
+        "total_avant_remise": 10.5,
+        "adresse": "23 Boulevard de l'Oise, 95000 Cergy",
+        "telephone": "0766588147",
+        "interphone": "",
+        "etage": "",
+        "commentaire_livraison": "",
+        "mode_retrait": "livraison",
+        "type_livraison": "immediate",
+        "creneau": "Maintenant",
+        "statut_paiement": "paye",
+        "statut_commande": "a_preparer",
+        "livreur_id": 0,
+        "livreur_nom": "",
+        "date_commande": "2026-06-10 15:23",
+        "total": 7.35,
+        "paiements": [
+            {
+                "date": "2026-06-10 15:23",
+                "montant": 7.35,
+                "type": "initial",
+                "transaction": "2026061015234193720C"
             }
         ]
     }

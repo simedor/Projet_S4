@@ -27,11 +27,18 @@ $panier = $_SESSION['panier'];
 $total = 0;
 $promoActive = null;
 $montantRemise = 0;
+$fidelite = isset($utilisateur['fidelite']) ? $utilisateur['fidelite'] : 'Standard';
+$pourcentageFidelite = remise_fidelite($fidelite);
+$montantRemiseFidelite = 0;
+$totalApresFidelite = 0;
 $totalFinal = 0;
 
 foreach ($panier as $article) {
     $total += $article['prix'] * $article['quantite'];
 }
+
+$montantRemiseFidelite = calculer_reduction_promo($total, $pourcentageFidelite);
+$totalApresFidelite = max(0, $total - $montantRemiseFidelite);
 
 if (isset($_SESSION['code_promo']) && $_SESSION['code_promo'] !== '') {
     $promoActive = trouver_code_promo($_SESSION['code_promo']);
@@ -39,11 +46,11 @@ if (isset($_SESSION['code_promo']) && $_SESSION['code_promo'] !== '') {
     if ($promoActive === null) {
         unset($_SESSION['code_promo']);
     } else {
-        $montantRemise = calculer_reduction_promo($total, $promoActive['reduction']);
+        $montantRemise = calculer_reduction_promo($totalApresFidelite, $promoActive['reduction']);
     }
 }
 
-$totalFinal = max(0, $total - $montantRemise);
+$totalFinal = max(0, $totalApresFidelite - $montantRemise);
 
 $erreurs = [
     'panier_vide' => 'Votre panier est vide.',
@@ -200,8 +207,11 @@ include 'Includes/header.php';
 
             <div class="encadre">
                 <p><strong>Total avant remise :</strong> <?php echo number_format($total, 2, ',', ' '); ?> EUR</p>
+                <?php if ($pourcentageFidelite > 0) : ?>
+                    <p><strong>Remise fidelite <?php echo h($fidelite); ?> :</strong> -<?php echo number_format($montantRemiseFidelite, 2, ',', ' '); ?> EUR (<?php echo $pourcentageFidelite; ?> %)</p>
+                <?php endif; ?>
                 <?php if ($promoActive !== null) : ?>
-                    <p><strong>Reduction :</strong> -<?php echo number_format($montantRemise, 2, ',', ' '); ?> EUR</p>
+                    <p><strong>Code promo :</strong> -<?php echo number_format($montantRemise, 2, ',', ' '); ?> EUR</p>
                     <p><strong>Total a payer :</strong> <?php echo number_format($totalFinal, 2, ',', ' '); ?> EUR</p>
                 <?php else : ?>
                     <p><strong>Total a payer :</strong> <?php echo number_format($totalFinal, 2, ',', ' '); ?> EUR</p>

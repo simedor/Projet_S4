@@ -237,7 +237,6 @@ function rendreCartesProduits(plats) {
         html += '<h3>' + echapperHtml(plat.nom) + '</h3>';
         html += '<p>' + echapperHtml(plat.description) + '</p>';
         html += '<p><strong>' + Number(plat.prix).toFixed(2).replace(".", ",") + ' EUR</strong></p>';
-        html += '<p>Categorie : ' + echapperHtml(plat.categorie) + '</p>';
 
         if (window.estClient) {
             html += '<form action="traitements/process_panier.php" method="POST" class="petit_formulaire">';
@@ -283,7 +282,7 @@ function chargerFiltresPlats() {
         const params = new URLSearchParams();
 
         params.append("recherche", donnees.get("recherche") || "");
-        params.append("categorie", donnees.get("categorie") || "");
+        params.append("type", donnees.get("type") || "");
 
         fetch("traitements/api_plats.php?" + params.toString())
             .then(function (reponse) { return reponse.json(); })
@@ -338,7 +337,6 @@ function gererMenuAleatoire() {
         html += '<h3>' + echapperHtml(plat.nom) + '</h3>';
         html += '<p>' + echapperHtml(plat.description) + '</p>';
         html += '<p><strong>' + Number(plat.prix).toFixed(2).replace(".", ",") + ' EUR</strong></p>';
-        html += '<p>Categorie : ' + echapperHtml(plat.categorie) + '</p>';
         html += '</div></article>';
         resultat.innerHTML = html;
         bloc.classList.remove("cache");
@@ -426,6 +424,28 @@ function gererAdmin() {
                 });
         });
     });
+}
+
+function gererRemiseFidelite() {
+    const select = document.getElementById("fidelite");
+    const remise = document.getElementById("remise");
+
+    if (!select || !remise) {
+        return;
+    }
+
+    function mettreAJour() {
+        if (select.value === "VIP") {
+            remise.value = 10;
+        } else if (select.value === "Premium") {
+            remise.value = 5;
+        } else {
+            remise.value = 0;
+        }
+    }
+
+    select.addEventListener("change", mettreAJour);
+    mettreAJour();
 }
 
 function gererCommandesResto() {
@@ -534,9 +554,56 @@ function recalculerCommandeClient() {
         total += parseFloat(option.dataset.prix) * qteAjout;
     }
 
-    const difference = total - parseFloat(window.commandeCourante.total);
-    document.getElementById("nouveau_total").textContent = total.toFixed(2).replace(".", ",");
-    document.getElementById("difference_total").textContent = difference.toFixed(2).replace(".", ",");
+    let totalAvecRemises = total;
+    let remiseFidelite = 0;
+    let remisePromo = 0;
+    let pourcentageFidelite = parseInt(window.commandeCourante.pourcentage_fidelite || "0", 10);
+    const pourcentagePromo = parseInt(window.commandeCourante.pourcentage_promo || "0", 10);
+
+    if (pourcentageFidelite <= 0) {
+        if (window.commandeCourante.fidelite === "VIP") {
+            pourcentageFidelite = 10;
+        } else if (window.commandeCourante.fidelite === "Premium") {
+            pourcentageFidelite = 5;
+        }
+    }
+
+    if (pourcentageFidelite > 0) {
+        remiseFidelite = Math.round((totalAvecRemises * pourcentageFidelite) / 100 * 100) / 100;
+        totalAvecRemises = Math.max(0, totalAvecRemises - remiseFidelite);
+    }
+
+    if (window.commandeCourante.code_promo && pourcentagePromo > 0) {
+        remisePromo = Math.round((totalAvecRemises * pourcentagePromo) / 100 * 100) / 100;
+        totalAvecRemises = Math.max(0, totalAvecRemises - remisePromo);
+    }
+
+    const difference = totalAvecRemises - parseFloat(window.commandeCourante.total);
+    const montantAPayer = Math.max(0, difference);
+    document.getElementById("nouveau_total_brut").textContent = total.toFixed(2).replace(".", ",");
+    document.getElementById("nouveau_total").textContent = totalAvecRemises.toFixed(2).replace(".", ",");
+    document.getElementById("difference_total").textContent = montantAPayer.toFixed(2).replace(".", ",");
+
+    const ligneFidelite = document.getElementById("ligne_remise_fidelite_modif");
+    const lignePromo = document.getElementById("ligne_remise_promo_modif");
+
+    if (ligneFidelite) {
+        if (remiseFidelite > 0) {
+            ligneFidelite.classList.remove("cache");
+            document.getElementById("remise_fidelite_modif").textContent = remiseFidelite.toFixed(2).replace(".", ",");
+        } else {
+            ligneFidelite.classList.add("cache");
+        }
+    }
+
+    if (lignePromo) {
+        if (remisePromo > 0) {
+            lignePromo.classList.remove("cache");
+            document.getElementById("remise_promo_modif").textContent = remisePromo.toFixed(2).replace(".", ",");
+        } else {
+            lignePromo.classList.add("cache");
+        }
+    }
 
     const blocPaiement = document.getElementById("bloc_paiement_complement");
     if (difference > 0) {

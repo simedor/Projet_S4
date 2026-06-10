@@ -38,10 +38,21 @@ if ($ficheUtilisateur === null) {
 
 $historique = [];
 $listeCommandes = lire_json('commandes.json');
+$messageAdmin = '';
+$fideliteUtilisateur = isset($ficheUtilisateur['fidelite']) ? $ficheUtilisateur['fidelite'] : 'Standard';
+$remiseUtilisateur = remise_fidelite($fideliteUtilisateur);
 
 foreach ($listeCommandes as $commande) {
     if ((int) $commande['client_id'] === $utilisateurId) {
         $historique[] = $commande;
+    }
+}
+
+if (isset($_GET['admin'])) {
+    if ($_GET['admin'] === 'statut') {
+        $messageAdmin = 'Le statut du compte a ete mis a jour.';
+    } elseif ($_GET['admin'] === 'fidelite') {
+        $messageAdmin = 'La fidelite a ete mise a jour.';
     }
 }
 
@@ -67,36 +78,50 @@ include 'Includes/header.php';
         <div class="encadre">
             <h3>Actions admin</h3>
 
-            <form class="formulaire">
+            <?php if ($messageAdmin !== '') : ?>
+                <p class="succes"><?php echo h($messageAdmin); ?></p>
+            <?php endif; ?>
+
+            <form action="traitements/process_utilisateur_admin.php" method="POST" class="formulaire">
+                <input type="hidden" name="user_id" value="<?php echo (int) $ficheUtilisateur['id']; ?>">
+
                 <div class="ligne_action">
-                    <button type="button" disabled>Bloquer</button>
-                    <button type="button" disabled class="bouton_secondaire">Desactiver</button>
+                    <?php if ($ficheUtilisateur['id'] !== $adminConnecte['id']) : ?>
+                        <?php if ($ficheUtilisateur['statut_compte'] === 'bloque') : ?>
+                            <button type="submit" name="action_admin" value="debloquer">Debloquer</button>
+                        <?php else : ?>
+                            <button type="submit" name="action_admin" value="bloquer">Bloquer</button>
+                        <?php endif; ?>
+                    <?php else : ?>
+                        <p class="info">Impossible de bloquer son propre compte.</p>
+                    <?php endif; ?>
                 </div>
 
                 <div>
                     <label for="statut_compte">Etat du compte</label>
-                    <select id="statut_compte" disabled>
-                        <option <?php echo $ficheUtilisateur['statut_compte'] === 'actif' ? 'selected' : ''; ?>>Actif</option>
-                        <option <?php echo $ficheUtilisateur['statut_compte'] === 'bloque' ? 'selected' : ''; ?>>Bloque</option>
-                        <option <?php echo $ficheUtilisateur['statut_compte'] === 'desactive' ? 'selected' : ''; ?>>Desactive</option>
-                    </select>
+                    <input type="text" id="statut_compte" value="<?php echo h($ficheUtilisateur['statut_compte']); ?>" disabled>
                 </div>
+            </form>
+
+            <form action="traitements/process_utilisateur_admin.php" method="POST" class="formulaire">
+                <input type="hidden" name="user_id" value="<?php echo (int) $ficheUtilisateur['id']; ?>">
+                <input type="hidden" name="action_admin" value="fidelite">
 
                 <div>
                     <label for="fidelite">Statut fidelite</label>
-                    <select id="fidelite" disabled>
-                        <option <?php echo $ficheUtilisateur['fidelite'] === 'Standard' ? 'selected' : ''; ?>>Standard</option>
-                        <option <?php echo $ficheUtilisateur['fidelite'] === 'Premium' ? 'selected' : ''; ?>>Premium</option>
-                        <option <?php echo $ficheUtilisateur['fidelite'] === 'VIP' ? 'selected' : ''; ?>>VIP</option>
+                    <select id="fidelite" name="fidelite">
+                        <option value="Standard" <?php echo $fideliteUtilisateur === 'Standard' ? 'selected' : ''; ?>>Standard</option>
+                        <option value="Premium" <?php echo $fideliteUtilisateur === 'Premium' ? 'selected' : ''; ?>>Premium</option>
+                        <option value="VIP" <?php echo $fideliteUtilisateur === 'VIP' ? 'selected' : ''; ?>>VIP</option>
                     </select>
                 </div>
 
                 <div>
                     <label for="remise">Niveau de remise</label>
-                    <input type="number" id="remise" value="<?php echo (int) $ficheUtilisateur['remise']; ?>" disabled>
+                    <input type="number" id="remise" value="<?php echo $remiseUtilisateur; ?>" disabled>
                 </div>
 
-                <button type="button" disabled>Enregistrer</button>
+                <button type="submit">Enregistrer</button>
             </form>
         </div>
     </div>

@@ -82,9 +82,15 @@ include 'Includes/header.php';
             <p><strong>Paiement :</strong> <?php echo h($commande['statut_paiement']); ?></p>
             <p><strong>Livreur :</strong> <?php echo $commande['livreur_nom'] !== '' ? h($commande['livreur_nom']) : 'Non attribue'; ?></p>
             <p><strong>Total :</strong> <span id="commande_total_affiche"><?php echo number_format($commande['total'], 2, ',', ' '); ?></span> EUR</p>
+            <?php if (isset($commande['pourcentage_fidelite']) && (int) $commande['pourcentage_fidelite'] > 0) : ?>
+                <p><strong>Fidelite :</strong> <?php echo h(isset($commande['fidelite']) ? $commande['fidelite'] : ''); ?> (<?php echo (int) $commande['pourcentage_fidelite']; ?> %)</p>
+                <p><strong>Remise fidelite :</strong> -<?php echo number_format((float) $commande['montant_remise_fidelite'], 2, ',', ' '); ?> EUR</p>
+            <?php endif; ?>
             <?php if (isset($commande['code_promo']) && $commande['code_promo'] !== '') : ?>
                 <p><strong>Code promo :</strong> <?php echo h($commande['code_promo']); ?> (<?php echo (int) $commande['pourcentage_promo']; ?> %)</p>
-                <p><strong>Reduction :</strong> -<?php echo number_format((float) $commande['montant_remise'], 2, ',', ' '); ?> EUR</p>
+                <p><strong>Remise code promo :</strong> -<?php echo number_format((float) $commande['montant_remise'], 2, ',', ' '); ?> EUR</p>
+            <?php endif; ?>
+            <?php if (isset($commande['total_avant_remise'])) : ?>
                 <p><strong>Total avant remise :</strong> <?php echo number_format((float) $commande['total_avant_remise'], 2, ',', ' '); ?> EUR</p>
             <?php endif; ?>
         </div>
@@ -152,8 +158,11 @@ include 'Includes/header.php';
             </div>
 
             <div class="encadre">
-                <p><strong>Nouveau total :</strong> <span id="nouveau_total"><?php echo number_format($commande['total'], 2, ',', ' '); ?></span> EUR</p>
-                <p><strong>Difference :</strong> <span id="difference_total">0,00</span> EUR</p>
+                <p><strong>Nouveau total avant remise :</strong> <span id="nouveau_total_brut"><?php echo number_format(isset($commande['total_avant_remise']) ? $commande['total_avant_remise'] : $commande['total'], 2, ',', ' '); ?></span> EUR</p>
+                <p id="ligne_remise_fidelite_modif" class="cache"><strong>Remise fidelite :</strong> -<span id="remise_fidelite_modif">0,00</span> EUR</p>
+                <p id="ligne_remise_promo_modif" class="cache"><strong>Code promo :</strong> -<span id="remise_promo_modif">0,00</span> EUR</p>
+                <p><strong>Nouveau total a payer :</strong> <span id="nouveau_total"><?php echo number_format($commande['total'], 2, ',', ' '); ?></span> EUR</p>
+                <p><strong>Montant a payer maintenant :</strong> <span id="difference_total">0,00</span> EUR</p>
             </div>
 
             <div id="bloc_paiement_complement" class="cache encadre">
@@ -188,6 +197,6 @@ include 'Includes/header.php';
 window.commandeCourante = <?php echo json_encode($commande, JSON_UNESCAPED_UNICODE); ?>;
 </script>
 </main>
-<script src="script.js"></script>
+<script src="script.js?v=modif-commande-2"></script>
 </body>
 </html>

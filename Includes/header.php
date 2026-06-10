@@ -44,7 +44,9 @@ if (isset($_SESSION['panier']) && is_array($_SESSION['panier'])) {
     <a class="lien_evitement" href="#contenu">Aller au contenu</a>
     <header class="entete">
         <div class="logo_zone">
-            <h1>CY Pizza</h1>
+            <a class="logo_lien" href="accueil.php" aria-label="Retour a l'accueil CY Pizza">
+                <img class="logo_image" src="Images/logo%20cy%20pizza.png" alt="CY Pizza">
+            </a>
         </div>
 
         <nav id="menu_principal" aria-label="Menu principal">

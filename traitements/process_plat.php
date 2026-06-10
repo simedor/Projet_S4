@@ -56,10 +56,10 @@ if ($action === 'supprimer') {
 $nom = isset($_POST['nom']) ? trim($_POST['nom']) : '';
 $description = isset($_POST['description']) ? trim($_POST['description']) : '';
 $prix = isset($_POST['prix']) ? (float) $_POST['prix'] : 0;
-$categorie = isset($_POST['categorie']) ? trim($_POST['categorie']) : '';
 $type = isset($_POST['type']) ? trim($_POST['type']) : 'pizza';
-$regime = isset($_POST['regime']) ? trim($_POST['regime']) : '';
-$gout = isset($_POST['gout']) ? trim($_POST['gout']) : '';
+$typesAutorises = ['pizza', 'menu', 'boisson', 'accompagnement'];
+$regime = 'mixte';
+$gout = 'sale';
 $platDuJour = isset($_POST['plat_du_jour']);
 $bestSeller = isset($_POST['best_seller']);
 $imageFichier = isset($_FILES['image_fichier']) ? $_FILES['image_fichier'] : null;
@@ -100,7 +100,13 @@ if ($action === 'modifier' && $imageFinale === '') {
     }
 }
 
-if ($nom === '' || $description === '' || $prix <= 0 || $imageFinale === '' || $categorie === '' || $regime === '' || $gout === '') {
+if (!in_array($type, $typesAutorises, true)) {
+    $type = 'pizza';
+}
+
+$categorie = $type;
+
+if ($nom === '' || $description === '' || $prix <= 0 || $imageFinale === '') {
     redirection_plat($action, $nomOriginal, $action === 'ajouter' ? 'image_absente' : 'incomplet');
 }
 

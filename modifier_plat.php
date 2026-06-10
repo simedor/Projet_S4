@@ -83,11 +83,6 @@ include 'Includes/header.php';
         </div>
 
         <div>
-            <label for="plat_categorie">Categorie</label>
-            <input type="text" name="categorie" id="plat_categorie" value="<?php echo h($platEnEdition['categorie']); ?>" required>
-        </div>
-
-        <div>
             <label for="plat_type">Type</label>
             <select name="type" id="plat_type">
                 <option value="pizza" <?php echo $platEnEdition['type'] === 'pizza' ? 'selected' : ''; ?>>Pizza</option>
@@ -95,16 +90,6 @@ include 'Includes/header.php';
                 <option value="boisson" <?php echo $platEnEdition['type'] === 'boisson' ? 'selected' : ''; ?>>Boisson</option>
                 <option value="accompagnement" <?php echo $platEnEdition['type'] === 'accompagnement' ? 'selected' : ''; ?>>Accompagnement</option>
             </select>
-        </div>
-
-        <div>
-            <label for="plat_regime">Regime</label>
-            <input type="text" name="regime" id="plat_regime" value="<?php echo h($platEnEdition['regime']); ?>" required>
-        </div>
-
-        <div>
-            <label for="plat_gout">Gout</label>
-            <input type="text" name="gout" id="plat_gout" value="<?php echo h($platEnEdition['gout']); ?>" required>
         </div>
 
         <div class="ligne_radio">

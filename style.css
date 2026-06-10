@@ -82,11 +82,11 @@ textarea:focus {
 }
 
 .logo_image {
-    width: 76px;
+    width: 150px;
     height: 76px;
     object-fit: contain;
     display: block;
-    background: rgba(255, 255, 255, 0.1);
+    background: #fff;
     border-radius: 18px;
     padding: 6px;
     box-shadow: 0 8px 18px rgba(16, 44, 19, 0.18);

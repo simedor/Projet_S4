@@ -5,8 +5,10 @@ $plats = lire_json('plats.json');
 $utilisateur = null;
 $estClient = false;
 $rechercheInitiale = isset($_GET['recherche']) ? trim($_GET['recherche']) : '';
-$categories = [];
+$typeInitial = isset($_GET['type']) ? trim($_GET['type']) : '';
+$types = [];
 $platsAffiches = [];
+$statsCommandes = statistiques_plats_commandes();
 
 if (isset($_SESSION['utilisateur_id'])) {
     foreach (lire_json('utilisateurs.json') as $unUtilisateur) {
@@ -22,16 +24,22 @@ if (isset($_SESSION['utilisateur_id'])) {
 }
 
 foreach ($plats as $plat) {
-    if ($rechercheInitiale === '' || stripos($plat['nom'] . ' ' . $plat['description'], $rechercheInitiale) !== false) {
-        $platsAffiches[] = $plat;
+    $plat['popularite'] = isset($statsCommandes[$plat['nom']]) ? (int) $statsCommandes[$plat['nom']] : 0;
+    $typePlat = isset($plat['type']) ? $plat['type'] : '';
+
+    if ($typePlat !== '' && !in_array($typePlat, $types, true)) {
+        $types[] = $typePlat;
     }
 
-    if (!in_array($plat['categorie'], $categories, true)) {
-        $categories[] = $plat['categorie'];
+    $okRecherche = $rechercheInitiale === '' || stripos($plat['nom'] . ' ' . $plat['description'], $rechercheInitiale) !== false;
+    $okType = $typeInitial === '' || $typePlat === $typeInitial;
+
+    if ($okRecherche && $okType) {
+        $platsAffiches[] = $plat;
     }
 }
 
-sort($categories);
+sort($types);
 
 $titre_page = 'Carte';
 include 'Includes/header.php';
@@ -45,18 +53,18 @@ include 'Includes/header.php';
         </div>
     </div>
 
-    <form id="form_filtres_plats" class="formulaire filtre_ligne">
+    <form id="form_filtres_plats" class="formulaire filtre_ligne" action="presentation.php" method="GET">
         <div>
             <label for="recherche">Recherche</label>
             <input type="search" id="recherche" name="recherche" placeholder="Ex : Reine" value="<?php echo h($rechercheInitiale); ?>">
         </div>
 
         <div>
-            <label for="categorie">Categorie</label>
-            <select name="categorie" id="categorie">
-                <option value="">Toutes</option>
-                <?php foreach ($categories as $categorie) : ?>
-                    <option value="<?php echo h($categorie); ?>"><?php echo h($categorie); ?></option>
+            <label for="type">Type</label>
+            <select name="type" id="type">
+                <option value="">Tous</option>
+                <?php foreach ($types as $type) : ?>
+                    <option value="<?php echo h($type); ?>" <?php echo $typeInitial === $type ? 'selected' : ''; ?>><?php echo h(ucfirst($type)); ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
@@ -70,6 +78,11 @@ include 'Includes/header.php';
                 <option value="popularite">Les plus commandes</option>
                 <option value="nom">Nom A-Z</option>
             </select>
+        </div>
+
+        <div>
+            <label>&nbsp;</label>
+            <button type="submit">Filtrer</button>
         </div>
     </form>
 </section>
@@ -89,6 +102,6 @@ window.platsInitiaux = <?php echo json_encode($platsAffiches, JSON_UNESCAPED_UNI
 window.estClient = <?php echo $estClient ? 'true' : 'false'; ?>;
 </script>
 </main>
-<script src="script.js"></script>
+<script src="script.js?v=carte-type-3"></script>
 </body>
 </html>

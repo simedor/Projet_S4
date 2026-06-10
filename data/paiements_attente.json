@@ -40,5 +40,46 @@
             "produit": "Vegan x1, 4 Fromages x1, Fries x1, Curly Fries x2",
             "nouveau_total": 39.5
         }
+    },
+    {
+        "token": "344ff89ba8d0c97f8f4b",
+        "transaction": "202606101502302CE649",
+        "montant": "11.48",
+        "vendeur": "MEF-2_F",
+        "retour": "http:\/\/localhost\/CYPIZZA\/retour_paiement.php?token=344ff89ba8d0c97f8f4b",
+        "control": "c514eb093d56b8f97e8fdae98f0284c2",
+        "type_operation": "modification_commande",
+        "client_id": 18,
+        "date_creation": "2026-06-10 15:02:30",
+        "donnees": {
+            "commande_id": 213,
+            "lignes": [
+                {
+                    "nom": "Cannibale",
+                    "prix": 15.5,
+                    "quantite": 1,
+                    "sous_total": 15.5
+                },
+                {
+                    "nom": "4 Fromages",
+                    "prix": 14,
+                    "quantite": 1,
+                    "sous_total": 14
+                },
+                {
+                    "nom": "Pepperoni",
+                    "prix": 13.5,
+                    "quantite": 1,
+                    "sous_total": 13.5
+                }
+            ],
+            "produit": "Cannibale x1, 4 Fromages x1, Pepperoni x1",
+            "nouveau_total": 36.55,
+            "total_avant_remise": 43,
+            "montant_remise_fidelite": 0,
+            "montant_remise": 6.45,
+            "pourcentage_fidelite": 0,
+            "pourcentage_promo": 15
+        }
     }
 ]

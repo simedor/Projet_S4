@@ -10,5 +10,11 @@
         "reduction": 30,
         "actif": true,
         "date_creation": "2026-06-04 17:20"
+    },
+    {
+        "code": "SIM15",
+        "reduction": 15,
+        "actif": true,
+        "date_creation": "2026-06-10 14:04"
     }
 ]

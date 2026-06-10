@@ -6,7 +6,7 @@ $commandes = lire_json('commandes.json');
 $platDuJour = null;
 $bestSellers = [];
 $platsParNom = [];
-$statsCommandes = [];
+$statsCommandes = statistiques_plats_commandes();
 $platsPopulaires = [];
 
 foreach ($plats as $plat) {
@@ -20,25 +20,6 @@ foreach ($plats as $plat) {
         $bestSellers[] = $plat;
     }
 }
-
-foreach ($commandes as $commande) {
-    if (!isset($commande['lignes']) || !is_array($commande['lignes'])) {
-        continue;
-    }
-
-    foreach ($commande['lignes'] as $ligne) {
-        $nomPlat = $ligne['nom'];
-        $quantite = isset($ligne['quantite']) ? (int) $ligne['quantite'] : 0;
-
-        if (!isset($statsCommandes[$nomPlat])) {
-            $statsCommandes[$nomPlat] = 0;
-        }
-
-        $statsCommandes[$nomPlat] += $quantite;
-    }
-}
-
-arsort($statsCommandes);
 
 foreach ($statsCommandes as $nomPlat => $quantite) {
     if (isset($platsParNom[$nomPlat])) {
@@ -96,7 +77,7 @@ include 'Includes/header.php';
                         <h3><?php echo h($plat['nom']); ?></h3>
                         <p><?php echo h($plat['description']); ?></p>
                         <p><strong><?php echo number_format($plat['prix'], 2, ',', ' '); ?> EUR</strong></p>
-                        <p><?php echo (int) $plat['total_commandes']; ?> fois dans les commandes tests</p>
+                        <p>Commande <?php echo (int) $plat['total_commandes']; ?> fois par les clients.</p>
                     </div>
                 </article>
             <?php endforeach; ?>
