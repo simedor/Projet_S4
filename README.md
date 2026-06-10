@@ -73,6 +73,7 @@ Le site affiche le montant avant d'envoyer vers CYBank. Pour une modification de
 ## Fonctionnalité ajoutée : codes promo
 
 Dans l'interface admin, on peut créer des codes promo avec un pourcentage de réduction. Le client peut ensuite entrer ce code dans son panier. Si le code est valide, la réduction est appliquée au total.
+Code promo qui éxiste déja: PIZZA10, ALEX30 ou SIM15.
 
 On a aussi gardé la remise fidélité :
 
