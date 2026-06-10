@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/Includes/fonctions.php';
 
+// Dictionnaire des erreurs spécifiques à l'inscription
+// quasi la même chose que inscription.php mais avec des clés différentes pour éviter les confusions dans l'URL
 $erreurs = [
     'login_existant' => 'Ce login est deja pris.',
     'email_existant' => 'Cet email existe deja.',

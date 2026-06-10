@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/Includes/fonctions.php';
 
+// Dictionnaire des erreurs pour éviter d'écrire le texte en dur dans le HTML
 $erreurs = [
     'connexion_requise' => 'Vous devez vous connecter pour acceder a cette page.',
     'identifiants_incorrects' => 'Login ou mot de passe incorrect.',
@@ -10,6 +11,7 @@ $erreurs = [
 
 $messageErreur = '';
 
+// Si l'URL contient une erreur connue, on prépare le message à afficher
 if (isset($_GET['erreur']) && isset($erreurs[$_GET['erreur']])) {
     $messageErreur = $erreurs[$_GET['erreur']];
 }

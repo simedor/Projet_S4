@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../Includes/fonctions.php';
 
+// 1. VÉRIFICATION GLOBALE : Tous les champs obligatoires sont-ils présents et non vides ?
 $champs = ['nom', 'prenom', 'login', 'email', 'mot_de_passe', 'naissance', 'civilite', 'adresse', 'telephone'];
 
 foreach ($champs as $champ) {
@@ -16,17 +17,20 @@ $naissance = trim($_POST['naissance']);
 $motDePasse = trim($_POST['mot_de_passe']);
 $infosComplementaires = isset($_POST['infos_complementaires']) ? trim($_POST['infos_complementaires']) : '';
 
+// 2. CONTRÔLE SÉCURITÉ PHP (Empêche de tricher en modifiant le Javascript)
 if (!filter_var($email, FILTER_VALIDATE_EMAIL) || !preg_match('/^\d{10}$/', $telephone) || strlen($motDePasse) < 4) {
     header('Location: ../inscription.php?erreur=champs_manquants');
     exit();
 }
 
+// 3. VÉRIFICATION D'ÂGE (Minimum 13 ans via calcul du timestamp)
 $timestampNaissance = strtotime($naissance);
 if ($timestampNaissance === false || $timestampNaissance > strtotime('-13 years')) {
     header('Location: ../inscription.php?erreur=champs_manquants');
     exit();
 }
 
+// 4. RECHERCHE DE DOUBLONS ET CALCUL DU NOUVEL ID
 $listeUtilisateurs = lire_json('utilisateurs.json');
 $nouvelId = 1;
 
@@ -41,16 +45,18 @@ foreach ($listeUtilisateurs as $utilisateur) {
         exit();
     }
 
+    // Auto-incrémentation : trouve l'ID le plus grand et fait +1
     if ((int) $utilisateur['id'] >= $nouvelId) {
         $nouvelId = (int) $utilisateur['id'] + 1;
     }
 }
 
+// 5. CRÉATION DU COMPTE AVEC LES VALEURS PAR DÉFAUT
 $listeUtilisateurs[] = [
     'id' => $nouvelId,
     'login' => trim($_POST['login']),
     'mdp' => trim($_POST['mot_de_passe']),
-    'role' => 'client',
+    'role' => 'client', // Rôle de base
     'nom' => trim($_POST['nom']),
     'prenom' => trim($_POST['prenom']),
     'email' => trim($_POST['email']),
@@ -69,11 +75,12 @@ $listeUtilisateurs[] = [
     'avoir' => 0
 ];
 
-ecrire_json('utilisateurs.json', $listeUtilisateurs);
+ecrire_json('utilisateurs.json', $listeUtilisateurs); // Sauvegarde BDD
 ajouter_incident('inscription', 'Nouveau compte cree', trim($_POST['login']), $nouvelId);
 
+// 6. CONNEXION AUTOMATIQUE
 $_SESSION['utilisateur_id'] = $nouvelId;
-$_SESSION['panier'] = [];
+$_SESSION['panier'] = []; // Panier vierge pour démarrer
 
 header('Location: ../profil.php');
 exit();

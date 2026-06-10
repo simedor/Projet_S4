@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/Includes/fonctions.php';
 
+// 1. SÉCURITÉ : Redirection si l'utilisateur tente d'accéder sans être connecté
 if (!isset($_SESSION['utilisateur_id'])) {
     header('Location: connexion.php?erreur=connexion_requise');
     exit();
@@ -11,6 +12,7 @@ $utilisateurs = lire_json('utilisateurs.json');
 $commandesClient = [];
 $commandesActives = [];
 
+// Chargement des données de l'utilisateur
 foreach ($utilisateurs as $unUtilisateur) {
     if ((int) $unUtilisateur['id'] === (int) $_SESSION['utilisateur_id']) {
         $utilisateur = $unUtilisateur;
@@ -18,23 +20,27 @@ foreach ($utilisateurs as $unUtilisateur) {
     }
 }
 
+// Sécurité supplémentaire : déconnexion immédiate si le compte a été bloqué
 if ($utilisateur === null || $utilisateur['statut_compte'] === 'bloque') {
     session_destroy();
     header('Location: connexion.php?erreur=compte_bloque');
     exit();
 }
 
+// 2. RÉCUPÉRATION DES COMMANDES (Clients uniquement)
 if ($utilisateur['role'] === 'client') {
     foreach (lire_json('commandes.json') as $commande) {
         if ((int) $commande['client_id'] === (int) $utilisateur['id']) {
-            $commandesClient[] = $commande;
+            $commandesClient[] = $commande; // Ajout à l'historique global
 
+            // Séparation des commandes encore en cours de traitement
             if ($commande['statut_commande'] !== 'livree' && $commande['statut_commande'] !== 'abandonnee') {
                 $commandesActives[] = $commande;
             }
         }
     }
 
+    // Tri personnalisé de l'historique par date décroissante
     usort($commandesClient, function ($a, $b) {
         return strcmp($b['date_commande'], $a['date_commande']);
     });
@@ -156,6 +162,7 @@ include 'Includes/header.php';
                 <tbody>
                     <?php foreach ($commandesClient as $commande) : ?>
                         <?php
+                        // On vérifie si le client a déjà noté cette commande dans notations.json
                         $dejaNotee = false;
                         foreach (lire_json('notations.json') as $notation) {
                             if ((int) $notation['commande_id'] === (int) $commande['id'] && (int) $notation['client_id'] === (int) $utilisateur['id']) {

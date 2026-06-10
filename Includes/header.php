@@ -1,24 +1,27 @@
 <?php
-require_once __DIR__ . '/fonctions.php';
+require_once __DIR__ . '/fonctions.php'; // Chargement des outils et de la session
 
-$titrePage = isset($titre_page) ? $titre_page : 'CY Pizza';
+$titrePage = isset($titre_page) ? $titre_page : 'CY Pizza'; // Titre dynamique de l'onglet
 $utilisateur = null;
 $nombrePanier = 0;
 $modeTheme = 'clair';
-$utilisateurs = lire_json('utilisateurs.json');
+$utilisateurs = lire_json('utilisateurs.json'); // Chargement de la BDD JSON
 
+// 1. GESTION DU THEME : Applique le choix sauvegardé dans les cookies
 if (isset($_COOKIE['theme_site']) && in_array($_COOKIE['theme_site'], ['clair', 'sombre'], true)) {
     $modeTheme = $_COOKIE['theme_site'];
 }
 
+// 2. VERIFICATION DE CONNEXION ET DE SECURITE
 if (isset($_SESSION['utilisateur_id'])) {
     foreach ($utilisateurs as $unUtilisateur) {
         if ((int) $unUtilisateur['id'] === (int) $_SESSION['utilisateur_id']) {
-            $utilisateur = $unUtilisateur;
+            $utilisateur = $unUtilisateur; // Récupère les infos de l'utilisateur connecté
             break;
         }
     }
 
+    // Déconnexion d'urgence si un admin a bloqué le compte entre-temps
     if ($utilisateur !== null && $utilisateur['statut_compte'] === 'bloque') {
         session_destroy();
         header('Location: connexion.php?erreur=compte_bloque');
@@ -26,6 +29,7 @@ if (isset($_SESSION['utilisateur_id'])) {
     }
 }
 
+// 3. CALCUL DU PANIER : Additionne les quantités en session
 if (isset($_SESSION['panier']) && is_array($_SESSION['panier'])) {
     foreach ($_SESSION['panier'] as $article) {
         $nombrePanier += (int) $article['quantite'];
